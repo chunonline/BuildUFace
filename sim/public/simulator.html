@@ -10,6 +10,17 @@
             background: transparent;
             overflow: hidden;
         }
+        #container {
+            margin: 0px auto;
+            width: 400px;
+            height: 375px;
+            border: 10px #333 solid;
+        }
+        #videoElement {
+            width: 500px;
+            height: 375px;
+            background-color: #666;
+        }
     </style>
     <script src="/cdn/bluebird.min.js"></script>
     <script src="/cdn/pxtsim.js"></script>
@@ -17,8 +28,31 @@
 </head>
 
 <body>
-    <svg id='svgcanvas' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 280">
-        <!--<circle id='svgsprite' cx="100" cy="100" r="50" class="sprite" />-->
-        <input type="file" accept="image/*;capture=camera">
-    </svg>
+    <!--<svg id='svgcanvas' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 280">-->
+        <!--&lt;!&ndash;<circle id='svgsprite' cx="100" cy="100" r="50" class="sprite" />&ndash;&gt;-->
+        <!--<input type="file" accept="image/*;capture=camera">-->
+    <!--</svg>-->
+    <div id="container">
+        <video autoplay="true" id="videoElement">
+
+        </video>
+    </div>
+    <script>
+        var video = document.querySelector("#videoElement");
+
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+
+        if (navigator.getUserMedia) {
+            navigator.getUserMedia({video: true}, handleVideo, videoError);
+        }
+
+        function handleVideo(stream) {
+            video.src = window.URL.createObjectURL(stream);
+        }
+
+        function videoError(e) {
+            alert("Cannot load webcam!");// do something
+        }
+
+    </script>
 </body>
