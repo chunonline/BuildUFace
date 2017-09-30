@@ -1,0 +1,2616 @@
+{
+ "byQName": {
+  "Array": {
+   "kind": 5,
+   "namespace": "",
+   "name": "Array",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "blockNamespace": "Arrays",
+    "paramHelp": {},
+    "jsDoc": "Add, remove, and replace items in lists.\n\nAdd, remove, and replace items in lists.",
+    "block": "Array"
+   },
+   "pkg": null,
+   "extendsTypes": [],
+   "retType": "",
+   "parameters": null,
+   "qName": "Array"
+  },
+  "Array.length": {
+   "kind": 2,
+   "namespace": "Array",
+   "name": "length",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Array_::length",
+    "weight": 84,
+    "blockId": "lists_length",
+    "block": "length of %VALUE",
+    "blockBuiltin": "true",
+    "blockNamespace": "arrays",
+    "paramHelp": {},
+    "jsDoc": "Get or set the length of an array. This number is one more than the index of the last element the array.",
+    "_name": "length"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": null,
+   "qName": "Array.length"
+  },
+  "Array.push": {
+   "kind": 1,
+   "namespace": "Array",
+   "name": "push",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "help": "arrays/push",
+    "shim": "Array_::push",
+    "weight": 49,
+    "blockId": "array_push",
+    "block": "%list| add value %value| to end",
+    "blockNamespace": "arrays",
+    "paramHelp": {
+     "items": "New elements of the Array."
+    },
+    "jsDoc": "Append a new element to an array.",
+    "_name": "push"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [
+    {
+     "name": "item",
+     "description": "",
+     "type": "T",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "push(null)",
+   "qName": "Array.push"
+  },
+  "Array.pop": {
+   "kind": 1,
+   "namespace": "Array",
+   "name": "pop",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "help": "arrays/pop",
+    "shim": "Array_::pop",
+    "weight": 48,
+    "blockId": "array_pop",
+    "block": "get and remove last value from %list",
+    "blockNamespace": "arrays",
+    "paramHelp": {},
+    "jsDoc": "Remove the last element from an array and return it.",
+    "_name": "pop"
+   },
+   "pkg": null,
+   "retType": "T",
+   "parameters": [],
+   "snippet": "pop()",
+   "qName": "Array.pop"
+  },
+  "Array.reverse": {
+   "kind": 1,
+   "namespace": "Array",
+   "name": "reverse",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "help": "arrays/reverse",
+    "helper": "arrayReverse",
+    "weight": 10,
+    "advanced": true,
+    "blockId": "array_reverse",
+    "block": "reverse %list",
+    "blockNamespace": "arrays",
+    "paramHelp": {},
+    "jsDoc": "Reverse the elements in an array. The first array element becomes the last, and the last array element becomes the first.",
+    "_name": "reverse"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [],
+   "snippet": "reverse()",
+   "qName": "Array.reverse"
+  },
+  "Array.shift": {
+   "kind": 1,
+   "namespace": "Array",
+   "name": "shift",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "help": "arrays/shift",
+    "helper": "arrayShift",
+    "weight": 70,
+    "advanced": true,
+    "blockId": "array_shift",
+    "block": "get and remove first value from %list",
+    "blockNamespace": "arrays",
+    "paramHelp": {},
+    "jsDoc": "Remove the first element from an array and return it. This method changes the length of the array.",
+    "_name": "shift"
+   },
+   "pkg": null,
+   "retType": "T",
+   "parameters": [],
+   "snippet": "shift()",
+   "qName": "Array.shift"
+  },
+  "Array.unshift": {
+   "kind": 1,
+   "namespace": "Array",
+   "name": "unshift",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "help": "arrays/unshift",
+    "helper": "arrayUnshift",
+    "weight": 69,
+    "advanced": true,
+    "blockId": "array_unshift",
+    "block": "%list| insert %value| at beginning",
+    "blockNamespace": "arrays",
+    "paramHelp": {
+     "element": "to insert at the start of the Array."
+    },
+    "jsDoc": "Add one element to the beginning of an array and return the new length of the array.",
+    "_name": "unshift"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "value",
+     "description": "",
+     "type": "T",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "unshift(null)",
+   "qName": "Array.unshift"
+  },
+  "Array.slice": {
+   "kind": 1,
+   "namespace": "Array",
+   "name": "slice",
+   "attributes": {
+    "paramDefl": {
+     "start": "0",
+     "end": "0"
+    },
+    "callingConvention": 0,
+    "_source": null,
+    "help": "arrays/slice",
+    "helper": "arraySlice",
+    "weight": 41,
+    "advanced": true,
+    "blockNamespace": "arrays",
+    "paramHelp": {
+     "start": "The beginning of the specified portion of the array. eg: 0",
+     "end": "The end of the specified portion of the array. eg: 0"
+    },
+    "jsDoc": "Return a section of an array.",
+    "_name": "slice"
+   },
+   "pkg": null,
+   "retType": "T[]",
+   "parameters": [
+    {
+     "name": "start",
+     "description": "The beginning of the specified portion of the array. eg: 0",
+     "type": "number",
+     "initializer": "0",
+     "default": "0",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "end",
+     "description": "The end of the specified portion of the array. eg: 0",
+     "type": "number",
+     "initializer": "0",
+     "default": "0",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "slice(0, 0)",
+   "qName": "Array.slice"
+  },
+  "Array.splice": {
+   "kind": 1,
+   "namespace": "Array",
+   "name": "splice",
+   "attributes": {
+    "paramDefl": {
+     "start": "0",
+     "deleteCount": "0"
+    },
+    "callingConvention": 0,
+    "_source": null,
+    "helper": "arraySplice",
+    "weight": 40,
+    "paramHelp": {
+     "start": "The zero-based location in the array from which to start removing elements. eg: 0",
+     "deleteCount": "The number of elements to remove. eg: 0"
+    },
+    "jsDoc": "Remove elements from an array.",
+    "_name": "splice"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [
+    {
+     "name": "start",
+     "description": "The zero-based location in the array from which to start removing elements. eg: 0",
+     "type": "number",
+     "initializer": "0",
+     "default": "0",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "deleteCount",
+     "description": "The number of elements to remove. eg: 0",
+     "type": "number",
+     "initializer": "0",
+     "default": "0",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "splice(0, 0)",
+   "qName": "Array.splice"
+  },
+  "Array.sort": {
+   "kind": 1,
+   "namespace": "Array",
+   "name": "sort",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "helper": "arraySort",
+    "weight": 40,
+    "paramHelp": {
+     "specifies": "a function that defines the sort order. If omitted, the array is sorted according to the prmitive type"
+    },
+    "jsDoc": "Sort the elements of an array in place and returns the array. The sort is not necessarily stable.",
+    "_name": "sort"
+   },
+   "pkg": null,
+   "retType": "T[]",
+   "parameters": [
+    {
+     "name": "callbackfn",
+     "description": "",
+     "type": "(value1: T, value2: T) => number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "sort()",
+   "qName": "Array.sort"
+  },
+  "Array.map": {
+   "kind": 1,
+   "namespace": "Array",
+   "name": "map",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "helper": "arrayMap",
+    "weight": 40,
+    "paramHelp": {
+     "callbackfn": "A function that accepts up to two arguments. The map method calls the callbackfn function one time for each element in the array."
+    },
+    "jsDoc": "Call a defined callback function on each element of an array, and return an array containing the results.",
+    "_name": "map"
+   },
+   "pkg": null,
+   "retType": "U[]",
+   "parameters": [
+    {
+     "name": "callbackfn",
+     "description": "A function that accepts up to two arguments. The map method calls the callbackfn function one time for each element in the array.",
+     "type": "(value: T, index: number) => U",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "map(function () {})",
+   "qName": "Array.map"
+  },
+  "Array.filter": {
+   "kind": 1,
+   "namespace": "Array",
+   "name": "filter",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "helper": "arrayFilter",
+    "weight": 40,
+    "paramHelp": {
+     "callbackfn": "A function that accepts up to two arguments. The filter method calls the callbackfn function one time for each element in the array."
+    },
+    "jsDoc": "Return the elements of an array that meet the condition specified in a callback function.",
+    "_name": "filter"
+   },
+   "pkg": null,
+   "retType": "T[]",
+   "parameters": [
+    {
+     "name": "callbackfn",
+     "description": "A function that accepts up to two arguments. The filter method calls the callbackfn function one time for each element in the array.",
+     "type": "(value: T, index: number) => boolean",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "filter(function () {})",
+   "qName": "Array.filter"
+  },
+  "Array.reduce": {
+   "kind": 1,
+   "namespace": "Array",
+   "name": "reduce",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "helper": "arrayReduce",
+    "weight": 40,
+    "paramHelp": {
+     "callbackfn": "A function that accepts up to three arguments. The reduce method calls the callbackfn function one time for each element in the array.",
+     "initialValue": "Initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value."
+    },
+    "jsDoc": "Call the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.",
+    "_name": "reduce"
+   },
+   "pkg": null,
+   "retType": "U",
+   "parameters": [
+    {
+     "name": "callbackfn",
+     "description": "A function that accepts up to three arguments. The reduce method calls the callbackfn function one time for each element in the array.",
+     "type": "(previousValue: U, currentValue: T, currentIndex: number) => U",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "initialValue",
+     "description": "Initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.",
+     "type": "U",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "reduce(function () {}, null)",
+   "qName": "Array.reduce"
+  },
+  "Array.removeElement": {
+   "kind": 1,
+   "namespace": "Array",
+   "name": "removeElement",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Array_::removeElement",
+    "weight": 48,
+    "paramHelp": {},
+    "jsDoc": "Remove the first occurence of an object. Returns true if removed.",
+    "_name": "removeElement"
+   },
+   "pkg": null,
+   "retType": "boolean",
+   "parameters": [
+    {
+     "name": "element",
+     "description": "",
+     "type": "T",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "removeElement(null)",
+   "qName": "Array.removeElement"
+  },
+  "Array.removeAt": {
+   "kind": 1,
+   "namespace": "Array",
+   "name": "removeAt",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "help": "arrays/remove-at",
+    "shim": "Array_::removeAt",
+    "weight": 49,
+    "advanced": true,
+    "blockId": "array_removeat",
+    "block": "%list| remove value at %index",
+    "blockNamespace": "arrays",
+    "paramHelp": {},
+    "jsDoc": "Remove the element at a certain index.",
+    "_name": "removeAt"
+   },
+   "pkg": null,
+   "retType": "T",
+   "parameters": [
+    {
+     "name": "index",
+     "description": "",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "removeAt(0)",
+   "qName": "Array.removeAt"
+  },
+  "Array.insertAt": {
+   "kind": 1,
+   "namespace": "Array",
+   "name": "insertAt",
+   "attributes": {
+    "paramDefl": {
+     "index": "0",
+     "the": "0"
+    },
+    "callingConvention": 0,
+    "_source": null,
+    "help": "arrays/insert-at",
+    "shim": "Array_::insertAt",
+    "weight": 84,
+    "advanced": true,
+    "blockId": "array_insertAt",
+    "block": "%list| insert at %index| value %value",
+    "blockNamespace": "arrays",
+    "paramHelp": {
+     "index": "the zero-based position in the list to insert the value, eg: 0",
+     "the": "value to insert, eg: 0"
+    },
+    "jsDoc": "Insert the value at a particular index, increases length by 1",
+    "_name": "insertAt"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [
+    {
+     "name": "index",
+     "description": "the zero-based position in the list to insert the value, eg: 0",
+     "type": "number",
+     "initializer": "0",
+     "default": "0",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "value",
+     "description": "",
+     "type": "T",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "insertAt(0, null)",
+   "qName": "Array.insertAt"
+  },
+  "Array.indexOf": {
+   "kind": 1,
+   "namespace": "Array",
+   "name": "indexOf",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "help": "arrays/index-of",
+    "shim": "Array_::indexOf",
+    "weight": 50,
+    "advanced": true,
+    "blockId": "array_indexof",
+    "block": "%list| find index of %value",
+    "blockNamespace": "arrays",
+    "paramHelp": {
+     "item": "The value to locate in the array.",
+     "fromIndex": "The array index at which to begin the search. If fromIndex is omitted, the search starts at index 0."
+    },
+    "jsDoc": "Return the index of the first occurrence of a value in an array.",
+    "_name": "indexOf"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "item",
+     "description": "The value to locate in the array.",
+     "type": "T",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "fromIndex",
+     "description": "The array index at which to begin the search. If fromIndex is omitted, the search starts at index 0.",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "indexOf(null)",
+   "qName": "Array.indexOf"
+  },
+  "Array.get": {
+   "kind": 1,
+   "namespace": "Array",
+   "name": "get",
+   "attributes": {
+    "paramDefl": {
+     "index": "0"
+    },
+    "callingConvention": 0,
+    "_source": null,
+    "help": "arrays/get",
+    "shim": "Array_::getAt",
+    "weight": 85,
+    "paramHelp": {
+     "index": "the zero-based position in the list of the item, eg: 0"
+    },
+    "jsDoc": "Get the value at a particular index",
+    "_name": "get"
+   },
+   "pkg": null,
+   "retType": "T",
+   "parameters": [
+    {
+     "name": "index",
+     "description": "the zero-based position in the list of the item, eg: 0",
+     "type": "number",
+     "initializer": "0",
+     "default": "0",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "get(0)",
+   "qName": "Array.get"
+  },
+  "Array.set": {
+   "kind": 1,
+   "namespace": "Array",
+   "name": "set",
+   "attributes": {
+    "paramDefl": {
+     "index": "0",
+     "the": "0"
+    },
+    "callingConvention": 0,
+    "_source": null,
+    "help": "arrays/set",
+    "shim": "Array_::setAt",
+    "weight": 84,
+    "paramHelp": {
+     "index": "the zero-based position in the list to store the value, eg: 0",
+     "the": "value to insert, eg: 0"
+    },
+    "jsDoc": "Store a value at a particular index",
+    "_name": "set"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [
+    {
+     "name": "index",
+     "description": "the zero-based position in the list to store the value, eg: 0",
+     "type": "number",
+     "initializer": "0",
+     "default": "0",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "value",
+     "description": "",
+     "type": "T",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "set(0, null)",
+   "qName": "Array.set"
+  },
+  "String": {
+   "kind": 5,
+   "namespace": "",
+   "name": "String",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "blockNamespace": "Text",
+    "paramHelp": {},
+    "jsDoc": "Combine, split, and search text strings.\n\nCombine, split, and search text strings.",
+    "block": "String"
+   },
+   "pkg": null,
+   "extendsTypes": [],
+   "retType": "",
+   "parameters": null,
+   "qName": "String"
+  },
+  "String.concat": {
+   "kind": 1,
+   "namespace": "String",
+   "name": "concat",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "String_::concat",
+    "weight": 49,
+    "blockId": "string_concat",
+    "blockNamespace": "text",
+    "paramHelp": {
+     "other": "The string to append to the end of the string."
+    },
+    "jsDoc": "Returns a string that contains the concatenation of two or more strings.",
+    "_name": "concat"
+   },
+   "pkg": null,
+   "retType": "string",
+   "parameters": [
+    {
+     "name": "other",
+     "description": "The string to append to the end of the string.",
+     "type": "string",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "concat(\"\")",
+   "qName": "String.concat"
+  },
+  "String.charAt": {
+   "kind": 1,
+   "namespace": "String",
+   "name": "charAt",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "String_::charAt",
+    "weight": 48,
+    "help": "text/char-at",
+    "blockId": "string_get",
+    "block": "char from %this=text|at %pos",
+    "blockNamespace": "text",
+    "paramHelp": {
+     "index": "The zero-based index of the desired character."
+    },
+    "jsDoc": "Return the character at the specified index.",
+    "_name": "charAt"
+   },
+   "pkg": null,
+   "retType": "string",
+   "parameters": [
+    {
+     "name": "index",
+     "description": "The zero-based index of the desired character.",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "charAt(0)",
+   "qName": "String.charAt"
+  },
+  "String.length": {
+   "kind": 2,
+   "namespace": "String",
+   "name": "length",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "property": "true",
+    "shim": "String_::length",
+    "weight": 47,
+    "blockId": "text_length",
+    "block": "length of %VALUE",
+    "blockBuiltin": "true",
+    "blockNamespace": "text",
+    "paramHelp": {},
+    "jsDoc": "Returns the length of a String object.",
+    "_name": "length"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": null,
+   "qName": "String.length"
+  },
+  "String.charCodeAt": {
+   "kind": 1,
+   "namespace": "String",
+   "name": "charCodeAt",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "String_::charCodeAt",
+    "paramHelp": {
+     "index": "The zero-based index of the desired character. If there is no character at the specified index, NaN is returned."
+    },
+    "jsDoc": "Return the Unicode value of the character at the specified location.",
+    "_name": "charCodeAt"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "index",
+     "description": "The zero-based index of the desired character. If there is no character at the specified index, NaN is returned.",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "charCodeAt(0)",
+   "qName": "String.charCodeAt"
+  },
+  "String.compare": {
+   "kind": 1,
+   "namespace": "String",
+   "name": "compare",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "String_::compare",
+    "help": "text/compare",
+    "blockId": "string_compare",
+    "block": "compare %this=text| to %that",
+    "blockNamespace": "text",
+    "paramHelp": {
+     "that": "String to compare to target string"
+    },
+    "jsDoc": "See how the order of characters in two strings is different (in ASCII encoding).",
+    "_name": "compare"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "that",
+     "description": "String to compare to target string",
+     "type": "string",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "compare(\"\")",
+   "qName": "String.compare"
+  },
+  "String.substr": {
+   "kind": 1,
+   "namespace": "String",
+   "name": "substr",
+   "attributes": {
+    "paramDefl": {
+     "length": "1000000",
+     "start": "0"
+    },
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "String_::substr",
+    "help": "text/substr",
+    "blockId": "string_substr",
+    "block": "substring of %this=text|from %start|of length %length",
+    "blockNamespace": "text",
+    "paramHelp": {
+     "start": "first character index; can be negative from counting from the end, eg:0",
+     "length": "number of characters to extract"
+    },
+    "jsDoc": "Return a substring of the current string.",
+    "_name": "substr"
+   },
+   "pkg": null,
+   "retType": "string",
+   "parameters": [
+    {
+     "name": "start",
+     "description": "first character index; can be negative from counting from the end, eg:0",
+     "type": "number",
+     "initializer": "0",
+     "default": "0",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "length",
+     "description": "number of characters to extract",
+     "type": "number",
+     "initializer": "1000000",
+     "default": "1000000",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "substr(0)",
+   "qName": "String.substr"
+  },
+  "String.isEmpty": {
+   "kind": 1,
+   "namespace": "String",
+   "name": "isEmpty",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "String_::isEmpty",
+    "blockId": "string_isempty",
+    "blockNamespace": "text",
+    "paramHelp": {},
+    "jsDoc": "Returns a value indicating if the string is empty",
+    "_name": "isEmpty"
+   },
+   "pkg": null,
+   "retType": "boolean",
+   "parameters": [],
+   "snippet": "isEmpty()",
+   "qName": "String.isEmpty"
+  },
+  "parseInt": {
+   "kind": 3,
+   "namespace": "",
+   "name": "parseInt",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "String_::toNumber",
+    "help": "text/parse-int",
+    "blockId": "string_parseint",
+    "block": "parse to integer %text",
+    "blockNamespace": "text",
+    "paramHelp": {
+     "s": "A string to convert into a number."
+    },
+    "jsDoc": "Convert a string to an integer.",
+    "_name": "parseInt"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "text",
+     "description": "",
+     "type": "string",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "parseInt(\"\")",
+   "qName": "parseInt"
+  },
+  "Object": {
+   "kind": 9,
+   "namespace": "",
+   "name": "Object",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Object"
+   },
+   "pkg": null,
+   "extendsTypes": [],
+   "retType": "Object",
+   "parameters": null,
+   "qName": "Object"
+  },
+  "Function": {
+   "kind": 9,
+   "namespace": "",
+   "name": "Function",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Function"
+   },
+   "pkg": null,
+   "extendsTypes": [],
+   "retType": "Function",
+   "parameters": null,
+   "qName": "Function"
+  },
+  "IArguments": {
+   "kind": 9,
+   "namespace": "",
+   "name": "IArguments",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "IArguments"
+   },
+   "pkg": null,
+   "extendsTypes": [],
+   "retType": "IArguments",
+   "parameters": null,
+   "qName": "IArguments"
+  },
+  "RegExp": {
+   "kind": 9,
+   "namespace": "",
+   "name": "RegExp",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "RegExp"
+   },
+   "pkg": null,
+   "extendsTypes": [],
+   "retType": "RegExp",
+   "parameters": null,
+   "qName": "RegExp"
+  },
+  "Boolean": {
+   "kind": 9,
+   "namespace": "",
+   "name": "Boolean",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Boolean"
+   },
+   "pkg": null,
+   "extendsTypes": [],
+   "retType": "Boolean",
+   "parameters": null,
+   "qName": "Boolean"
+  },
+  "Boolean.toString": {
+   "kind": 1,
+   "namespace": "Boolean",
+   "name": "toString",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Boolean_::toString",
+    "paramHelp": {},
+    "jsDoc": "Returns a string representation of an object.",
+    "_name": "toString"
+   },
+   "pkg": null,
+   "retType": "string",
+   "parameters": [],
+   "snippet": "toString()",
+   "qName": "Boolean.toString"
+  },
+  "String.fromCharCode": {
+   "kind": 3,
+   "namespace": "String",
+   "name": "fromCharCode",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "help": "math/string-from-char-code",
+    "shim": "String_::fromCharCode",
+    "weight": 1,
+    "blockNamespace": "Math",
+    "blockId": "stringFromCharCode",
+    "block": "text from char code %code",
+    "paramHelp": {},
+    "jsDoc": "Make a string from the given ASCII character code.",
+    "_name": "fromCharCode"
+   },
+   "pkg": null,
+   "retType": "string",
+   "parameters": [
+    {
+     "name": "code",
+     "description": "",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "fromCharCode(0)",
+   "qName": "String.fromCharCode"
+  },
+  "Number": {
+   "kind": 9,
+   "namespace": "",
+   "name": "Number",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Number"
+   },
+   "pkg": null,
+   "extendsTypes": [],
+   "retType": "Number",
+   "parameters": null,
+   "qName": "Number"
+  },
+  "Number.toString": {
+   "kind": 1,
+   "namespace": "Number",
+   "name": "toString",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Number_::toString",
+    "paramHelp": {},
+    "jsDoc": "Returns a string representation of a number.",
+    "_name": "toString"
+   },
+   "pkg": null,
+   "retType": "string",
+   "parameters": [],
+   "snippet": "toString()",
+   "qName": "Number.toString"
+  },
+  "Math": {
+   "kind": 5,
+   "namespace": "",
+   "name": "Math",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "More complex operations with numbers.",
+    "block": "Math"
+   },
+   "pkg": null,
+   "retType": "",
+   "parameters": null,
+   "qName": "Math"
+  },
+  "Math.pow": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "pow",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Math_::pow",
+    "paramHelp": {
+     "x": "The base value of the expression.",
+     "y": "The exponent value of the expression."
+    },
+    "jsDoc": "Returns the value of a base expression taken to a specified power.",
+    "_name": "pow"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "x",
+     "description": "The base value of the expression.",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "y",
+     "description": "The exponent value of the expression.",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "pow(0, 0)",
+   "qName": "Math.pow"
+  },
+  "Math.random": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "random",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Math_::random",
+    "helpUrl": "/reference/math/random",
+    "paramHelp": {},
+    "jsDoc": "Returns a pseudorandom number between 0 and 1.",
+    "_name": "random"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [],
+   "snippet": "random()",
+   "qName": "Math.random"
+  },
+  "Math.randomRange": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "randomRange",
+   "attributes": {
+    "paramDefl": {
+     "min": "0",
+     "max": "10"
+    },
+    "callingConvention": 0,
+    "_source": null,
+    "blockId": "device_random",
+    "block": "pick random %min|to %limit",
+    "helpUrl": "/reference/math/random-range",
+    "shim": "Math_::randomRange",
+    "paramHelp": {
+     "min": "the lower inclusive bound, eg: 0",
+     "max": "the upper inclusive bound, eg: 10"
+    },
+    "jsDoc": "Returns a pseudorandom number between min and max included. \nIf both numbers are integral, the result is integral.",
+    "_name": "randomRange"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "min",
+     "description": "the lower inclusive bound, eg: 0",
+     "type": "number",
+     "initializer": "0",
+     "default": "0",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "max",
+     "description": "the upper inclusive bound, eg: 10",
+     "type": "number",
+     "initializer": "10",
+     "default": "10",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "randomRange(0, 10)",
+   "qName": "Math.randomRange"
+  },
+  "Math.log": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "log",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Math_::log",
+    "paramHelp": {
+     "x": "A number"
+    },
+    "jsDoc": "Returns the natural logarithm (base e) of a number.",
+    "_name": "log"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "x",
+     "description": "A number",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "log(0)",
+   "qName": "Math.log"
+  },
+  "Math.exp": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "exp",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Math_::exp",
+    "paramHelp": {
+     "x": "A number"
+    },
+    "jsDoc": "Returns returns ``e^x``.",
+    "_name": "exp"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "x",
+     "description": "A number",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "exp(0)",
+   "qName": "Math.exp"
+  },
+  "Math.sin": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "sin",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Math_::sin",
+    "paramHelp": {
+     "x": "An angle in radians"
+    },
+    "jsDoc": "Returns the sine of a number.",
+    "_name": "sin"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "x",
+     "description": "An angle in radians",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "sin(0)",
+   "qName": "Math.sin"
+  },
+  "Math.cos": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "cos",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Math_::cos",
+    "paramHelp": {
+     "x": "An angle in radians"
+    },
+    "jsDoc": "Returns the cosine of a number.",
+    "_name": "cos"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "x",
+     "description": "An angle in radians",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "cos(0)",
+   "qName": "Math.cos"
+  },
+  "Math.tan": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "tan",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Math_::tan",
+    "paramHelp": {
+     "x": "An angle in radians"
+    },
+    "jsDoc": "Returns the tangent of a number.",
+    "_name": "tan"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "x",
+     "description": "An angle in radians",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "tan(0)",
+   "qName": "Math.tan"
+  },
+  "Math.asin": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "asin",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Math_::asin",
+    "paramHelp": {
+     "x": "A number"
+    },
+    "jsDoc": "Returns the arcsine (in radians) of a number",
+    "_name": "asin"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "x",
+     "description": "A number",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "asin(0)",
+   "qName": "Math.asin"
+  },
+  "Math.acos": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "acos",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Math_::acos",
+    "paramHelp": {
+     "x": "A number"
+    },
+    "jsDoc": "Returns the arccosine (in radians) of a number",
+    "_name": "acos"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "x",
+     "description": "A number",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "acos(0)",
+   "qName": "Math.acos"
+  },
+  "Math.atan": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "atan",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Math_::atan",
+    "paramHelp": {
+     "x": "A number"
+    },
+    "jsDoc": "Returns the arctangent (in radians) of a number",
+    "_name": "atan"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "x",
+     "description": "A number",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "atan(0)",
+   "qName": "Math.atan"
+  },
+  "Math.atan2": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "atan2",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Math_::atan2",
+    "paramHelp": {
+     "y": "A number",
+     "x": "A number"
+    },
+    "jsDoc": "Returns the arctangent of the quotient of its arguments.",
+    "_name": "atan2"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "y",
+     "description": "A number",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "x",
+     "description": "A number",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "atan2(0, 0)",
+   "qName": "Math.atan2"
+  },
+  "Math.sqrt": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "sqrt",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Math_::sqrt",
+    "paramHelp": {
+     "x": "A numeric expression."
+    },
+    "jsDoc": "Returns the square root of a number.",
+    "_name": "sqrt"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "x",
+     "description": "A numeric expression.",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "sqrt(0)",
+   "qName": "Math.sqrt"
+  },
+  "Math.ceil": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "ceil",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Math_::ceil",
+    "paramHelp": {
+     "x": "A numeric expression."
+    },
+    "jsDoc": "Returns the smallest number greater than or equal to its numeric argument.",
+    "_name": "ceil"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "x",
+     "description": "A numeric expression.",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "ceil(0)",
+   "qName": "Math.ceil"
+  },
+  "Math.floor": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "floor",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Math_::floor",
+    "paramHelp": {
+     "x": "A numeric expression."
+    },
+    "jsDoc": "Returns the greatest number less than or equal to its numeric argument.",
+    "_name": "floor"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "x",
+     "description": "A numeric expression.",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "floor(0)",
+   "qName": "Math.floor"
+  },
+  "Math.trunc": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "trunc",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Math_::trunc",
+    "paramHelp": {
+     "x": "A numeric expression."
+    },
+    "jsDoc": "Returns the number with the decimal part truncated.",
+    "_name": "trunc"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "x",
+     "description": "A numeric expression.",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "trunc(0)",
+   "qName": "Math.trunc"
+  },
+  "Math.round": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "round",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Math_::round",
+    "paramHelp": {
+     "x": "The value to be rounded to the nearest number."
+    },
+    "jsDoc": "Returns a supplied numeric expression rounded to the nearest number.",
+    "_name": "round"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "x",
+     "description": "The value to be rounded to the nearest number.",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "round(0)",
+   "qName": "Math.round"
+  },
+  "Math.imul": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "imul",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Math_::imul",
+    "paramHelp": {
+     "x": "The first number",
+     "y": "The second number"
+    },
+    "jsDoc": "Returns the value of integer signed 32 bit multiplication of two numbers.",
+    "_name": "imul"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "x",
+     "description": "The first number",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "y",
+     "description": "The second number",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "imul(0, 0)",
+   "qName": "Math.imul"
+  },
+  "Math.idiv": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "idiv",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "Math_::idiv",
+    "paramHelp": {
+     "x": "The first number",
+     "y": "The second number"
+    },
+    "jsDoc": "Returns the value of integer signed 32 bit division of two numbers.",
+    "_name": "idiv"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "x",
+     "description": "The first number",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "y",
+     "description": "The second number",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "idiv(0, 0)",
+   "qName": "Math.idiv"
+  },
+  "helpers": {
+   "kind": 5,
+   "namespace": "",
+   "name": "helpers",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "helpers"
+   },
+   "pkg": null,
+   "retType": "",
+   "parameters": null,
+   "qName": "helpers"
+  },
+  "helpers.arraySplice": {
+   "kind": 3,
+   "namespace": "helpers",
+   "name": "arraySplice",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "arraySplice"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [
+    {
+     "name": "arr",
+     "description": "",
+     "type": "T[]",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "start",
+     "description": "",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "len",
+     "description": "",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "arraySplice([], 0, 0)",
+   "qName": "helpers.arraySplice"
+  },
+  "helpers.arrayReverse": {
+   "kind": 3,
+   "namespace": "helpers",
+   "name": "arrayReverse",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "arrayReverse"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [
+    {
+     "name": "arr",
+     "description": "",
+     "type": "T[]",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "arrayReverse([])",
+   "qName": "helpers.arrayReverse"
+  },
+  "helpers.arrayShift": {
+   "kind": 3,
+   "namespace": "helpers",
+   "name": "arrayShift",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "arrayShift"
+   },
+   "pkg": null,
+   "retType": "T",
+   "parameters": [
+    {
+     "name": "arr",
+     "description": "",
+     "type": "T[]",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "arrayShift([])",
+   "qName": "helpers.arrayShift"
+  },
+  "helpers.arrayUnshift": {
+   "kind": 3,
+   "namespace": "helpers",
+   "name": "arrayUnshift",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "arrayUnshift"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "arr",
+     "description": "",
+     "type": "T[]",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "value",
+     "description": "",
+     "type": "T",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "arrayUnshift([], null)",
+   "qName": "helpers.arrayUnshift"
+  },
+  "helpers.arraySort": {
+   "kind": 3,
+   "namespace": "helpers",
+   "name": "arraySort",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "arraySort"
+   },
+   "pkg": null,
+   "retType": "T[]",
+   "parameters": [
+    {
+     "name": "arr",
+     "description": "",
+     "type": "T[]",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "callbackfn",
+     "description": "",
+     "type": "(value1: T, value2: T) => number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "arraySort([])",
+   "qName": "helpers.arraySort"
+  },
+  "helpers.arrayMap": {
+   "kind": 3,
+   "namespace": "helpers",
+   "name": "arrayMap",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "arrayMap"
+   },
+   "pkg": null,
+   "retType": "U[]",
+   "parameters": [
+    {
+     "name": "arr",
+     "description": "",
+     "type": "T[]",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "callbackfn",
+     "description": "",
+     "type": "(value: T, index: number) => U",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "arrayMap([], function () {})",
+   "qName": "helpers.arrayMap"
+  },
+  "helpers.arrayFilter": {
+   "kind": 3,
+   "namespace": "helpers",
+   "name": "arrayFilter",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "arrayFilter"
+   },
+   "pkg": null,
+   "retType": "T[]",
+   "parameters": [
+    {
+     "name": "arr",
+     "description": "",
+     "type": "T[]",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "callbackfn",
+     "description": "",
+     "type": "(value: T, index: number) => boolean",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "arrayFilter([], function () {})",
+   "qName": "helpers.arrayFilter"
+  },
+  "helpers.arrayReduce": {
+   "kind": 3,
+   "namespace": "helpers",
+   "name": "arrayReduce",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "arrayReduce"
+   },
+   "pkg": null,
+   "retType": "U",
+   "parameters": [
+    {
+     "name": "arr",
+     "description": "",
+     "type": "T[]",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "callbackfn",
+     "description": "",
+     "type": "(previousValue: U, currentValue: T, currentIndex: number) => U",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "initialValue",
+     "description": "",
+     "type": "U",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "arrayReduce([], function () {}, null)",
+   "qName": "helpers.arrayReduce"
+  },
+  "helpers.arraySlice": {
+   "kind": 3,
+   "namespace": "helpers",
+   "name": "arraySlice",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "arraySlice"
+   },
+   "pkg": null,
+   "retType": "T[]",
+   "parameters": [
+    {
+     "name": "arr",
+     "description": "",
+     "type": "T[]",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "start",
+     "description": "",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "end",
+     "description": "",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "arraySlice([], 0, 0)",
+   "qName": "helpers.arraySlice"
+  },
+  "Math.clamp": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "clamp",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "clamp"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "min",
+     "description": "",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "max",
+     "description": "",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "value",
+     "description": "",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "clamp(0, 0, 0)",
+   "qName": "Math.clamp"
+  },
+  "Math.abs": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "abs",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {
+     "x": "A numeric expression for which the absolute value is needed."
+    },
+    "jsDoc": "Returns the absolute value of a number (the value without regard to whether it is positive or negative).\nFor example, the absolute value of -5 is the same as the absolute value of 5.",
+    "_name": "abs"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "x",
+     "description": "A numeric expression for which the absolute value is needed.",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "abs(0)",
+   "qName": "Math.abs"
+  },
+  "Math.sign": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "sign",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {
+     "x": "The numeric expression to test"
+    },
+    "jsDoc": "Returns the sign of the x, indicating whether x is positive, negative or zero.",
+    "_name": "sign"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "x",
+     "description": "The numeric expression to test",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "sign(0)",
+   "qName": "Math.sign"
+  },
+  "Math.max": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "max",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "Returns the larger of two supplied numeric expressions.",
+    "_name": "max"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "a",
+     "description": "",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "b",
+     "description": "",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "max(0, 0)",
+   "qName": "Math.max"
+  },
+  "Math.min": {
+   "kind": 3,
+   "namespace": "Math",
+   "name": "min",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "Returns the smaller of two supplied numeric expressions.",
+    "_name": "min"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [
+    {
+     "name": "a",
+     "description": "",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    },
+    {
+     "name": "b",
+     "description": "",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "min(0, 0)",
+   "qName": "Math.min"
+  },
+  "Direction": {
+   "kind": 6,
+   "namespace": "",
+   "name": "Direction",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Direction"
+   },
+   "pkg": null,
+   "retType": "Direction",
+   "parameters": null,
+   "qName": "Direction"
+  },
+  "Direction.Left": {
+   "kind": 7,
+   "namespace": "Direction",
+   "name": "Left",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "left",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Left"
+   },
+   "pkg": null,
+   "retType": "Direction",
+   "parameters": null,
+   "qName": "Direction.Left"
+  },
+  "Direction.Right": {
+   "kind": 7,
+   "namespace": "Direction",
+   "name": "Right",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "right",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Right"
+   },
+   "pkg": null,
+   "retType": "Direction",
+   "parameters": null,
+   "qName": "Direction.Right"
+  },
+  "turtle": {
+   "kind": 5,
+   "namespace": "",
+   "name": "turtle",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "color": "#00BCD4",
+    "weight": 100,
+    "paramHelp": {},
+    "jsDoc": "Basic functionalities.",
+    "block": "turtle"
+   },
+   "pkg": null,
+   "retType": "",
+   "parameters": null,
+   "qName": "turtle"
+  },
+  "turtle.forward": {
+   "kind": 3,
+   "namespace": "turtle",
+   "name": "forward",
+   "attributes": {
+    "paramDefl": {
+     "steps": "1"
+    },
+    "callingConvention": 2,
+    "_source": null,
+    "weight": 90,
+    "block": "forward|steps %steps",
+    "shim": "turtle::forwardAsync",
+    "promise": "true",
+    "paramHelp": {
+     "steps": "number of steps to move, eg: 1"
+    },
+    "jsDoc": "Moves the sprite forward",
+    "_name": "forward",
+    "blockId": "turtle_forward"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [
+    {
+     "name": "steps",
+     "description": "number of steps to move, eg: 1",
+     "type": "number",
+     "initializer": "1",
+     "default": "1",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "forward(1)",
+   "qName": "turtle.forward"
+  },
+  "turtle.turn": {
+   "kind": 3,
+   "namespace": "turtle",
+   "name": "turn",
+   "attributes": {
+    "paramDefl": {
+     "direction": "Direction.Left",
+     "angle": "90"
+    },
+    "callingConvention": 2,
+    "_source": null,
+    "weight": 85,
+    "blockId": "sampleTurn",
+    "block": "turn %direction|by %angle degrees",
+    "shim": "turtle::turnAsync",
+    "promise": "true",
+    "paramHelp": {
+     "direction": "the direction to turn, eg: Direction.Left",
+     "angle": "degrees to turn, eg:90"
+    },
+    "jsDoc": "Moves the sprite forward",
+    "_name": "turn"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [
+    {
+     "name": "direction",
+     "description": "the direction to turn, eg: Direction.Left",
+     "type": "Direction",
+     "initializer": "Direction.Left",
+     "default": "Direction.Left",
+     "options": {},
+     "isEnum": true
+    },
+    {
+     "name": "angle",
+     "description": "degrees to turn, eg:90",
+     "type": "number",
+     "initializer": "90",
+     "default": "90",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "turn(Direction.Left, 90)",
+   "qName": "turtle.turn"
+  },
+  "loops": {
+   "kind": 5,
+   "namespace": "",
+   "name": "loops",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "loops",
+    "block": "loops"
+   },
+   "pkg": null,
+   "retType": "",
+   "parameters": null,
+   "qName": "loops"
+  },
+  "loops.forever": {
+   "kind": 3,
+   "namespace": "loops",
+   "name": "forever",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "help": "functions/forever",
+    "weight": 55,
+    "blockGap": "8",
+    "blockId": "device_forever",
+    "block": "forever",
+    "shim": "loops::forever",
+    "paramHelp": {
+     "body": "the code to repeat"
+    },
+    "jsDoc": "Repeats the code forever in the background. On each iteration, allows other code to run.",
+    "_name": "forever"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [
+    {
+     "name": "body",
+     "description": "the code to repeat",
+     "type": "() => void",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "forever(function () {})",
+   "qName": "loops.forever"
+  },
+  "loops.pause": {
+   "kind": 3,
+   "namespace": "loops",
+   "name": "pause",
+   "attributes": {
+    "paramDefl": {
+     "ms": "100"
+    },
+    "callingConvention": 2,
+    "_source": null,
+    "help": "functions/pause",
+    "weight": 54,
+    "block": "pause (ms) %pause",
+    "blockId": "device_pause",
+    "shim": "loops::pauseAsync",
+    "promise": "true",
+    "paramHelp": {
+     "ms": "how long to pause for, eg: 100, 200, 500, 1000, 2000"
+    },
+    "jsDoc": "Pause for the specified time in milliseconds",
+    "_name": "pause"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [
+    {
+     "name": "ms",
+     "description": "how long to pause for, eg: 100, 200, 500, 1000, 2000",
+     "type": "number",
+     "initializer": "100",
+     "default": "100",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "pause(100)",
+   "qName": "loops.pause"
+  },
+  "console": {
+   "kind": 5,
+   "namespace": "",
+   "name": "console",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "console",
+    "block": "console"
+   },
+   "pkg": null,
+   "retType": "",
+   "parameters": null,
+   "qName": "console"
+  },
+  "console.log": {
+   "kind": 3,
+   "namespace": "console",
+   "name": "log",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "console::log",
+    "paramHelp": {},
+    "jsDoc": "Print out message",
+    "_name": "log"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [
+    {
+     "name": "msg",
+     "description": "",
+     "type": "string",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "log(\"\")",
+   "qName": "console.log"
+  },
+  "Sprite": {
+   "kind": 8,
+   "namespace": "",
+   "name": "Sprite",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "A ghost on the screen.",
+    "_name": "Sprite"
+   },
+   "pkg": null,
+   "extendsTypes": [],
+   "retType": "Sprite",
+   "parameters": null,
+   "qName": "Sprite"
+  },
+  "Sprite.x": {
+   "kind": 2,
+   "namespace": "Sprite",
+   "name": "x",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": ".x",
+    "paramHelp": {},
+    "jsDoc": "The X-coordiante",
+    "_name": "x"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": null,
+   "qName": "Sprite.x"
+  },
+  "Sprite.y": {
+   "kind": 2,
+   "namespace": "Sprite",
+   "name": "y",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": ".y",
+    "paramHelp": {},
+    "jsDoc": "The Y-coordiante",
+    "_name": "y"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": null,
+   "qName": "Sprite.y"
+  },
+  "Sprite.forward": {
+   "kind": 1,
+   "namespace": "Sprite",
+   "name": "forward",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 2,
+    "_source": null,
+    "shim": ".forwardAsync",
+    "promise": "true",
+    "paramHelp": {},
+    "jsDoc": "Move the thing forward",
+    "_name": "forward"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [
+    {
+     "name": "steps",
+     "description": "",
+     "type": "number",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "forward(0)",
+   "qName": "Sprite.forward"
+  },
+  "sprites": {
+   "kind": 5,
+   "namespace": "",
+   "name": "sprites",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "sprites",
+    "block": "sprites"
+   },
+   "pkg": null,
+   "retType": "",
+   "parameters": null,
+   "qName": "sprites"
+  },
+  "sprites.createSprite": {
+   "kind": 3,
+   "namespace": "sprites",
+   "name": "createSprite",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "create sprite",
+    "shim": "sprites::createSprite",
+    "paramHelp": {},
+    "jsDoc": "Creates a new sprite",
+    "_name": "createSprite",
+    "blockId": "sprites_createSprite"
+   },
+   "pkg": null,
+   "retType": "Sprite",
+   "parameters": [],
+   "snippet": "createSprite()",
+   "qName": "sprites.createSprite"
+  },
+  "control": {
+   "kind": 5,
+   "namespace": "",
+   "name": "control",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "color": "#FF5722",
+    "weight": 90,
+    "paramHelp": {},
+    "jsDoc": "Control flow",
+    "_name": "control"
+   },
+   "pkg": null,
+   "retType": "",
+   "parameters": null,
+   "qName": "control"
+  }
+ }
+}
