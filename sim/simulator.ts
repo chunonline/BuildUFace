@@ -1,11 +1,47 @@
 /// <reference path="../node_modules/pxt-core/typings/globals/bluebird/index.d.ts"/>
 /// <reference path="../node_modules/pxt-core/built/pxtsim.d.ts"/>
 
-/* ----------------
+/* -----------------------------------------
     Declare the usage of clmtrackr library.
------------------- */
-
+-------------------------------------------- */
 declare var clm: any;
+
+
+
+
+
+
+
+/* -----------------------------------------
+    Initialize video & clmtrackr library only once
+ -------------------------------------------- */
+
+let VIDEO: any = <any>document.getElementById('videoel');
+let OVERLAY: any = <any>document.getElementById('overlay');
+let CLM: any = <any>clm;
+
+// Get video
+navigator.getUserMedia({video : true}, function(stream: any) {
+    VIDEO.src = window.URL.createObjectURL(stream);
+    VIDEO.play();
+}.bind(this), function() {
+    //alert("There was some problem trying to fetch video from your webcam");
+});
+
+// Initialize tracker;
+let CLM_TRACKR: any =  <any>new CLM.tracker();
+CLM_TRACKR.init();
+CLM_TRACKR.start(VIDEO);
+
+/* -----------------------------------------
+    End of initialization
+ -------------------------------------------- */
+
+
+
+
+
+
 
 interface Navigator {
     getUserMedia(
@@ -20,7 +56,7 @@ namespace pxsim {
      * This function gets called each time the program restarts
      */
     initCurrentRuntime = () => {
-        runtime.board = new FaceDetector();
+        runtime.board = new FaceDetector(VIDEO, OVERLAY, CLM, CLM_TRACKR);
     };
 
     /**
@@ -35,32 +71,32 @@ namespace pxsim {
      * Do not store state anywhere else!
      */
     export class FaceDetector extends pxsim.BaseBoard{
-        public vid: any;
-        public vid_width: number;
-        public vid_height: number;
+        public video: any;
+        public video_width: number;
+        public video_height: number;
         public overlay: any;
         public overlayCC: any;
-
         public clm: any;
         public clmtrackr: any;
-        public facePositionArray : Array<Array<number>>;
 
-        constructor() {
+        constructor(video: any, overlay: any, clm: any, clmtrackr: any) {
             super();
-            this.vid = <any>document.getElementById('videoel');
-            this.vid_width = this.vid.width;
-            this.vid_height = this.vid.height;
-            this.overlay = <any>document.getElementById('overlay');
+            this.video = video;
+            this.video_width = this.video.width;
+            this.video_height = this.video.height;
+            this.overlay = overlay;
             this.overlayCC = <any>this.overlay.getContext('2d');
             this.clm = <any>clm;
 
-            this.clmtrackr =  <any>new this.clm.tracker();
-            this.clmtrackr.init();
-            this.clmtrackr.start(this.vid);
+            this.clmtrackr =  clmtrackr;
+        }
+
+        clearCanvas() {
+            this.overlayCC.clearRect(0, 0, this.video_width, this.video_height);
         }
 
         drawFaceOutline() {
-            this.overlayCC.clearRect(0, 0, this.vid_width, this.vid_height);
+            this.clearCanvas();
             if (this.clmtrackr.getCurrentPosition()) {
                 this.clmtrackr.draw(this.overlay);
             }
@@ -68,19 +104,12 @@ namespace pxsim {
         }
 
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
-
-            // Get video
-            navigator.getUserMedia({video : true}, function(stream: any) {
-                this.vid.src = window.URL.createObjectURL(stream);
-                this.vid.play();
-            }.bind(this), function() {
-                //alert("There was some problem trying to fetch video from your webcam");
-            });
-
+            this.clearCanvas();
             return Promise.resolve();
         }
 
         updateView() {
+            this.clearCanvas();
         }
     }
 }
