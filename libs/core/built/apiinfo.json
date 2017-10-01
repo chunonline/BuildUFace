@@ -2233,29 +2233,28 @@
    "parameters": null,
    "qName": "Direction.Right"
   },
-  "turtle": {
+  "faceAR": {
    "kind": 5,
    "namespace": "",
-   "name": "turtle",
+   "name": "faceAR",
    "attributes": {
     "paramDefl": {},
     "callingConvention": 0,
     "_source": null,
-    "color": "#00BCD4",
-    "weight": 100,
     "paramHelp": {},
-    "jsDoc": "Basic functionalities.",
-    "block": "turtle"
+    "jsDoc": "",
+    "_name": "faceAR",
+    "block": "faceAR"
    },
    "pkg": null,
    "retType": "",
    "parameters": null,
-   "qName": "turtle"
+   "qName": "faceAR"
   },
-  "turtle.forward": {
+  "faceAR.drawLoop": {
    "kind": 3,
-   "namespace": "turtle",
-   "name": "forward",
+   "namespace": "faceAR",
+   "name": "drawLoop",
    "attributes": {
     "paramDefl": {
      "steps": "1"
@@ -2263,79 +2262,21 @@
     "callingConvention": 2,
     "_source": null,
     "weight": 90,
-    "block": "forward|steps %steps",
-    "shim": "turtle::forwardAsync",
+    "block": "draw loop",
+    "shim": "faceAR::drawLoopAsync",
     "promise": "true",
     "paramHelp": {
      "steps": "number of steps to move, eg: 1"
     },
     "jsDoc": "Moves the sprite forward",
-    "_name": "forward",
-    "blockId": "turtle_forward"
+    "_name": "drawLoop",
+    "blockId": "faceAR_drawLoop"
    },
    "pkg": null,
    "retType": "void",
-   "parameters": [
-    {
-     "name": "steps",
-     "description": "number of steps to move, eg: 1",
-     "type": "number",
-     "initializer": "1",
-     "default": "1",
-     "options": {},
-     "isEnum": false
-    }
-   ],
-   "snippet": "forward(1)",
-   "qName": "turtle.forward"
-  },
-  "turtle.turn": {
-   "kind": 3,
-   "namespace": "turtle",
-   "name": "turn",
-   "attributes": {
-    "paramDefl": {
-     "direction": "Direction.Left",
-     "angle": "90"
-    },
-    "callingConvention": 2,
-    "_source": null,
-    "weight": 85,
-    "blockId": "sampleTurn",
-    "block": "turn %direction|by %angle degrees",
-    "shim": "turtle::turnAsync",
-    "promise": "true",
-    "paramHelp": {
-     "direction": "the direction to turn, eg: Direction.Left",
-     "angle": "degrees to turn, eg:90"
-    },
-    "jsDoc": "Moves the sprite forward",
-    "_name": "turn"
-   },
-   "pkg": null,
-   "retType": "void",
-   "parameters": [
-    {
-     "name": "direction",
-     "description": "the direction to turn, eg: Direction.Left",
-     "type": "Direction",
-     "initializer": "Direction.Left",
-     "default": "Direction.Left",
-     "options": {},
-     "isEnum": true
-    },
-    {
-     "name": "angle",
-     "description": "degrees to turn, eg:90",
-     "type": "number",
-     "initializer": "90",
-     "default": "90",
-     "options": {},
-     "isEnum": false
-    }
-   ],
-   "snippet": "turn(Direction.Left, 90)",
-   "qName": "turtle.turn"
+   "parameters": [],
+   "snippet": "drawLoop()",
+   "qName": "faceAR.drawLoop"
   },
   "loops": {
    "kind": 5,
@@ -2472,126 +2413,24 @@
    "snippet": "log(\"\")",
    "qName": "console.log"
   },
-  "Sprite": {
-   "kind": 8,
-   "namespace": "",
-   "name": "Sprite",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 0,
-    "_source": null,
-    "paramHelp": {},
-    "jsDoc": "A ghost on the screen.",
-    "_name": "Sprite"
-   },
-   "pkg": null,
-   "extendsTypes": [],
-   "retType": "Sprite",
-   "parameters": null,
-   "qName": "Sprite"
-  },
-  "Sprite.x": {
-   "kind": 2,
-   "namespace": "Sprite",
-   "name": "x",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 0,
-    "_source": null,
-    "shim": ".x",
-    "paramHelp": {},
-    "jsDoc": "The X-coordiante",
-    "_name": "x"
-   },
-   "pkg": null,
-   "retType": "number",
-   "parameters": null,
-   "qName": "Sprite.x"
-  },
-  "Sprite.y": {
-   "kind": 2,
-   "namespace": "Sprite",
-   "name": "y",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 0,
-    "_source": null,
-    "shim": ".y",
-    "paramHelp": {},
-    "jsDoc": "The Y-coordiante",
-    "_name": "y"
-   },
-   "pkg": null,
-   "retType": "number",
-   "parameters": null,
-   "qName": "Sprite.y"
-  },
-  "Sprite.forward": {
-   "kind": 1,
-   "namespace": "Sprite",
-   "name": "forward",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 2,
-    "_source": null,
-    "shim": ".forwardAsync",
-    "promise": "true",
-    "paramHelp": {},
-    "jsDoc": "Move the thing forward",
-    "_name": "forward"
-   },
-   "pkg": null,
-   "retType": "void",
-   "parameters": [
-    {
-     "name": "steps",
-     "description": "",
-     "type": "number",
-     "options": {},
-     "isEnum": false
-    }
-   ],
-   "snippet": "forward(0)",
-   "qName": "Sprite.forward"
-  },
-  "sprites": {
+  "turtle": {
    "kind": 5,
    "namespace": "",
-   "name": "sprites",
+   "name": "turtle",
    "attributes": {
     "paramDefl": {},
     "callingConvention": 0,
     "_source": null,
+    "color": "#00BCD4",
+    "weight": 100,
     "paramHelp": {},
-    "jsDoc": "",
-    "_name": "sprites",
-    "block": "sprites"
+    "jsDoc": "Basic functionalities.",
+    "_name": "turtle"
    },
    "pkg": null,
    "retType": "",
    "parameters": null,
-   "qName": "sprites"
-  },
-  "sprites.createSprite": {
-   "kind": 3,
-   "namespace": "sprites",
-   "name": "createSprite",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 0,
-    "_source": null,
-    "block": "create sprite",
-    "shim": "sprites::createSprite",
-    "paramHelp": {},
-    "jsDoc": "Creates a new sprite",
-    "_name": "createSprite",
-    "blockId": "sprites_createSprite"
-   },
-   "pkg": null,
-   "retType": "Sprite",
-   "parameters": [],
-   "snippet": "createSprite()",
-   "qName": "sprites.createSprite"
+   "qName": "turtle"
   },
   "control": {
    "kind": 5,
