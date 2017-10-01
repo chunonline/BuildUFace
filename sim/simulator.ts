@@ -1,6 +1,12 @@
 /// <reference path="../node_modules/pxt-core/typings/globals/bluebird/index.d.ts"/>
 /// <reference path="../node_modules/pxt-core/built/pxtsim.d.ts"/>
 
+/* ----------------
+    Declare the usage of clmtrackr library.
+------------------ */
+
+declare var clm: any;
+
 interface Navigator {
     getUserMedia(
         options: { video?: boolean; audio?: boolean; },
@@ -46,36 +52,23 @@ namespace pxsim {
             this.vid_height = this.vid.height;
             this.overlay = <any>document.getElementById('overlay');
             this.overlayCC = <any>this.overlay.getContext('2d');
-            //this.clm = <any>clm;
+            this.clm = <any>clm;
+
+            this.clmtrackr =  <any>new this.clm.tracker();
+            this.clmtrackr.init();
+            this.clmtrackr.start(this.vid);
         }
 
-        //drawLoop() {
-        //    requestAnimationFrame(this.drawLoop);
-        //    this.overlayCC.clearRect(0, 0, this.vid_width, this.vid_height);
-        //    if (this.clmtrackr.getCurrentPosition()) {
-        //        this.clmtrackr.draw(this.overlay);
-        //    }
-        //    return Promise.delay(400);
-        //}
-
-        drawLoop() {
-            // do nothing
-            return Promise.delay(400);
+        drawFaceOutline() {
+            this.overlayCC.clearRect(0, 0, this.vid_width, this.vid_height);
+            if (this.clmtrackr.getCurrentPosition()) {
+                this.clmtrackr.draw(this.overlay);
+            }
+            return Promise.delay(100);
         }
-
-        //gumSuccess(stream: any) {
-        //    // add camera stream if getUserMedia succeeded
-        //    this.vid.src = window.URL.createObjectURL(stream);
-        //    this.vid.play();
-        //}
-        //
-        //gumFail() {
-        //    alert("There was some problem trying to fetch video from your webcam");
-        //}
 
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
 
-            // window.URL = window.URL || window.webkitURL || window.msURL || window.mozURL;
             // Get video
             navigator.getUserMedia({video : true}, function(stream: any) {
                 this.vid.src = window.URL.createObjectURL(stream);
@@ -83,13 +76,7 @@ namespace pxsim {
             }.bind(this), function() {
                 //alert("There was some problem trying to fetch video from your webcam");
             });
-            /*
-            this.clmtrackr =  this.clm.tracker();
-            this.clmtrackr.init();
-            this.clmtrackr.start(this.vid);
 
-            this.drawLoop();
-            */
             return Promise.resolve();
         }
 

@@ -7,8 +7,8 @@ namespace pxsim.faceAR {
      */
     //% weight=90
     //% block
-    export function drawLoopAsync() {
-        return faceDetector().drawLoop();
+    export function drawFaceOutlineAsync() {
+        return faceDetector().drawFaceOutline();
     }
 }
 

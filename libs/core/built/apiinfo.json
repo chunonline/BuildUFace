@@ -2251,10 +2251,10 @@
    "parameters": null,
    "qName": "faceAR"
   },
-  "faceAR.drawLoop": {
+  "faceAR.drawFaceOutline": {
    "kind": 3,
    "namespace": "faceAR",
-   "name": "drawLoop",
+   "name": "drawFaceOutline",
    "attributes": {
     "paramDefl": {
      "steps": "1"
@@ -2262,21 +2262,21 @@
     "callingConvention": 2,
     "_source": null,
     "weight": 90,
-    "block": "draw loop",
-    "shim": "faceAR::drawLoopAsync",
+    "block": "draw face outline",
+    "shim": "faceAR::drawFaceOutlineAsync",
     "promise": "true",
     "paramHelp": {
      "steps": "number of steps to move, eg: 1"
     },
     "jsDoc": "Moves the sprite forward",
-    "_name": "drawLoop",
-    "blockId": "faceAR_drawLoop"
+    "_name": "drawFaceOutline",
+    "blockId": "faceAR_drawFaceOutline"
    },
    "pkg": null,
    "retType": "void",
    "parameters": [],
-   "snippet": "drawLoop()",
-   "qName": "faceAR.drawLoop"
+   "snippet": "drawFaceOutline()",
+   "qName": "faceAR.drawFaceOutline"
   },
   "loops": {
    "kind": 5,

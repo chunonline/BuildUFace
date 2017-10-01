@@ -6,8 +6,8 @@ declare namespace faceAR {
      */
     //% weight=90
     //% block
-    //% shim=faceAR::drawLoopAsync promise
-    function drawLoop(): void;
+    //% shim=faceAR::drawFaceOutlineAsync promise
+    function drawFaceOutline(): void;
 
 }
 declare namespace loops {
