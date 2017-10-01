@@ -32,10 +32,6 @@
 </head>
 
 <body>
-    <!--<svg id='svgcanvas' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 280">-->
-        <!--&lt;!&ndash;<circle id='svgsprite' cx="100" cy="100" r="50" class="sprite" />&ndash;&gt;-->
-        <!--<input type="file" accept="image/*;capture=camera">-->
-    <!--</svg>-->
     <div id="container">
         <video id="videoel" width="400" height="300" preload="auto" loop playsinline autoplay>
         </video>
@@ -43,42 +39,6 @@
     </div>
 
     <script>
-//        var vid = document.getElementById('videoel');
-//        var vid_width = vid.width;
-//        var vid_height = vid.height;
-//        var overlay = document.getElementById('overlay');
-//        var overlayCC = overlay.getContext('2d');
-//
-//        /*********** Setup of video/webcam and checking for webGL support *********/
-//        function gumSuccess( stream ) {
-//            // add camera stream if getUserMedia succeeded
-//            vid.src = window.URL.createObjectURL(stream);
-//            vid.play();
-//        }
-//        function gumFail() {
-//            alert("There was some problem trying to fetch video from your webcam");
-//        }
-//        function drawLoop() {
-//            requestAnimationFrame(drawLoop);
-//            overlayCC.clearRect(0, 0, vid_width, vid_height);
-//            if (ctrack.getCurrentPosition()) {
-//                ctrack.draw(overlay);
-//            }
-//        }
-//        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-//        window.URL = window.URL || window.webkitURL || window.msURL || window.mozURL;
-//        // set up video
-//        if (navigator.mediaDevices) {
-//            navigator.mediaDevices.getUserMedia({video : true}).then(gumSuccess).catch(gumFail);
-//        }
-//
-//        /*********** Code for face tracking *********/
-//        var ctrack = new clm.tracker();
-//        ctrack.init();
-//        ctrack.start(vid);
-//
-//        // start loop to draw face
-//        drawLoop();
 
     </script>
     <script src="clmtrackr.js"></script>
