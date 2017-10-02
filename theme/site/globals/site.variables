@@ -137,7 +137,7 @@
    Background
 --------------------*/
 
-@simulatorBackground: #607D8B;
+@simulatorBackground: #3fe6fc;
 @blocklySvgColor: #F9F9F9;
 
 /*-------------------
