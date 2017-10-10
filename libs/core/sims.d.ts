@@ -1,13 +1,20 @@
 // Auto-generated from simulator. Do not edit.
 declare namespace faceAR {
     /**
-     * Moves the sprite forward
-     * @param steps number of steps to move, eg: 1
+     * Draw face outline
      */
     //% weight=90
     //% block
     //% shim=faceAR::drawFaceOutlineAsync promise
     function drawFaceOutline(): void;
+
+    /**
+     * Add ironman masks to faces
+     */
+    //% weight=90
+    //% block
+    //% shim=faceAR::drawIronManMaskAsync promise
+    function drawIronManMask(): void;
 
 }
 declare namespace loops {

@@ -21,6 +21,7 @@
   "String|block": "String",
   "console|block": "console",
   "faceAR.drawFaceOutline|block": "draw face outline",
+  "faceAR.drawIronManMask|block": "draw iron man mask",
   "faceAR|block": "faceAR",
   "loops.forever|block": "forever",
   "loops.pause|block": "pause (ms) %pause",
