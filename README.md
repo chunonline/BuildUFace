@@ -37,3 +37,37 @@ pxt update
 ```
 
 More instructions at https://github.com/Microsoft/pxt#running-a-target-from-localhost 
+
+### 1011 API Layout
+
+* 	Precise Tracking of Facial Features via Constrained Local Models
+	https://github.com/auduno/clmtrackr
+		
+		Tracking in image (default): will automatically trigger when the user opens the app
+		Tracking in video (will implement after we finished the static)
+		Face substitution
+		Face masking
+		Realtime face deformation
+		Emotion detection
+		Caricature
+
+
+*	Microsoft Cognitive and AI
+	https://docs.microsoft.com/en-us/azure/#pivot=products&panel=cognitive
+
+		Face verification / Face identification
+		Face detection (multiple detections in one image)
+		Face grouping (Organize many unidentified faces together into groups, based on their visual similarity)
+		Similar Face Search
+
+*	Microsoft AR
+	https://github.com/Microsoft/pxt-ar
+
+
+*	FaceRecognition in ARKit
+	https://github.com/NovaTecConsulting/FaceRecognition-in-ARKit
+
+		Vision-API and runs the extracted face through a CoreML-model to identiy the specific persons.
+
+* 	Possible: Speech API
+	https://azure.microsoft.com/en-us/services/cognitive-services/directory/speech/
