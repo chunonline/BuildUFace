@@ -4,3 +4,16 @@ declare const enum Direction {
     //% block=right
     Right
 }
+
+/**
+ * Enum for masks
+ */
+declare const enum maskType {
+    ironman,
+    average,
+    monalisa,
+    sean_connery,
+    skull,
+    audrey,
+    nicolas_cage
+}

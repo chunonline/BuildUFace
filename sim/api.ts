@@ -1,24 +1,6 @@
 /// <reference path="../libs/core/enums.d.ts"/>
 
 
-/**
- * Enum for masks
- */
-enum maskType {
-    ironman,
-    average,
-    monalisa,
-    sean,
-    skull,
-    andrew,
-    cage
-}
-
-enum numberSelection {
-    one=1,
-    two=2,
-    three=3
-}
 
 
 
@@ -34,79 +16,38 @@ namespace pxsim.faceAR {
     }
 
 
-
     /**
      * Add masks to faces
      */
     //% weight=90
     //% block
-    export function drawIronmanMasksAsync() {
-        return faceDetector().drawFaceMasksAsync('ironman');
+    export function drawMasksAsync(mask: maskType) {
+        switch (mask) {
+            case maskType.ironman:
+                return faceDetector().drawFaceMasksAsync('ironman');
+
+            case maskType.audrey:
+                return faceDetector().drawFaceMasksAsync('audrey');
+
+            case maskType.average:
+                return faceDetector().drawFaceMasksAsync('average');
+
+            case maskType.nicolas_cage:
+                return faceDetector().drawFaceMasksAsync('cage2');
+
+            case maskType.monalisa:
+                return faceDetector().drawFaceMasksAsync('joconde');
+
+            case maskType.sean_connery:
+                return faceDetector().drawFaceMasksAsync('SeanConnery');
+
+            case maskType.skull:
+                return faceDetector().drawFaceMasksAsync('skull');
+
+            default:
+                return Promise.delay(100);
+        }
     }
-
-    /**
-     * Add masks to faces
-     */
-    //% weight=90
-    //% block
-    export function drawAudreyMasksAsync() {
-        return faceDetector().drawFaceMasksAsync('audrey');
-    }
-
-    /**
-     * Add masks to faces
-     */
-    //% weight=90
-    //% block
-    export function drawAverageMasksAsync() {
-        return faceDetector().drawFaceMasksAsync('average');
-    }
-
-    /**
-     * Add masks to faces
-     */
-    //% weight=90
-    //% block
-    export function drawNicolasCageMasksAsync() {
-        return faceDetector().drawFaceMasksAsync('cage2');
-    }
-
-    /**
-     * Add masks to faces
-     */
-    //% weight=90
-    //% block
-    export function drawMonaLisaMasksAsync() {
-        return faceDetector().drawFaceMasksAsync('joconde');
-    }
-
-    /**
-     * Add masks to faces
-     */
-    //% weight=90
-    //% block
-    export function drawSeanConneryMasksAsync() {
-        return faceDetector().drawFaceMasksAsync('SeanConnery');
-    }
-
-    /**
-     * Add masks to faces
-     */
-    //% weight=90
-    //% block
-    export function drawSkullMasksAsync() {
-        return faceDetector().drawFaceMasksAsync('skull');
-    }
-
-
-
-
-
-    ////% weight=90
-    ////% blockId=device_show_string
-    ////% block="mmmm %v"
-    //export function showMumber(meow: string): void
-    //{ }
 }
 
 namespace pxsim.loops {
@@ -150,5 +91,4 @@ namespace pxsim {
     /**
      * A ghost on the screen.
      */
-    //%
 }

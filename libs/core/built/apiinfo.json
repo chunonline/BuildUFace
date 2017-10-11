@@ -2233,6 +2233,142 @@
    "parameters": null,
    "qName": "Direction.Right"
   },
+  "maskType": {
+   "kind": 6,
+   "namespace": "",
+   "name": "maskType",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "Enum for masks",
+    "_name": "maskType"
+   },
+   "pkg": null,
+   "retType": "maskType",
+   "parameters": null,
+   "qName": "maskType"
+  },
+  "maskType.ironman": {
+   "kind": 7,
+   "namespace": "maskType",
+   "name": "ironman",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "ironman"
+   },
+   "pkg": null,
+   "retType": "maskType",
+   "parameters": null,
+   "qName": "maskType.ironman"
+  },
+  "maskType.average": {
+   "kind": 7,
+   "namespace": "maskType",
+   "name": "average",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "average"
+   },
+   "pkg": null,
+   "retType": "maskType",
+   "parameters": null,
+   "qName": "maskType.average"
+  },
+  "maskType.monalisa": {
+   "kind": 7,
+   "namespace": "maskType",
+   "name": "monalisa",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "monalisa"
+   },
+   "pkg": null,
+   "retType": "maskType",
+   "parameters": null,
+   "qName": "maskType.monalisa"
+  },
+  "maskType.sean_connery": {
+   "kind": 7,
+   "namespace": "maskType",
+   "name": "sean_connery",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "sean_connery"
+   },
+   "pkg": null,
+   "retType": "maskType",
+   "parameters": null,
+   "qName": "maskType.sean_connery"
+  },
+  "maskType.skull": {
+   "kind": 7,
+   "namespace": "maskType",
+   "name": "skull",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "skull"
+   },
+   "pkg": null,
+   "retType": "maskType",
+   "parameters": null,
+   "qName": "maskType.skull"
+  },
+  "maskType.audrey": {
+   "kind": 7,
+   "namespace": "maskType",
+   "name": "audrey",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "audrey"
+   },
+   "pkg": null,
+   "retType": "maskType",
+   "parameters": null,
+   "qName": "maskType.audrey"
+  },
+  "maskType.nicolas_cage": {
+   "kind": 7,
+   "namespace": "maskType",
+   "name": "nicolas_cage",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "nicolas_cage"
+   },
+   "pkg": null,
+   "retType": "maskType",
+   "parameters": null,
+   "qName": "maskType.nicolas_cage"
+  },
   "faceAR": {
    "kind": 5,
    "namespace": "",
@@ -2274,166 +2410,36 @@
    "snippet": "drawFaceOutline()",
    "qName": "faceAR.drawFaceOutline"
   },
-  "faceAR.drawIronmanMasks": {
+  "faceAR.drawMasks": {
    "kind": 3,
    "namespace": "faceAR",
-   "name": "drawIronmanMasks",
+   "name": "drawMasks",
    "attributes": {
     "paramDefl": {},
     "callingConvention": 2,
     "_source": null,
     "weight": 90,
-    "block": "draw ironman masks",
-    "shim": "faceAR::drawIronmanMasksAsync",
+    "block": "draw masks|mask %mask",
+    "shim": "faceAR::drawMasksAsync",
     "promise": "true",
     "paramHelp": {},
     "jsDoc": "Add masks to faces",
-    "_name": "drawIronmanMasks",
-    "blockId": "faceAR_drawIronmanMasks"
+    "_name": "drawMasks",
+    "blockId": "faceAR_drawMasks"
    },
    "pkg": null,
    "retType": "void",
-   "parameters": [],
-   "snippet": "drawIronmanMasks()",
-   "qName": "faceAR.drawIronmanMasks"
-  },
-  "faceAR.drawAudreyMasks": {
-   "kind": 3,
-   "namespace": "faceAR",
-   "name": "drawAudreyMasks",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 2,
-    "_source": null,
-    "weight": 90,
-    "block": "draw audrey masks",
-    "shim": "faceAR::drawAudreyMasksAsync",
-    "promise": "true",
-    "paramHelp": {},
-    "jsDoc": "Add masks to faces",
-    "_name": "drawAudreyMasks",
-    "blockId": "faceAR_drawAudreyMasks"
-   },
-   "pkg": null,
-   "retType": "void",
-   "parameters": [],
-   "snippet": "drawAudreyMasks()",
-   "qName": "faceAR.drawAudreyMasks"
-  },
-  "faceAR.drawAverageMasks": {
-   "kind": 3,
-   "namespace": "faceAR",
-   "name": "drawAverageMasks",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 2,
-    "_source": null,
-    "weight": 90,
-    "block": "draw average masks",
-    "shim": "faceAR::drawAverageMasksAsync",
-    "promise": "true",
-    "paramHelp": {},
-    "jsDoc": "Add masks to faces",
-    "_name": "drawAverageMasks",
-    "blockId": "faceAR_drawAverageMasks"
-   },
-   "pkg": null,
-   "retType": "void",
-   "parameters": [],
-   "snippet": "drawAverageMasks()",
-   "qName": "faceAR.drawAverageMasks"
-  },
-  "faceAR.drawNicolasCageMasks": {
-   "kind": 3,
-   "namespace": "faceAR",
-   "name": "drawNicolasCageMasks",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 2,
-    "_source": null,
-    "weight": 90,
-    "block": "draw nicolas cage masks",
-    "shim": "faceAR::drawNicolasCageMasksAsync",
-    "promise": "true",
-    "paramHelp": {},
-    "jsDoc": "Add masks to faces",
-    "_name": "drawNicolasCageMasks",
-    "blockId": "faceAR_drawNicolasCageMasks"
-   },
-   "pkg": null,
-   "retType": "void",
-   "parameters": [],
-   "snippet": "drawNicolasCageMasks()",
-   "qName": "faceAR.drawNicolasCageMasks"
-  },
-  "faceAR.drawMonaLisaMasks": {
-   "kind": 3,
-   "namespace": "faceAR",
-   "name": "drawMonaLisaMasks",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 2,
-    "_source": null,
-    "weight": 90,
-    "block": "draw mona lisa masks",
-    "shim": "faceAR::drawMonaLisaMasksAsync",
-    "promise": "true",
-    "paramHelp": {},
-    "jsDoc": "Add masks to faces",
-    "_name": "drawMonaLisaMasks",
-    "blockId": "faceAR_drawMonaLisaMasks"
-   },
-   "pkg": null,
-   "retType": "void",
-   "parameters": [],
-   "snippet": "drawMonaLisaMasks()",
-   "qName": "faceAR.drawMonaLisaMasks"
-  },
-  "faceAR.drawSeanConneryMasks": {
-   "kind": 3,
-   "namespace": "faceAR",
-   "name": "drawSeanConneryMasks",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 2,
-    "_source": null,
-    "weight": 90,
-    "block": "draw sean connery masks",
-    "shim": "faceAR::drawSeanConneryMasksAsync",
-    "promise": "true",
-    "paramHelp": {},
-    "jsDoc": "Add masks to faces",
-    "_name": "drawSeanConneryMasks",
-    "blockId": "faceAR_drawSeanConneryMasks"
-   },
-   "pkg": null,
-   "retType": "void",
-   "parameters": [],
-   "snippet": "drawSeanConneryMasks()",
-   "qName": "faceAR.drawSeanConneryMasks"
-  },
-  "faceAR.drawSkullMasks": {
-   "kind": 3,
-   "namespace": "faceAR",
-   "name": "drawSkullMasks",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 2,
-    "_source": null,
-    "weight": 90,
-    "block": "draw skull masks",
-    "shim": "faceAR::drawSkullMasksAsync",
-    "promise": "true",
-    "paramHelp": {},
-    "jsDoc": "Add masks to faces",
-    "_name": "drawSkullMasks",
-    "blockId": "faceAR_drawSkullMasks"
-   },
-   "pkg": null,
-   "retType": "void",
-   "parameters": [],
-   "snippet": "drawSkullMasks()",
-   "qName": "faceAR.drawSkullMasks"
+   "parameters": [
+    {
+     "name": "mask",
+     "description": "",
+     "type": "maskType",
+     "options": {},
+     "isEnum": true
+    }
+   ],
+   "snippet": "drawMasks(null)",
+   "qName": "faceAR.drawMasks"
   },
   "loops": {
    "kind": 5,

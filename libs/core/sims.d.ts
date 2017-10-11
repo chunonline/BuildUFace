@@ -13,56 +13,8 @@ declare namespace faceAR {
      */
     //% weight=90
     //% block
-    //% shim=faceAR::drawIronmanMasksAsync promise
-    function drawIronmanMasks(): void;
-
-    /**
-     * Add masks to faces
-     */
-    //% weight=90
-    //% block
-    //% shim=faceAR::drawAudreyMasksAsync promise
-    function drawAudreyMasks(): void;
-
-    /**
-     * Add masks to faces
-     */
-    //% weight=90
-    //% block
-    //% shim=faceAR::drawAverageMasksAsync promise
-    function drawAverageMasks(): void;
-
-    /**
-     * Add masks to faces
-     */
-    //% weight=90
-    //% block
-    //% shim=faceAR::drawNicolasCageMasksAsync promise
-    function drawNicolasCageMasks(): void;
-
-    /**
-     * Add masks to faces
-     */
-    //% weight=90
-    //% block
-    //% shim=faceAR::drawMonaLisaMasksAsync promise
-    function drawMonaLisaMasks(): void;
-
-    /**
-     * Add masks to faces
-     */
-    //% weight=90
-    //% block
-    //% shim=faceAR::drawSeanConneryMasksAsync promise
-    function drawSeanConneryMasks(): void;
-
-    /**
-     * Add masks to faces
-     */
-    //% weight=90
-    //% block
-    //% shim=faceAR::drawSkullMasksAsync promise
-    function drawSkullMasks(): void;
+    //% shim=faceAR::drawMasksAsync promise
+    function drawMasks(mask: maskType): void;
 
 }
 declare namespace loops {
