@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MakeCode Editor Sample - sample</title>
+    <meta name="Description" content="Example of editor target for &lt;a href=&quot;https://makecode.com/&quot;&gt;Microsoft MakeCode&lt;/a&gt;." />
+
+    
+<!-- include meta.html -->
+<!-- This file is typically overriden by the target, with own Twitter
+     account etc. Most data is taken from the theme file though.  
+  -->
+
+<!-- include robotsmeta.html -->
+
+<!-- end include robotsmeta.html -->
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@msmakecode" />
+<meta name="twitter:title" content="MakeCode Editor Sample - sample" />
+<meta name="twitter:description" content="Example of editor target for &lt;a href=&quot;https://makecode.com/&quot;&gt;Microsoft MakeCode&lt;/a&gt;." />
+<meta name="twitter:image" content="" />
+
+<meta property="og:title" content="MakeCode Editor Sample - sample" />
+<meta property="og:site_name" content="Microsoft MakeCode" />
+<meta property="og:type" content="website" />
+<meta property="og:description" content="Example of editor target for &lt;a href=&quot;https://makecode.com/&quot;&gt;Microsoft MakeCode&lt;/a&gt;." />
+<meta property="fb:app_id" content="" />
+<meta property="og:image" content="" />
+
+<meta name="format-detection" content="telephone=no">
+<link rel="apple-touch-icon" href="">
+<link rel="icon" type="image/png" href="">
+<link rel="shortcut icon" href="">
+<meta name="theme-color" content="">
+
+<!-- end include meta.html -->
+
+    
+<!-- include head.html -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width,height=device-height,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0">
+
+<link rel="stylesheet" href="/Microsoft_MakeCode/semantic.css" />
+<link rel="stylesheet" href="/Microsoft_MakeCode/blockly.css" />
+<link rel="stylesheet" href="/Microsoft_MakeCode/docfiles/style.css" />
+<link rel="stylesheet" href="/Microsoft_MakeCode/docfiles/vs.css" />
+<link rel="stylesheet" href="/Microsoft_MakeCode/docfiles/target.css" />
+
+<script src="/Microsoft_MakeCode/jquery.js"></script>
+
+<script src="/Microsoft_MakeCode/embed.js" type="text/javascript"></script>
+<script src="/Microsoft_MakeCode/docfiles/docs.js" type="text/javascript"></script>
+<script src="/Microsoft_MakeCode/docfiles/target.js" type="text/javascript"></script>
+
+<style>
+    
+</style>
+
+<!-- end include head.html -->
+
+
+</head>
+
+<body id='root' class='root'>
+
+
+<!-- include tocheader.html -->
+<div class="ui vertical accent inverted sidebar menu left hideprint">
+    <a href="/Microsoft_MakeCode/docs/.html" class="header item">
+        
+        &nbsp; &nbsp;
+        Documentation
+    </a>
+    <div class="item">
+        <form id="tocsearch1" method="get" action="https://www.bing.com/search">
+            <div class="ui fluid icon input">
+                <input type="hidden" name="q1" value="site:http://microsoft.github.io/pxt-sample/" />
+                <input type="search" name="q" placeholder="Search...">
+                <i onclick="document.getElementById('tocsearch1').submit();" class="search link icon"></i>
+            </div>
+        </form>
+    </div>
+    <!-- TOC Menu -->
+    
+    <div class="item" title="">
+        <a class="header " href="/Microsoft_MakeCode/docs/blocks.html">Blocks</a>
+        <div class="menu">
+            
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/on-start.html">On Start</a>
+
+
+    <div class="ui inverted accordion item visible" title="">
+        <div class=" title">
+            <i class="dropdown icon"></i>
+            <a class="header" href="/Microsoft_MakeCode/docs/blocks/loops.html">Loops</a>
+        </div>
+        <div class=" content">
+            
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/loops/repeat.html">repeat</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/loops/for.html">for</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/loops/while.html">while</a>
+
+        </div>
+    </div>
+
+
+    <div class="ui inverted accordion item visible" title="">
+        <div class=" title">
+            <i class="dropdown icon"></i>
+            <a class="header" href="/Microsoft_MakeCode/docs/blocks/logic.html">Logic</a>
+        </div>
+        <div class=" content">
+            
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/logic/if.html">if</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/logic/boolean.html">Boolean</a>
+
+        </div>
+    </div>
+
+
+    <div class="ui inverted accordion item visible" title="">
+        <div class=" title">
+            <i class="dropdown icon"></i>
+            <a class="header" href="/Microsoft_MakeCode/docs/blocks/variables.html">Variables</a>
+        </div>
+        <div class=" content">
+            
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/variables/assign.html">assign</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/variables/change.html">change var</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/variables/var.html">var</a>
+
+        </div>
+    </div>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/math.html">Math</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/javascript-blocks.html">JavaScript blocks</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/custom.html">Custom blocks</a>
+
+        </div>
+    </div>
+
+
+    <div class="item" title="">
+        <a class="header " href="/Microsoft_MakeCode/docs/javascript.html">JavaScript</a>
+        <div class="menu">
+            
+    <a class="item " href="/Microsoft_MakeCode/docs/javascript/call.html">Calling</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/javascript/sequence.html">Sequencing</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/javascript/variables.html">Variables</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/javascript/operators.html">Operators</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/javascript/statements.html">Statements</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/javascript/functions.html">Functions</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/javascript/types.html">Types</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/javascript/classes.html">Classes</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/javascript/interfaces.html">Interfaces</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/javascript/generics.html">Generics</a>
+
+        </div>
+    </div>
+
+
+    <div class="item" title="">
+        <a class="header " href="/Microsoft_MakeCode/docs/types.html">Types</a>
+        <div class="menu">
+            
+    <a class="item " href="/Microsoft_MakeCode/docs/types/number.html">Number</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/types/string.html">String</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/types/boolean.html">Boolean</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/types/array.html">Array</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/types/function.html">Function</a>
+
+        </div>
+    </div>
+
+
+    <div class="item" title="">
+        <a class="header " href=""></a>
+        <div class="menu">
+            
+    <a class="item " href="/Microsoft_MakeCode/docs/support.html">Support</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/faq.html">FAQ</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/translate.html">Translate</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/share.html">Sharing projects</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/offline.html">Offline support</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/streaming.html">Streaming</a>
+
+        </div>
+    </div>
+
+
+    <div class="item" title="">
+        <a class="header " href=""></a>
+        <div class="menu">
+            
+    <a class="item " href="/Microsoft_MakeCode/docs/cli.html">Command Line Interface</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/code.html">Visual Studio Code support</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/raspberry-pi.html">Coding on Raspberry Pi</a>
+
+        </div>
+    </div>
+
+    <a href="/Microsoft_MakeCode/docs/.html" class="header item">
+        Published by Microsoft
+    </a>
+</div>
+
+<div class="ui fixed accent borderless inverted main menu hideprint">
+  <div class="ui container">
+    <a id="togglesidebar" class="launch icon item">
+      <i class="content icon"></i>
+    </a>
+
+    <div class="item">
+        
+    </div>
+    
+    <div class="right menu">
+        <a href="/Microsoft_MakeCode/docs/.html" class="header item">
+            
+        </a>
+    </div>
+  </div>
+</div>
+<!-- end include tocheader.html -->
+
+
+<div class="pusher">
+
+<div class="full height">
+
+    
+<!-- include toc.html -->
+<div class="toc ui accent inverted hideprint">
+    <div class="ui vertical accent inverted sticky menu tocmenu">
+        <a href="/Microsoft_MakeCode/docs/.html" class="header item">
+            
+            &nbsp; &nbsp;
+            Documentation
+        </a>
+        <div class="item">
+            <form id="tocsearch2" method="get" target="_blank" action="https://www.bing.com/search">
+                <div class="ui fluid icon input">
+                    <input type="hidden" name="q1" value="site:http://microsoft.github.io/pxt-sample/" />
+                    <input type="search" name="q" placeholder="Search...">
+                    <i onclick="document.getElementById('tocsearch2').submit();" class="search link icon"></i>
+                </div>
+            </form>
+        </div>
+        <!-- TOC Menu -->
+        
+    <div class="item" title="">
+        <a class="header " href="/Microsoft_MakeCode/docs/blocks.html">Blocks</a>
+        <div class="menu">
+            
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/on-start.html">On Start</a>
+
+
+    <div class="ui inverted accordion item visible" title="">
+        <div class=" title">
+            <i class="dropdown icon"></i>
+            <a class="header" href="/Microsoft_MakeCode/docs/blocks/loops.html">Loops</a>
+        </div>
+        <div class=" content">
+            
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/loops/repeat.html">repeat</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/loops/for.html">for</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/loops/while.html">while</a>
+
+        </div>
+    </div>
+
+
+    <div class="ui inverted accordion item visible" title="">
+        <div class=" title">
+            <i class="dropdown icon"></i>
+            <a class="header" href="/Microsoft_MakeCode/docs/blocks/logic.html">Logic</a>
+        </div>
+        <div class=" content">
+            
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/logic/if.html">if</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/logic/boolean.html">Boolean</a>
+
+        </div>
+    </div>
+
+
+    <div class="ui inverted accordion item visible" title="">
+        <div class=" title">
+            <i class="dropdown icon"></i>
+            <a class="header" href="/Microsoft_MakeCode/docs/blocks/variables.html">Variables</a>
+        </div>
+        <div class=" content">
+            
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/variables/assign.html">assign</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/variables/change.html">change var</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/variables/var.html">var</a>
+
+        </div>
+    </div>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/math.html">Math</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/javascript-blocks.html">JavaScript blocks</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/blocks/custom.html">Custom blocks</a>
+
+        </div>
+    </div>
+
+
+    <div class="item" title="">
+        <a class="header " href="/Microsoft_MakeCode/docs/javascript.html">JavaScript</a>
+        <div class="menu">
+            
+    <a class="item " href="/Microsoft_MakeCode/docs/javascript/call.html">Calling</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/javascript/sequence.html">Sequencing</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/javascript/variables.html">Variables</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/javascript/operators.html">Operators</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/javascript/statements.html">Statements</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/javascript/functions.html">Functions</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/javascript/types.html">Types</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/javascript/classes.html">Classes</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/javascript/interfaces.html">Interfaces</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/javascript/generics.html">Generics</a>
+
+        </div>
+    </div>
+
+
+    <div class="item" title="">
+        <a class="header " href="/Microsoft_MakeCode/docs/types.html">Types</a>
+        <div class="menu">
+            
+    <a class="item " href="/Microsoft_MakeCode/docs/types/number.html">Number</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/types/string.html">String</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/types/boolean.html">Boolean</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/types/array.html">Array</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/types/function.html">Function</a>
+
+        </div>
+    </div>
+
+
+    <div class="item" title="">
+        <a class="header " href=""></a>
+        <div class="menu">
+            
+    <a class="item " href="/Microsoft_MakeCode/docs/support.html">Support</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/faq.html">FAQ</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/translate.html">Translate</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/share.html">Sharing projects</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/offline.html">Offline support</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/streaming.html">Streaming</a>
+
+        </div>
+    </div>
+
+
+    <div class="item" title="">
+        <a class="header " href=""></a>
+        <div class="menu">
+            
+    <a class="item " href="/Microsoft_MakeCode/docs/cli.html">Command Line Interface</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/code.html">Visual Studio Code support</a>
+
+
+    <a class="item " href="/Microsoft_MakeCode/docs/raspberry-pi.html">Coding on Raspberry Pi</a>
+
+        </div>
+    </div>
+
+        <a href="/Microsoft_MakeCode/docs/.html" class="header item">
+            Published by Microsoft
+        </a>
+    </div>
+</div>
+<!-- end include toc.html -->
+
+    
+    <div class="article">
+        
+        
+<!-- include header.html -->
+<div class="ui secondary borderless menu hideprint">
+    <div class="ui item"> 
+        
+    </div>
+</div>
+
+<!-- end include header.html -->
+
+
+        <div id="docs" class="main ui container mainbody">
+            <button id="printbtn" class="circular ui icon right floated button hideprint">
+                <i class="icon print"></i>
+            </button>
+            
+    <div class="ui text">
+        <h1 id="about-sample-target">About Sample Target</h1><p>Example of editor target for <a href="https://makecode.com/">Microsoft MakeCode</a>.</p>
+<p>See <a href="https://github.com/Microsoft/pxt-sample">GitHub repo</a> for details.</p>
+
+    </div>
+
+            <div class="hideprint"></div>
+        </div>
+
+        <div class="hideprint">
+            
+            
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+<!-- include footer.html -->
+<footer class="ui inverted accent vertical footer segment hideprint" role="contentinfo">
+    <div class="ui center aligned container">
+        <div class="ui horizontal inverted small divided link list">
+            <a class="item" href="https://makecode.com/" title="Microsoft MakeCode" target="_blank" rel="noopener">Powered by Microsoft MakeCode</a>
+            <!-- <a class="item" href="https://makecode.com/contact">Contact Us</a> -->
+            <a class="item" href="https://makecode.com/privacy" target="_blank" rel="noopener">Privacy &amp; Cookies</a>
+            <a class="item" href="https://makecode.com/termsofuse" target="_blank" rel="noopener">Terms Of Use</a>
+            <a class="item" href="https://makecode.com/trademarks" target="_blank" rel="noopener">Trademarks</a>
+            <div class="item">© 2017 Microsoft</div>
+            <!-- we need to force the browser to load this font -->
+            <div style='font-family: Icons; color: #010101; opacity: 0;' aria-hidden="true">.</div>
+        </div>
+        <a class="item" href="https://www.microsoft.com/" aria-label="Visit the Microsoft website" target="_blank" rel="noopener">
+            <img class="ui centered image" src="https://az851932.vo.msecnd.net/pub/pmapoirq" alt="Microsoft logo">
+        </a>
+    </div>
+</footer>
+<!-- end include footer.html -->
+
+
+
+<!-- include macros.html -->
+<!-- macro button -->
+
+<!-- macro vimeo -->
+
+<!-- macro youtube -->
+
+<!-- macro section -->
+
+<!-- macro hide -->
+
+<!-- macro avatar -->
+
+<!-- macro hint -->
+
+<!-- wrapped around ordinary content -->
+<!-- macro main-container -->
+
+<!-- used for 'column' box - they are collected and wrapped in 'column-container' -->
+<!-- macro column -->
+<!-- macro column-container -->
+
+
+<!-- Menu on the top of the page -->
+<!-- macro item -->
+
+<!-- macro divider -->
+
+<!-- macro top-dropdown -->
+
+<!-- macro inner-dropdown -->
+
+
+<!-- TOC in the sidebar -->
+<!-- macro item -->
+
+<!-- macro divider -->
+
+<!-- macro top-dropdown -->
+
+<!-- macro inner-dropdown -->
+
+<!-- macro nested-dropdown -->
+
+<!-- end include macros.html -->
+
+
+<!-- include tracking.html -->
+<script type="text/javascript">
+    var appInsights=window.appInsights||function(config){
+        function i(config){t[config]=function(){var i=arguments;t.queue.push(function(){t[config].apply(t,i)})}}var t={config:config},u=document,e=window,o="script",s="AuthenticatedUserContext",h="start",c="stop",l="Track",a=l+"Event",v=l+"Page",y=u.createElement(o),r,f;y.src=config.url||"https://az416426.vo.msecnd.net/scripts/a/ai.0.js";u.getElementsByTagName(o)[0].parentNode.appendChild(y);try{t.cookie=u.cookie}catch(p){}for(t.queue=[],t.version="1.0",r=["Event","Exception","Metric","PageView","Trace","Dependency"];r.length;)i("track"+r.pop());return i("set"+s),i("clear"+s),i(h+a),i(c+a),i(h+v),i(c+v),i("flush"),config.disableExceptionTracking||(r="onerror",i("_"+r),f=e[r],e[r]=function(config,i,u,e,o){var s=f&&f(config,i,u,e,o);return s!==!0&&t["_"+r](config,i,u,e,o),s}),t
+    }({    
+        instrumentationKey:"9801ed01-c40f-46ec-aa40-2a1742a9e71c",
+        disableAjaxTracking: true,
+        overridePageViewDuration: false,
+        disableExceptionTracking: true,
+        isCookieUseDisabled: true,
+        isStorageUseDisabled: true
+    });
+    window.appInsights=appInsights;
+    appInsights.queue.push(function () {
+        appInsights.context.addTelemetryInitializer(function (envelope) {
+            if (typeof pxtConfig === "undefined") return;            
+            var telemetryItem = envelope.data.baseData;
+            telemetryItem.properties = telemetryItem.properties || {};
+            telemetryItem.properties["target"] = pxtConfig.targetId;
+            telemetryItem.properties["version"] = pxtConfig.targetVersion; 
+            telemetryItem.properties["stage"] = (pxtConfig.relprefix || "/--").replace(/[^a-z]/ig, '')
+            if (typeof window !== "undefined" && window.location && /[?&]electron=1/i.test(window.location.href))
+                telemetryItem.properties["electron"] = 1;
+            if (typeof Windows !== "undefined")
+                telemetryItem.properties["WindowsApp"] = 1;
+        });
+    });
+    appInsights.trackPageView(null, null, {urlReferrer: document.referrer});
+</script>
+<!-- end include tracking.html -->
+
+
+</body>
+
+</html>
