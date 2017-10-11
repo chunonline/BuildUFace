@@ -1,23 +1,112 @@
 /// <reference path="../libs/core/enums.d.ts"/>
 
+
+/**
+ * Enum for masks
+ */
+enum maskType {
+    ironman,
+    average,
+    monalisa,
+    sean,
+    skull,
+    andrew,
+    cage
+}
+
+enum numberSelection {
+    one=1,
+    two=2,
+    three=3
+}
+
+
+
 namespace pxsim.faceAR {
+
     /**
      * Draw face outline
      */
     //% weight=90
     //% block
     export function drawFaceOutlineAsync() {
-        return faceDetector().drawFaceOutline();
+        return faceDetector().drawFaceOutlineAsync();
     }
 
+
+
     /**
-     * Add ironman masks to faces
+     * Add masks to faces
      */
     //% weight=90
     //% block
-    export function drawIronManMaskAsync() {
-        return faceDetector().drawIronManMask();
+    export function drawIronmanMasksAsync() {
+        return faceDetector().drawFaceMasksAsync('ironman');
     }
+
+    /**
+     * Add masks to faces
+     */
+    //% weight=90
+    //% block
+    export function drawAudreyMasksAsync() {
+        return faceDetector().drawFaceMasksAsync('audrey');
+    }
+
+    /**
+     * Add masks to faces
+     */
+    //% weight=90
+    //% block
+    export function drawAverageMasksAsync() {
+        return faceDetector().drawFaceMasksAsync('average');
+    }
+
+    /**
+     * Add masks to faces
+     */
+    //% weight=90
+    //% block
+    export function drawNicolasCageMasksAsync() {
+        return faceDetector().drawFaceMasksAsync('cage2');
+    }
+
+    /**
+     * Add masks to faces
+     */
+    //% weight=90
+    //% block
+    export function drawMonaLisaMasksAsync() {
+        return faceDetector().drawFaceMasksAsync('joconde');
+    }
+
+    /**
+     * Add masks to faces
+     */
+    //% weight=90
+    //% block
+    export function drawSeanConneryMasksAsync() {
+        return faceDetector().drawFaceMasksAsync('SeanConnery');
+    }
+
+    /**
+     * Add masks to faces
+     */
+    //% weight=90
+    //% block
+    export function drawSkullMasksAsync() {
+        return faceDetector().drawFaceMasksAsync('skull');
+    }
+
+
+
+
+
+    ////% weight=90
+    ////% blockId=device_show_string
+    ////% block="mmmm %v"
+    //export function showMumber(meow: string): void
+    //{ }
 }
 
 namespace pxsim.loops {
@@ -39,7 +128,7 @@ namespace pxsim.loops {
     //% help=functions/pause weight=54
     //% block="pause (ms) %pause" blockId=device_pause
     export function pauseAsync(ms: number) {
-        return Promise.delay(ms)
+        return Promise.delay(ms);
     }
 }
 
@@ -51,9 +140,9 @@ namespace pxsim.console {
      */
     //% 
     export function log(msg:string) {
-        logMsg("CONSOLE: " + msg)
+        logMsg("CONSOLE: " + msg);
         // why doesn't that work?
-        faceDetector().writeSerial(msg + "\n")
+        faceDetector().writeSerial(msg + "\n");
     }
 }
 
