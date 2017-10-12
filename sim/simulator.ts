@@ -150,12 +150,6 @@ namespace pxsim {
         }
 
         updateView() {
-            // Set clear color to black, fully opaque
-            //this.webGLContext.clearColor(0.0, 0.0, 0.0, 0.0);
-            // Clear the color buffer with specified clear color
-            //this.webGLContext.clear(this.webGLContext.COLOR_BUFFER_BIT);
-            //this.webGLContext.clear(this.webGLContext.DEPTH_BUFFER_BIT | this.webGLContext.COLOR_BUFFER_BIT | this.webGLContext.STENCIL_CLEAR_VALUE);
-            //this.webGLContext.clearRect(0, 0, this.video_width, this.video_height);
             this.clearCanvas();
         }
     }
