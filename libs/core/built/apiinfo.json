@@ -2242,7 +2242,7 @@
     "callingConvention": 0,
     "_source": null,
     "paramHelp": {},
-    "jsDoc": "Enum for masks",
+    "jsDoc": "Enum for MASKS",
     "_name": "maskType"
    },
    "pkg": null,
@@ -2387,45 +2387,45 @@
    "parameters": null,
    "qName": "faceAR"
   },
-  "faceAR.drawFaceOutline": {
+  "faceAR.drawFaceOutlineOnce": {
    "kind": 3,
    "namespace": "faceAR",
-   "name": "drawFaceOutline",
+   "name": "drawFaceOutlineOnce",
    "attributes": {
     "paramDefl": {},
     "callingConvention": 2,
     "_source": null,
     "weight": 90,
-    "block": "draw face outline",
-    "shim": "faceAR::drawFaceOutlineAsync",
+    "block": "draw face outline once",
+    "shim": "faceAR::drawFaceOutlineOnceAsync",
     "promise": "true",
     "paramHelp": {},
     "jsDoc": "Draw face outline",
-    "_name": "drawFaceOutline",
-    "blockId": "faceAR_drawFaceOutline"
+    "_name": "drawFaceOutlineOnce",
+    "blockId": "faceAR_drawFaceOutlineOnce"
    },
    "pkg": null,
    "retType": "void",
    "parameters": [],
-   "snippet": "drawFaceOutline()",
-   "qName": "faceAR.drawFaceOutline"
+   "snippet": "drawFaceOutlineOnce()",
+   "qName": "faceAR.drawFaceOutlineOnce"
   },
-  "faceAR.drawMasks": {
+  "faceAR.drawMasksLoop": {
    "kind": 3,
    "namespace": "faceAR",
-   "name": "drawMasks",
+   "name": "drawMasksLoop",
    "attributes": {
     "paramDefl": {},
     "callingConvention": 2,
     "_source": null,
     "weight": 90,
-    "block": "draw masks|mask %mask",
-    "shim": "faceAR::drawMasksAsync",
+    "block": "draw masks loop|mask %mask",
+    "shim": "faceAR::drawMasksLoopAsync",
     "promise": "true",
     "paramHelp": {},
-    "jsDoc": "Add masks to faces",
-    "_name": "drawMasks",
-    "blockId": "faceAR_drawMasks"
+    "jsDoc": "Add MASKS to faces",
+    "_name": "drawMasksLoop",
+    "blockId": "faceAR_drawMasksLoop"
    },
    "pkg": null,
    "retType": "void",
@@ -2438,8 +2438,31 @@
      "isEnum": true
     }
    ],
-   "snippet": "drawMasks(null)",
-   "qName": "faceAR.drawMasks"
+   "snippet": "drawMasksLoop(null)",
+   "qName": "faceAR.drawMasksLoop"
+  },
+  "faceAR.loadFaceSubstitutionLoop": {
+   "kind": 3,
+   "namespace": "faceAR",
+   "name": "loadFaceSubstitutionLoop",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 2,
+    "_source": null,
+    "weight": 90,
+    "block": "load face substitution loop",
+    "shim": "faceAR::loadFaceSubstitutionLoopAsync",
+    "promise": "true",
+    "paramHelp": {},
+    "jsDoc": "Face substitution",
+    "_name": "loadFaceSubstitutionLoop",
+    "blockId": "faceAR_loadFaceSubstitutionLoop"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [],
+   "snippet": "loadFaceSubstitutionLoop()",
+   "qName": "faceAR.loadFaceSubstitutionLoop"
   },
   "loops": {
    "kind": 5,

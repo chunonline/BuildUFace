@@ -6,7 +6,7 @@ declare const enum Direction {
 }
 
 /**
- * Enum for masks
+ * Enum for MASKS
  */
 declare const enum maskType {
     ironman,

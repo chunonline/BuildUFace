@@ -5,16 +5,24 @@ declare namespace faceAR {
      */
     //% weight=90
     //% block
-    //% shim=faceAR::drawFaceOutlineAsync promise
-    function drawFaceOutline(): void;
+    //% shim=faceAR::drawFaceOutlineOnceAsync promise
+    function drawFaceOutlineOnce(): void;
 
     /**
-     * Add masks to faces
+     * Add MASKS to faces
      */
     //% weight=90
     //% block
-    //% shim=faceAR::drawMasksAsync promise
-    function drawMasks(mask: maskType): void;
+    //% shim=faceAR::drawMasksLoopAsync promise
+    function drawMasksLoop(mask: maskType): void;
+
+    /**
+     * Face substitution
+     */
+    //% weight=90
+    //% block
+    //% shim=faceAR::loadFaceSubstitutionLoopAsync promise
+    function loadFaceSubstitutionLoop(): void;
 
 }
 declare namespace loops {

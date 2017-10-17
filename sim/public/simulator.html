@@ -6,6 +6,9 @@
     <title>sample simulator</title>
     <link rel="stylesheet" type="text/css" href="/sim/sim.css">
     <style>
+        #webgl2 {
+            display : none;
+        }
         #overlay, #webgl {
             position: absolute;
             top: 0px;
@@ -41,17 +44,16 @@
         <canvas id="overlay" width="400" height="300"></canvas>
         <canvas id="webgl" width="400" height="300"></canvas>
     </div>
+    <canvas id="webgl2" width="400" height="300"></canvas>
 
-    <img id="ironman" class="masks" src="./media/ironman.jpg"></img>
-    <img id="average" class="masks" src="./media/average.png"></img>
-    <img id="joconde" class="masks" src="./media/joconde.jpg"></img>
-    <img id="SeanConnery" class="masks" src="./media/SeanConnery.jpg"></img>
-    <img id="skull" class="masks" src="./media/skullmask.jpg"></img>
-    <img id="audrey" class="masks" src="./media/audrey.jpg"></img>
-    <img id="cage2" class="masks" src="./media/cage.jpg"></img>
-    <script>
+    <img id="ironman" class="masks" src="./media/masks/ironman.jpg"></img>
+    <img id="average" class="masks" src="./media/masks/average.png"></img>
+    <img id="joconde" class="masks" src="./media/masks/joconde.jpg"></img>
+    <img id="SeanConnery" class="masks" src="./media/masks/SeanConnery.jpg"></img>
+    <img id="skull" class="masks" src="./media/masks/skullmask.jpg"></img>
+    <img id="audrey" class="masks" src="./media/masks/audrey.jpg"></img>
+    <img id="cage2" class="masks" src="./media/masks/cage.jpg"></img>
 
-    </script>
     <!-- Scripts for Face Tracking -->
     <script src="./js/dat.gui.min.js"></script>
     <script src="./js/utils.js"></script>
@@ -60,9 +62,12 @@
     <script src="./js/model_pca_20_svm.js"></script>
     <script src="./js/Stats.js"></script>
     <script src="./js/face_deformer.js"></script>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/poisson_new.js"></script>
 
     <!-- Scripts for Simulator -->
     <script src="/cdn/bluebird.min.js"></script>
     <script src="/cdn/pxtsim.js"></script>
     <script src="/sim/sim.js"></script>
+
 </body>

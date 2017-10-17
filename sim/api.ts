@@ -11,17 +11,17 @@ namespace pxsim.faceAR {
      */
     //% weight=90
     //% block
-    export function drawFaceOutlineAsync() {
+    export function drawFaceOutlineOnceAsync() {
         return faceDetector().drawFaceOutlineAsync();
     }
 
 
     /**
-     * Add masks to faces
+     * Add MASKS to faces
      */
     //% weight=90
     //% block
-    export function drawMasksAsync(mask: maskType) {
+    export function drawMasksLoopAsync(mask: maskType) {
         switch (mask) {
             case maskType.ironman:
                 return faceDetector().drawFaceMasksAsync('ironman');
@@ -47,6 +47,15 @@ namespace pxsim.faceAR {
             default:
                 return Promise.delay(100);
         }
+    }
+
+    /**
+     * Face substitution
+     */
+    //% weight=90
+    //% block
+    export function loadFaceSubstitutionLoopAsync() {
+        return faceDetector().loadFaceSubstitution();
     }
 }
 
