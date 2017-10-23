@@ -51,23 +51,3 @@ More instructions at https://github.com/Microsoft/pxt#running-a-target-from-loca
 		Emotion detection
 		Caricature
 
-
-*	Microsoft Cognitive and AI
-	https://docs.microsoft.com/en-us/azure/#pivot=products&panel=cognitive
-
-		Face verification / Face identification
-		Face detection (multiple detections in one image)
-		Face grouping (Organize many unidentified faces together into groups, based on their visual similarity)
-		Similar Face Search
-
-*	Microsoft AR
-	https://github.com/Microsoft/pxt-ar
-
-
-*	FaceRecognition in ARKit
-	https://github.com/NovaTecConsulting/FaceRecognition-in-ARKit
-
-		Vision-API and runs the extracted face through a CoreML-model to identiy the specific persons.
-
-* 	Possible: Speech API
-	https://azure.microsoft.com/en-us/services/cognitive-services/directory/speech/
