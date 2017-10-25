@@ -17,3 +17,26 @@ declare const enum maskType {
     audrey,
     nicolas_cage
 }
+
+
+/**
+ * Enum for Face substitution
+ */
+declare const enum faceSubType {
+    average,
+    terminator,
+    walter,
+    clooney,
+    bieber,
+    kim,
+    rihanna,
+    audrey,
+    bill,
+    connery,
+    cage,
+    queen,
+    obama,
+    chuck,
+    monalisa,
+    scream
+}

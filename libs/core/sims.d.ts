@@ -21,8 +21,8 @@ declare namespace faceAR {
      */
     //% weight=90
     //% block
-    //% shim=faceAR::loadFaceSubstitutionLoopAsync promise
-    function loadFaceSubstitutionLoop(): void;
+    //% shim=faceAR::faceSubstitutionLoopAsync promise
+    function faceSubstitutionLoop(face: faceSubType): void;
 
 }
 declare namespace loops {

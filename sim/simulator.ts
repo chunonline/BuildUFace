@@ -71,30 +71,24 @@ let faceSubImageCanvases: any = {};
 function loadFaceSubMask(index: number) {
     let mask = new Image();
     mask.onload = function(obj: any){
-        //var elementId = SUBSTITUTION_IMAGES[index].id;
-        var elementId = 'sub-terminator';
+        var elementId = SUBSTITUTION_IMAGES[index].id;
+        //var elementId = 'sub-average';
 
         // copy the images to canvases
-        // let childSubImage: any = document.getElementById('sub-average');
         let childSubImage: any = document.createElement('CANVAS');
         childSubImage.width = obj.target.width;
         childSubImage.height = obj.target.height;
         childSubImage.getContext('2d').drawImage(obj.target,0,0);
         faceSubImageCanvases[elementId] = childSubImage;
-        //this.faceSubImageCount += 1;
-//                if ( this.faceSubImageCount == SUBSTITUTION_IMAGES.length) {
-//                    this.faceSubImageReady = true;
-//                }
     };
     mask.src = SUBSTITUTION_IMAGES[index].path;
 }
 
 // This function loads whole masks media library
 function loadFaceSubMasksLibrary() {
-    //for (var i = 0; i < SUBSTITUTION_IMAGES.length; i++) {
-    //    this.loadFaceSubMask(i);
-    //}
-    loadFaceSubMask(0);
+    for (var i = 0; i < SUBSTITUTION_IMAGES.length; i++) {
+        loadFaceSubMask(i);
+    }
 }
 
 loadFaceSubMasksLibrary();
@@ -117,7 +111,7 @@ namespace pxsim {
      * This function gets called each time the program restarts
      */
     initCurrentRuntime = () => {
-        runtime.board = new FaceDetector(VIDEO, OVERLAY, WEBGL, CLM, CLM_TRACKR);
+        runtime.board = new FaceDetector(VIDEO, OVERLAY, WEBGL, WEBGL_2, CLM, CLM_TRACKR);
     };
 
     /**
@@ -138,15 +132,15 @@ namespace pxsim {
         public overlay: any;
         public overlayCC: any;
         public webGL: any;
+        public webGL2: any;
         public webGLContext: any;
+        public webGLContext2: any;
         public clm: any;
         public clmtrackr: any;
-        public faceSubImageCount: number;
-        public faceSubImageReady: boolean;
-        public curFaceSubMask: number;
+        public curFaceSubMask: string;
         public mask: string;
 
-        constructor(video: any, overlay: any, webgl: any, clm: any, clmtrackr: any) {
+        constructor(video: any, overlay: any, webgl: any, webgl2: any, clm: any, clmtrackr: any) {
             super();
             this.video = video;
             this.video_width = vid_width;
@@ -154,18 +148,21 @@ namespace pxsim {
             this.overlay = overlay;
             this.overlayCC = <any>this.overlay.getContext('2d');
             this.webGL = webgl;
+            this.webGL2 = webgl2;
             this.webGLContext = this.webGL.getContext('webgl');
+            this.webGLContext2 = this.webGL2.getContext('webgl');
             this.clm = <any>clm;
             this.clmtrackr =  clmtrackr;
-            this.faceSubImageCount = 0;
-            this.faceSubImageReady = false;
-            this.curFaceSubMask = 0;
         }
 
         clearCanvas() {
             this.overlayCC.clearRect(0, 0, this.video_width, this.video_height);
+
             this.webGLContext.clearColor(0.0, 0.0, 0.0, 0.0);
             this.webGLContext.clear(this.webGLContext.COLOR_BUFFER_BIT);
+
+            this.webGLContext2.clearColor(0.0, 0.0, 0.0, 0.0);
+            this.webGLContext2.clear(this.webGLContext2.COLOR_BUFFER_BIT);
         }
 
         // This function draws face outline
@@ -193,7 +190,7 @@ namespace pxsim {
             }
 
             let pn = this.clmtrackr.getConvergence();
-            if (pn < 0.4) {
+            if (pn < 0.6) {
                 this.masksSwitchMasks(this.mask);
                 requestAnimationFrame(this.masksDrawMaskLoop.bind(this));
             } else {
@@ -217,13 +214,10 @@ namespace pxsim {
         }
 
         // This function load face substitution
-        loadFaceSubstitution() {
-            //this.clearCanvas();
-            //var positions = this.clmtrackr.getCurrentPosition();
-            //if (positions) {
-            //    this.clmtrackr.draw(this.overlay);
-            //    this.renderFaceSubstitution(positions);
-            //}
+        loadFaceSubstitution(face: string) {
+            this.curFaceSubMask = face;
+
+            this.clearCanvas();
             this.subDrawGridLoop();
             return Promise.resolve();
         }
@@ -250,8 +244,8 @@ namespace pxsim {
             VIDEO_CANVAS.getContext('2d').drawImage(this.video,0,0, VIDEO_CANVAS.width, VIDEO_CANVAS.height);
 
             // we need to extend the positions with new estimated points in order to get pixels immediately outside mask
-            // var newMaskPos = SUBSTITUTION_ANCHORPOINTS[images[currentMask].id].slice(0);
-            var newMaskPos = SUBSTITUTION_ANCHORPOINTS['sub-terminator'].slice(0);
+            var newMaskPos = SUBSTITUTION_ANCHORPOINTS[this.curFaceSubMask].slice(0);
+            //var newMaskPos = SUBSTITUTION_ANCHORPOINTS['sub-average'].slice(0);
             var newFacePos = pos.slice(0);
             var extInd = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,22,21,20,19];
             var newp: any;
@@ -269,7 +263,7 @@ namespace pxsim {
             var newVertices = pModel.path.vertices.concat(FACE_SUB_EXTENDED_VERTICES);
 
             // deform the mask we want to use to face form
-            FACE_DEFORMER_2.load(faceSubImageCanvases['sub-terminator'], newMaskPos, pModel, newVertices);
+            FACE_DEFORMER_2.load(faceSubImageCanvases[this.curFaceSubMask], newMaskPos, pModel, newVertices);
             FACE_DEFORMER_2.draw(newFacePos);
             // and copy onto new canvas
             NEW_CANVAS.getContext('2d').drawImage(document.getElementById('webgl2'),0,0);

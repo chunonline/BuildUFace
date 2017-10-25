@@ -2369,6 +2369,295 @@
    "parameters": null,
    "qName": "maskType.nicolas_cage"
   },
+  "faceSubType": {
+   "kind": 6,
+   "namespace": "",
+   "name": "faceSubType",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "Enum for Face substitution",
+    "_name": "faceSubType"
+   },
+   "pkg": null,
+   "retType": "faceSubType",
+   "parameters": null,
+   "qName": "faceSubType"
+  },
+  "faceSubType.average": {
+   "kind": 7,
+   "namespace": "faceSubType",
+   "name": "average",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "average"
+   },
+   "pkg": null,
+   "retType": "faceSubType",
+   "parameters": null,
+   "qName": "faceSubType.average"
+  },
+  "faceSubType.terminator": {
+   "kind": 7,
+   "namespace": "faceSubType",
+   "name": "terminator",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "terminator"
+   },
+   "pkg": null,
+   "retType": "faceSubType",
+   "parameters": null,
+   "qName": "faceSubType.terminator"
+  },
+  "faceSubType.walter": {
+   "kind": 7,
+   "namespace": "faceSubType",
+   "name": "walter",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "walter"
+   },
+   "pkg": null,
+   "retType": "faceSubType",
+   "parameters": null,
+   "qName": "faceSubType.walter"
+  },
+  "faceSubType.clooney": {
+   "kind": 7,
+   "namespace": "faceSubType",
+   "name": "clooney",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "clooney"
+   },
+   "pkg": null,
+   "retType": "faceSubType",
+   "parameters": null,
+   "qName": "faceSubType.clooney"
+  },
+  "faceSubType.bieber": {
+   "kind": 7,
+   "namespace": "faceSubType",
+   "name": "bieber",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "bieber"
+   },
+   "pkg": null,
+   "retType": "faceSubType",
+   "parameters": null,
+   "qName": "faceSubType.bieber"
+  },
+  "faceSubType.kim": {
+   "kind": 7,
+   "namespace": "faceSubType",
+   "name": "kim",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "kim"
+   },
+   "pkg": null,
+   "retType": "faceSubType",
+   "parameters": null,
+   "qName": "faceSubType.kim"
+  },
+  "faceSubType.rihanna": {
+   "kind": 7,
+   "namespace": "faceSubType",
+   "name": "rihanna",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "rihanna"
+   },
+   "pkg": null,
+   "retType": "faceSubType",
+   "parameters": null,
+   "qName": "faceSubType.rihanna"
+  },
+  "faceSubType.audrey": {
+   "kind": 7,
+   "namespace": "faceSubType",
+   "name": "audrey",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "audrey"
+   },
+   "pkg": null,
+   "retType": "faceSubType",
+   "parameters": null,
+   "qName": "faceSubType.audrey"
+  },
+  "faceSubType.bill": {
+   "kind": 7,
+   "namespace": "faceSubType",
+   "name": "bill",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "bill"
+   },
+   "pkg": null,
+   "retType": "faceSubType",
+   "parameters": null,
+   "qName": "faceSubType.bill"
+  },
+  "faceSubType.connery": {
+   "kind": 7,
+   "namespace": "faceSubType",
+   "name": "connery",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "connery"
+   },
+   "pkg": null,
+   "retType": "faceSubType",
+   "parameters": null,
+   "qName": "faceSubType.connery"
+  },
+  "faceSubType.cage": {
+   "kind": 7,
+   "namespace": "faceSubType",
+   "name": "cage",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "cage"
+   },
+   "pkg": null,
+   "retType": "faceSubType",
+   "parameters": null,
+   "qName": "faceSubType.cage"
+  },
+  "faceSubType.queen": {
+   "kind": 7,
+   "namespace": "faceSubType",
+   "name": "queen",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "queen"
+   },
+   "pkg": null,
+   "retType": "faceSubType",
+   "parameters": null,
+   "qName": "faceSubType.queen"
+  },
+  "faceSubType.obama": {
+   "kind": 7,
+   "namespace": "faceSubType",
+   "name": "obama",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "obama"
+   },
+   "pkg": null,
+   "retType": "faceSubType",
+   "parameters": null,
+   "qName": "faceSubType.obama"
+  },
+  "faceSubType.chuck": {
+   "kind": 7,
+   "namespace": "faceSubType",
+   "name": "chuck",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "chuck"
+   },
+   "pkg": null,
+   "retType": "faceSubType",
+   "parameters": null,
+   "qName": "faceSubType.chuck"
+  },
+  "faceSubType.monalisa": {
+   "kind": 7,
+   "namespace": "faceSubType",
+   "name": "monalisa",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "monalisa"
+   },
+   "pkg": null,
+   "retType": "faceSubType",
+   "parameters": null,
+   "qName": "faceSubType.monalisa"
+  },
+  "faceSubType.scream": {
+   "kind": 7,
+   "namespace": "faceSubType",
+   "name": "scream",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "scream"
+   },
+   "pkg": null,
+   "retType": "faceSubType",
+   "parameters": null,
+   "qName": "faceSubType.scream"
+  },
   "faceAR": {
    "kind": 5,
    "namespace": "",
@@ -2441,28 +2730,36 @@
    "snippet": "drawMasksLoop(null)",
    "qName": "faceAR.drawMasksLoop"
   },
-  "faceAR.loadFaceSubstitutionLoop": {
+  "faceAR.faceSubstitutionLoop": {
    "kind": 3,
    "namespace": "faceAR",
-   "name": "loadFaceSubstitutionLoop",
+   "name": "faceSubstitutionLoop",
    "attributes": {
     "paramDefl": {},
     "callingConvention": 2,
     "_source": null,
     "weight": 90,
-    "block": "load face substitution loop",
-    "shim": "faceAR::loadFaceSubstitutionLoopAsync",
+    "block": "face substitution loop|face %face",
+    "shim": "faceAR::faceSubstitutionLoopAsync",
     "promise": "true",
     "paramHelp": {},
     "jsDoc": "Face substitution",
-    "_name": "loadFaceSubstitutionLoop",
-    "blockId": "faceAR_loadFaceSubstitutionLoop"
+    "_name": "faceSubstitutionLoop",
+    "blockId": "faceAR_faceSubstitutionLoop"
    },
    "pkg": null,
    "retType": "void",
-   "parameters": [],
-   "snippet": "loadFaceSubstitutionLoop()",
-   "qName": "faceAR.loadFaceSubstitutionLoop"
+   "parameters": [
+    {
+     "name": "face",
+     "description": "",
+     "type": "faceSubType",
+     "options": {},
+     "isEnum": true
+    }
+   ],
+   "snippet": "faceSubstitutionLoop(null)",
+   "qName": "faceAR.faceSubstitutionLoop"
   },
   "loops": {
    "kind": 5,

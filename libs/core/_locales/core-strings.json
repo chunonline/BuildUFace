@@ -22,7 +22,7 @@
   "console|block": "console",
   "faceAR.drawFaceOutlineOnce|block": "draw face outline once",
   "faceAR.drawMasksLoop|block": "draw masks loop|mask %mask",
-  "faceAR.loadFaceSubstitutionLoop|block": "load face substitution loop",
+  "faceAR.faceSubstitutionLoop|block": "face substitution loop|face %face",
   "faceAR|block": "faceAR",
   "loops.forever|block": "forever",
   "loops.pause|block": "pause (ms) %pause",
