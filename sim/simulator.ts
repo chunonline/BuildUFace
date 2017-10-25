@@ -281,8 +281,6 @@ namespace pxsim {
                 var result = Poisson.blend(30, 0, 0);
                 // render to canvas
                 NEW_CANVAS.getContext('2d').putImageData(result, 0, 0);
-                // get mask
-
                 FACE_DEFORMER.load(NEW_CANVAS, pos, pModel);
                 requestAnimationFrame(this.subDrawMaskLoop.bind(this));
             }.bind(this));
