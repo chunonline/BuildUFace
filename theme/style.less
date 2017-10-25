@@ -15,77 +15,76 @@
 /* Roboto font */
 @RobotoFont: data-uri("../docs/static/fonts/Roboto_400_normal.woff");
 
-@font-face  {
+@font-face {
     font-family: 'Roboto';
     src: @RobotoFont format("woff");
 
 
-.ui.item.logo .name {
-    font-size: 20px;
-    font-family: @headerFont;
-    font-weight: 400;
-    color: white;
-    text-transform: uppercase;
-    margin-left: 1rem;
-}
+    .ui.item.logo .name {
+        font-size: 20px;
+        font-family: @headerFont;
+        font-weight: 400;
+        color: white;
+        text-transform: uppercase;
+        margin-left: 1rem;
+    }
 
-.ui.button.download-button {
-    &:extend(.ui.purple.button all);
-}
+    .ui.button.download-button {
+        &:extend(.ui.purple.button all);
+    }
 
-.ui.button.download-button:hover {
-    background-color: #00ED00;
-    color: black !important;
-}
+    .ui.button.download-button:hover {
+        background-color: #00ED00;
+        color: black !important;
+    }
 
-.ui.button.play-button.play-button-full {
-    &:extend(.ui.inverted.button all);
-}
+    .ui.button.play-button.play-button-full {
+        &:extend(.ui.inverted.button all);
+    }
 
-.ui.button.getting-started-btn {
-    &:extend(.ui.orange.button all);
-}
+    .ui.button.getting-started-btn {
+        &:extend(.ui.orange.button all);
+    }
 
-.ui.button.editortools-btn {
-    &:extend(.ui.blue.button all);
-}
+    .ui.button.editortools-btn {
+        &:extend(.ui.blue.button all);
+    }
 
-.ui.button.exit-tutorial-btn {
-    &:extend(.ui.blue.button all);
-}
+    .ui.button.exit-tutorial-btn {
+        &:extend(.ui.blue.button all);
+    }
 
-#filelist, #editortools {
-    background: #fff url(https://az742082.vo.msecnd.net/pub/psopafpj) 0 0 repeat !important;
-}
+    #filelist, #editortools {
+        background: #fff url(https://az742082.vo.msecnd.net/pub/psopafpj) 0 0 repeat !important;
+    }
 
-#downloadArea {
-    background: transparent !important;
-}
-
-.organization {
-    top: 1.6em;
-}
-
-
-
-/* Mobile */
-@media only screen and (max-width: @largestMobileScreen) {
-    #filelist {
+    #downloadArea {
         background: transparent !important;
     }
-}
 
-/* Tablet */
-@media only screen and (min-width: @tabletBreakpoint) and (max-width: @largestTabletScreen) {
-    #filelist {
-        background: transparent !important;
+    .organization {
+        top: 1.6em;
     }
-}
 
-/* Small Monitor */
-@media only screen and (min-width: @computerBreakpoint) and (max-width: @largestSmallMonitor) {
-}
+    /* Mobile */
+    @media only screen and (max-width: @largestMobileScreen) {
+        #filelist {
+            background: transparent !important;
+        }
+    }
 
-/* Large Monitor */
-@media only screen and (min-width: @largeMonitorBreakpoint) {
+    /* Tablet */
+    @media only screen and (min-width: @tabletBreakpoint) and (max-width: @largestTabletScreen) {
+        #filelist {
+            background: transparent !important;
+        }
+    }
+
+    /* Small Monitor */
+    @media only screen and (min-width: @computerBreakpoint) and (max-width: @largestSmallMonitor) {
+    }
+
+    /* Large Monitor */
+    @media only screen and (min-width: @largeMonitorBreakpoint) {
+    }
 }
