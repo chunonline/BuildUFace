@@ -31,6 +31,6 @@
     "semantic-ui-less": "^2.2.4"
   },
   "dependencies": {
-    "pxt-core": "2.0.31"
+    "pxt-core": "https://github.com/Microsoft/pxt/archive/v2.3.7.tar.gz"
   }
 }
