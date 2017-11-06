@@ -23,6 +23,8 @@
   "faceAR.drawFaceOutlineOnce|block": "draw face outline once",
   "faceAR.drawMasksLoop|block": "draw masks loop|mask %mask",
   "faceAR.faceSubstitutionLoop|block": "face substitution loop|face %face",
+  "faceAR.innerTest|block": "inner",
+  "faceAR.meowTest|block": "meow test %param",
   "faceAR|block": "faceAR",
   "loops.forever|block": "forever",
   "loops.pause|block": "pause (ms) %pause",

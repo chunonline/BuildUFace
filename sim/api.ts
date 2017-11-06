@@ -11,6 +11,34 @@ namespace pxsim.faceAR {
         return faceDetector().drawFaceOutlineAsync();
     }
 
+    /**
+     * Test on
+     */
+    //% block="meow test %param" blockId=meow_test
+    //% blockGap=8 weight=54
+
+    export function meowTest(input: number, meow?: () => void,  meow2?: () => void) {
+        //console.log("I'm In!");
+        //body();
+        console.log("===== this is meow1");
+        if (meow) {
+            console.log(meow);
+        }
+        console.log("===== this is meow2");
+        if (meow2) {
+            console.log(meow2);
+        }
+    }
+
+    /**
+     * Test In
+     */
+    //% block="inner" blockId=inner
+    //% weight=90
+    export function innerTest() {
+        console.log("Inner");
+        //return Promise.delay(100);
+    }
 
     /**
      * Add MASKS to faces

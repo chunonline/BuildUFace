@@ -9,6 +9,22 @@ declare namespace faceAR {
     function drawFaceOutlineOnce(): void;
 
     /**
+     * Test on
+     */
+    //% block="meow test %param" blockId=meow_test
+    //% blockGap=8 weight=54
+    //% shim=faceAR::meowTest
+    function meowTest(input: number, meow?: () => void, meow2?: () => void): void;
+
+    /**
+     * Test In
+     */
+    //% block="inner" blockId=inner
+    //% weight=90
+    //% shim=faceAR::innerTest
+    function innerTest(): void;
+
+    /**
      * Add MASKS to faces
      */
     //% weight=90
