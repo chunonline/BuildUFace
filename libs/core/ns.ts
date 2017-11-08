@@ -13,3 +13,9 @@ namespace turtle {
 namespace control {
 
 }
+
+loops.forever(() => {
+    clearCanvas()
+    draw face etc...
+    detectSentiment()
+})

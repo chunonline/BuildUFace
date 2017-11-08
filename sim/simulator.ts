@@ -147,7 +147,8 @@ namespace pxsim {
         private convergenceRatio: number = 0.6;
         private shouldContinueMask:boolean = false;
         private animationFrame:any;
-
+        private bus: pxsim.EventBus;
+        
         constructor(video: any, overlay: any, webgl: any, webgl2: any, clmtrackr: any) {
             super();
             this.video = video;
@@ -160,6 +161,7 @@ namespace pxsim {
             this.webGLContext = this.webGL.getContext('webgl');
             this.webGLContext2 = this.webGL2.getContext('webgl');
             this.clmtrackr =  clmtrackr;
+            this.bus = new pxsim.EventBus(runtime);
         }
 
         clearCanvas() {
