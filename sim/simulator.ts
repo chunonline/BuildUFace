@@ -256,7 +256,6 @@ namespace pxsim {
             // get position of face
             let positions = this.clmtrackr.getCurrentPosition();
 
-            //this.overlayCC.clearRect(0, 0, VID_WIDTH, VID_HEIGHT);
             if (positions) {
                 // draw mask on top of face
                 FACE_DEFORMER.draw(positions);
