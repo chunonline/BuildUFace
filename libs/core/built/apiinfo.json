@@ -2233,6 +2233,59 @@
    "parameters": null,
    "qName": "Direction.Right"
   },
+  "Sentiment": {
+   "kind": 6,
+   "namespace": "",
+   "name": "Sentiment",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Sentiment"
+   },
+   "pkg": null,
+   "retType": "Sentiment",
+   "parameters": null,
+   "qName": "Sentiment"
+  },
+  "Sentiment.Happy": {
+   "kind": 7,
+   "namespace": "Sentiment",
+   "name": "Happy",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "happy",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Happy"
+   },
+   "pkg": null,
+   "retType": "Sentiment",
+   "parameters": null,
+   "qName": "Sentiment.Happy"
+  },
+  "Sentiment.Sad": {
+   "kind": 7,
+   "namespace": "Sentiment",
+   "name": "Sad",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "sad",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Sad"
+   },
+   "pkg": null,
+   "retType": "Sentiment",
+   "parameters": null,
+   "qName": "Sentiment.Sad"
+  },
   "maskType": {
    "kind": 6,
    "namespace": "",
@@ -2819,15 +2872,54 @@
     "paramDefl": {},
     "callingConvention": 0,
     "_source": null,
+    "weight": 100,
+    "color": "#636363",
+    "icon": "",
     "paramHelp": {},
-    "jsDoc": "",
-    "_name": "faceAR",
+    "jsDoc": "The Face apis",
     "block": "faceAR"
    },
    "pkg": null,
    "retType": "",
    "parameters": null,
    "qName": "faceAR"
+  },
+  "faceAR.onSentiment": {
+   "kind": 3,
+   "namespace": "faceAR",
+   "name": "onSentiment",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "weight": 100,
+    "blockId": "onsentiment",
+    "block": "on sentiment %sentiment",
+    "shim": "faceAR::onSentiment",
+    "paramHelp": {},
+    "jsDoc": "* \r     * @param sentiment bla \r     * @param handler",
+    "_name": "onSentiment"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [
+    {
+     "name": "sentiment",
+     "description": "",
+     "type": "Sentiment",
+     "options": {},
+     "isEnum": true
+    },
+    {
+     "name": "handler",
+     "description": "",
+     "type": "() => void",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "onSentiment(null, function () {})",
+   "qName": "faceAR.onSentiment"
   },
   "faceAR.drawFaceOutline": {
    "kind": 3,
@@ -2838,12 +2930,12 @@
     "callingConvention": 2,
     "_source": null,
     "weight": 90,
-    "block": "Draw Face Outline",
+    "block": "draw face outline",
     "blockId": "face_outline",
     "shim": "faceAR::drawFaceOutlineAsync",
     "promise": "true",
     "paramHelp": {},
-    "jsDoc": "Draw face outline",
+    "jsDoc": "* Draw face outline",
     "_name": "drawFaceOutline"
    },
    "pkg": null,
@@ -2910,7 +3002,7 @@
     "shim": "faceAR::drawFaceDeformationAsync",
     "promise": "true",
     "paramHelp": {},
-    "jsDoc": "Draw deformation",
+    "jsDoc": "* Draw deformation",
     "_name": "drawFaceDeformation"
    },
    "pkg": null,
@@ -2941,7 +3033,7 @@
     "shim": "faceAR::drawMasksAsync",
     "promise": "true",
     "paramHelp": {},
-    "jsDoc": "Add MASKS to faces",
+    "jsDoc": "* Add MASKS to faces",
     "_name": "drawMasks"
    },
    "pkg": null,
@@ -2972,7 +3064,7 @@
     "shim": "faceAR::faceSubstitutionLoopAsync",
     "promise": "true",
     "paramHelp": {},
-    "jsDoc": "Face substitution",
+    "jsDoc": "* Face substitution",
     "_name": "faceSubstitutionLoop"
    },
    "pkg": null,
@@ -3021,10 +3113,8 @@
     "blockId": "device_forever",
     "block": "forever",
     "shim": "loops::forever",
-    "paramHelp": {
-     "body": "the code to repeat"
-    },
-    "jsDoc": "Repeats the code forever in the background. On each iteration, allows other code to run.",
+    "paramHelp": {},
+    "jsDoc": "* Repeats the code forever in the background. On each iteration, allows other code to run.\r     * @param body the code to repeat",
     "_name": "forever"
    },
    "pkg": null,
@@ -3032,7 +3122,7 @@
    "parameters": [
     {
      "name": "body",
-     "description": "the code to repeat",
+     "description": "",
      "type": "() => void",
      "options": {},
      "isEnum": false
@@ -3046,9 +3136,7 @@
    "namespace": "loops",
    "name": "pause",
    "attributes": {
-    "paramDefl": {
-     "ms": "100"
-    },
+    "paramDefl": {},
     "callingConvention": 2,
     "_source": null,
     "help": "functions/pause",
@@ -3057,10 +3145,8 @@
     "blockId": "device_pause",
     "shim": "loops::pauseAsync",
     "promise": "true",
-    "paramHelp": {
-     "ms": "how long to pause for, eg: 100, 200, 500, 1000, 2000"
-    },
-    "jsDoc": "Pause for the specified time in milliseconds",
+    "paramHelp": {},
+    "jsDoc": "* Pause for the specified time in milliseconds\r     * @param ms how long to pause for, eg: 100, 200, 500, 1000, 2000",
     "_name": "pause"
    },
    "pkg": null,
@@ -3068,15 +3154,13 @@
    "parameters": [
     {
      "name": "ms",
-     "description": "how long to pause for, eg: 100, 200, 500, 1000, 2000",
+     "description": "",
      "type": "number",
-     "initializer": "100",
-     "default": "100",
      "options": {},
      "isEnum": false
     }
    ],
-   "snippet": "pause(100)",
+   "snippet": "pause(0)",
    "qName": "loops.pause"
   },
   "console": {
@@ -3107,7 +3191,7 @@
     "_source": null,
     "shim": "console::log",
     "paramHelp": {},
-    "jsDoc": "Print out message",
+    "jsDoc": "* Print out message",
     "_name": "log"
    },
    "pkg": null,
@@ -3123,25 +3207,6 @@
    ],
    "snippet": "log(\"\")",
    "qName": "console.log"
-  },
-  "turtle": {
-   "kind": 5,
-   "namespace": "",
-   "name": "turtle",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 0,
-    "_source": null,
-    "color": "#00BCD4",
-    "weight": 100,
-    "paramHelp": {},
-    "jsDoc": "Basic functionalities.",
-    "_name": "turtle"
-   },
-   "pkg": null,
-   "retType": "",
-   "parameters": null,
-   "qName": "turtle"
   },
   "control": {
    "kind": 5,

@@ -5,6 +5,14 @@ declare const enum Direction {
     Right
 }
 
+
+declare const enum Sentiment {
+    //% block=happy
+    Happy,
+    //% block=sad
+    Sad
+}
+
 /**
  * Enum for MASKS
  */

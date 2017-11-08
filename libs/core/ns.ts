@@ -1,8 +1,9 @@
 /**
- * Basic functionalities.
+ * The Face apis
  */
-//% color=#00BCD4 weight=100
-namespace turtle {
+//% weight=100
+//% color=#636363 icon="\uf2bd"
+namespace faceAR {
 
 }
 
@@ -13,9 +14,3 @@ namespace turtle {
 namespace control {
 
 }
-
-loops.forever(() => {
-    clearCanvas()
-    draw face etc...
-    detectSentiment()
-})

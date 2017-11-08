@@ -1,12 +1,4 @@
 /// <reference path="../libs/core/enums.d.ts"/>
-
-enum Sentiment {
-    //% block=happy
-    Happy,
-    //% block=sad
-    Sad
-}
-
 namespace pxsim.faceAR {
 
     /**
@@ -14,24 +6,25 @@ namespace pxsim.faceAR {
      * @param sentiment bla 
      * @param handler 
      */
-    //% blockId=onsentiment block="on %sentiment"
-    export function onSentiment(sentiment: Sentiment, handler: () => void) {
+    //% weight=100
+    //% blockId=onsentiment block="on sentiment %sentiment"
+    export function onSentiment(sentiment: Sentiment, handler: RefAction) {
         faceDetector().bus.listen("sentiment", sentiment, handler);
     }
 
-    let lastSentiment: Sentiment;
+    //let lastSentiment: Sentiment;
     export function detectSentiment() {
-        let sentiment= currentSentiment();
-        if(lastSentiment != sentiment) {
-            faceDetector().bus.raise("sentiment", mapSentiment(sentiment), handler);
-        }
+      //  let sentiment= currentSentiment();
+        //if(lastSentiment != sentiment) {
+            faceDetector().bus.queue("sentiment", Sentiment.Happy);
+       // }
     }
 
     /**
      * Draw face outline
      */
     //% weight=90
-    //% block="Draw Face Outline" blockId="face_outline"
+    //% block="draw face outline" blockId="face_outline"
     export function drawFaceOutlineAsync() {
         return faceDetector().drawFaceOutlineAsync();
     }
