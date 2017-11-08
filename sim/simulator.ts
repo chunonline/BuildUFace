@@ -145,6 +145,8 @@ namespace pxsim {
         public mask: string;
         public deform_parameters: number[];
         private convergenceRatio: number = 0.6;
+        private shouldContinueMask:boolean = false;
+        private animationFrame:any;
 
         constructor(video: any, overlay: any, webgl: any, webgl2: any, clmtrackr: any) {
             super();
@@ -172,7 +174,7 @@ namespace pxsim {
 
         // This function draws face outline
         drawFaceOutlineAsync() {
-            this.clearCanvas();
+            //this.clearCanvas();
             if (this.clmtrackr.getCurrentPosition()) {
                 this.clmtrackr.draw(this.overlay);
             }
@@ -182,75 +184,33 @@ namespace pxsim {
         // This function draws a Mask
         drawFaceMasksAsync(mask: string) {
             this.mask = mask;
-            this.masksDrawGridLoop();
-            return Promise.delay(100);
-        }
 
-        masksDrawGridLoop() {
+            // get current mask
+            FACE_DEFORMER.load(document.getElementById(this.mask), MASKS[this.mask], P_MODEL);
+
             let positions = this.clmtrackr.getCurrentPosition();
-            this.overlayCC.clearRect(0, 0, this.video_width, this.video_height);
-            if (positions) {
-                // draw current grid
-                this.clmtrackr.draw(this.overlay);
-            }
-
-            let pn = this.clmtrackr.getConvergence();
-            if (pn < this.convergenceRatio) {
-                this.masksSwitchMasks(this.mask);
-                requestAnimationFrame(this.masksDrawMaskLoop.bind(this));
-            } else {
-                requestAnimationFrame(this.masksDrawGridLoop.bind(this));
-            }
-        }
-
-        masksDrawMaskLoop() {
-            // get position of face
-            let positions = this.clmtrackr.getCurrentPosition();
-            this.overlayCC.clearRect(0, 0, VID_WIDTH, VID_HEIGHT);
             if (positions) {
                 // draw mask on top of face
                 FACE_DEFORMER.draw(positions);
             }
-            requestAnimationFrame(this.masksDrawMaskLoop.bind(this));
-        }
-
-        masksSwitchMasks(mask: string) {
-            FACE_DEFORMER.load(document.getElementById(mask), MASKS[mask], P_MODEL);
+            return Promise.delay(100);
         }
 
         // This function load face substitution
-        loadFaceSubstitution(face: string) {
+        drawFaceSubstitutionAsync(face: string) {
             this.curFaceSubMask = face;
 
-            this.clearCanvas();
-            this.subDrawGridLoop();
+            let positions = this.clmtrackr.getCurrentPosition();
+            this.subSwitchMasks(positions);
             return Promise.resolve();
         }
 
-        subDrawGridLoop() {
-            // get position of face
-            let positions = this.clmtrackr.getCurrentPosition();
-
-            this.overlayCC.clearRect(0, 0, VID_WIDTH, VID_HEIGHT);
-            if (positions) {
-                // draw current grid
-                this.clmtrackr.draw(this.overlay);
-            }
-            // check whether mask has converged
-            var pn = this.clmtrackr.getConvergence();
-            if (pn < 0.4) {
-                this.subSwitchMasks(positions);
-            } else {
-                requestAnimationFrame(this.subDrawGridLoop.bind(this));
-            }
-        }
 
         subSwitchMasks(pos: any) {
             VIDEO_CANVAS.getContext('2d').drawImage(this.video,0,0, VIDEO_CANVAS.width, VIDEO_CANVAS.height);
 
             // we need to extend the positions with new estimated points in order to get pixels immediately outside mask
             var newMaskPos = SUBSTITUTION_ANCHORPOINTS[this.curFaceSubMask].slice(0);
-            //var newMaskPos = SUBSTITUTION_ANCHORPOINTS['sub-average'].slice(0);
             var newFacePos = pos.slice(0);
             var extInd = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,22,21,20,19];
             var newp: any;
@@ -292,11 +252,11 @@ namespace pxsim {
         }
 
         subDrawMaskLoop() {
-            requestAnimationFrame(this.subDrawMaskLoop.bind(this));
+            //requestAnimationFrame(this.subDrawMaskLoop.bind(this));
             // get position of face
             let positions = this.clmtrackr.getCurrentPosition();
 
-            this.overlayCC.clearRect(0, 0, VID_WIDTH, VID_HEIGHT);
+            //this.overlayCC.clearRect(0, 0, VID_WIDTH, VID_HEIGHT);
             if (positions) {
                 // draw mask on top of face
                 FACE_DEFORMER.draw(positions);
@@ -306,30 +266,17 @@ namespace pxsim {
         loadFaceDeformAsync(deform_parameters: number[]) {
             this.deform_parameters = deform_parameters;
 
-            this.clearCanvas();
-            this.deformDrawGridLoop();
+            this.deformDrawMask();
             return Promise.delay(100);
         }
 
-        deformDrawGridLoop() {
-            // get position of face
-            let positions = this.clmtrackr.getCurrentPosition();
-
-            this.clearCanvas();
-            if (positions) {
-                // draw current grid
-                this.clmtrackr.draw(this.overlay);
-            }
-            // check whether mask has converged
-            let pn = this.clmtrackr.getConvergence();
-            if (pn < this.convergenceRatio) {
-                this.deformDrawMaskLoop();
-            } else {
-                requestAnimationFrame(this.deformDrawGridLoop.bind(this));
-            }
+        getMaskConvergence():number {
+            console.log("Face Tracking Convergence: " + this.clmtrackr.getConvergence());
+            return this.clmtrackr.getConvergence();
         }
 
-        deformDrawMaskLoop() {
+
+        deformDrawMask() {
             VIDEO_CANVAS.getContext('2d').drawImage(this.video, 0, 0, VIDEO_CANVAS.width, VIDEO_CANVAS.height);
 
             let pos = this.clmtrackr.getCurrentPosition();
@@ -355,15 +302,15 @@ namespace pxsim {
 
                 let parameters = this.clmtrackr.getCurrentParameters();
                 let eig:any;
-                console.log(parameters.length);
                 for (var i = 0;i < this.deform_parameters.length;i++) {
                     //eig = -5*Math.sqrt(pModel.shapeModel.eigenValues[i])*3;
-                    parameters[i] += this.deform_parameters[i];
-                    //console.log(parameters);
+                    parameters[i + 5] += this.deform_parameters[i];
                 }
                 let positions = this.clmtrackr.calculatePositions(parameters);
 
-                this.clearCanvas();
+                //this.clearCanvas();
+                this.overlayCC.clearRect(0, 0, this.video_width, this.video_height);
+
                 if (positions) {
                     // add positions from extended boundary, unmodified
                     newPos = positions.concat(addPos);
@@ -371,7 +318,17 @@ namespace pxsim {
                     FACE_DEFORMER.draw(newPos);
                 }
             }
-            requestAnimationFrame(this.deformDrawMaskLoop.bind(this));
+        }
+
+        keepContinue() {
+            this.shouldContinueMask = true;
+        }
+
+        stopContinue() {
+            this.clearCanvas();
+            this.shouldContinueMask = false;
+            cancelAnimationFrame(this.animationFrame);
+            console.log("STOP animation frame: " + this.animationFrame);
         }
 
         // This function creates masks
@@ -394,10 +351,6 @@ namespace pxsim {
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
             this.clearCanvas();
             return Promise.resolve();
-        }
-
-        updateView() {
-            this.clearCanvas();
         }
     }
 }

@@ -40,3 +40,17 @@ declare const enum faceSubType {
     monalisa,
     scream
 }
+
+/*
+* Enum for face deformation
+* */
+declare const enum faceDeform {
+    unwell,
+    inca,
+    cheery,
+    dopey,
+    longface,
+    lucky,
+    overcute,
+    aloof
+}

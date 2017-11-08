@@ -2658,6 +2658,159 @@
    "parameters": null,
    "qName": "faceSubType.scream"
   },
+  "faceDeform": {
+   "kind": 6,
+   "namespace": "",
+   "name": "faceDeform",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "faceDeform"
+   },
+   "pkg": null,
+   "retType": "faceDeform",
+   "parameters": null,
+   "qName": "faceDeform"
+  },
+  "faceDeform.unwell": {
+   "kind": 7,
+   "namespace": "faceDeform",
+   "name": "unwell",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "unwell"
+   },
+   "pkg": null,
+   "retType": "faceDeform",
+   "parameters": null,
+   "qName": "faceDeform.unwell"
+  },
+  "faceDeform.inca": {
+   "kind": 7,
+   "namespace": "faceDeform",
+   "name": "inca",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "inca"
+   },
+   "pkg": null,
+   "retType": "faceDeform",
+   "parameters": null,
+   "qName": "faceDeform.inca"
+  },
+  "faceDeform.cheery": {
+   "kind": 7,
+   "namespace": "faceDeform",
+   "name": "cheery",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "cheery"
+   },
+   "pkg": null,
+   "retType": "faceDeform",
+   "parameters": null,
+   "qName": "faceDeform.cheery"
+  },
+  "faceDeform.dopey": {
+   "kind": 7,
+   "namespace": "faceDeform",
+   "name": "dopey",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "dopey"
+   },
+   "pkg": null,
+   "retType": "faceDeform",
+   "parameters": null,
+   "qName": "faceDeform.dopey"
+  },
+  "faceDeform.longface": {
+   "kind": 7,
+   "namespace": "faceDeform",
+   "name": "longface",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "longface"
+   },
+   "pkg": null,
+   "retType": "faceDeform",
+   "parameters": null,
+   "qName": "faceDeform.longface"
+  },
+  "faceDeform.lucky": {
+   "kind": 7,
+   "namespace": "faceDeform",
+   "name": "lucky",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "lucky"
+   },
+   "pkg": null,
+   "retType": "faceDeform",
+   "parameters": null,
+   "qName": "faceDeform.lucky"
+  },
+  "faceDeform.overcute": {
+   "kind": 7,
+   "namespace": "faceDeform",
+   "name": "overcute",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "overcute"
+   },
+   "pkg": null,
+   "retType": "faceDeform",
+   "parameters": null,
+   "qName": "faceDeform.overcute"
+  },
+  "faceDeform.aloof": {
+   "kind": 7,
+   "namespace": "faceDeform",
+   "name": "aloof",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "aloof"
+   },
+   "pkg": null,
+   "retType": "faceDeform",
+   "parameters": null,
+   "qName": "faceDeform.aloof"
+  },
   "faceAR": {
    "kind": 5,
    "namespace": "",
@@ -2676,28 +2829,72 @@
    "parameters": null,
    "qName": "faceAR"
   },
-  "faceAR.drawFaceOutlineOnce": {
+  "faceAR.drawFaceOutline": {
    "kind": 3,
    "namespace": "faceAR",
-   "name": "drawFaceOutlineOnce",
+   "name": "drawFaceOutline",
    "attributes": {
     "paramDefl": {},
     "callingConvention": 2,
     "_source": null,
     "weight": 90,
-    "block": "draw face outline once",
-    "shim": "faceAR::drawFaceOutlineOnceAsync",
+    "block": "Draw Face Outline",
+    "blockId": "face_outline",
+    "shim": "faceAR::drawFaceOutlineAsync",
     "promise": "true",
     "paramHelp": {},
     "jsDoc": "Draw face outline",
-    "_name": "drawFaceOutlineOnce",
-    "blockId": "faceAR_drawFaceOutlineOnce"
+    "_name": "drawFaceOutline"
    },
    "pkg": null,
    "retType": "void",
    "parameters": [],
-   "snippet": "drawFaceOutlineOnce()",
-   "qName": "faceAR.drawFaceOutlineOnce"
+   "snippet": "drawFaceOutline()",
+   "qName": "faceAR.drawFaceOutline"
+  },
+  "faceAR.clearCanvas": {
+   "kind": 3,
+   "namespace": "faceAR",
+   "name": "clearCanvas",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "Clear Canvas",
+    "blockId": "clear_canvas",
+    "weight": 90,
+    "shim": "faceAR::clearCanvas",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "clearCanvas"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [],
+   "snippet": "clearCanvas()",
+   "qName": "faceAR.clearCanvas"
+  },
+  "faceAR.getTrackingConvergence": {
+   "kind": 3,
+   "namespace": "faceAR",
+   "name": "getTrackingConvergence",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "Get Tracking Convergence",
+    "blockId": "get_track_conv",
+    "weight": 90,
+    "shim": "faceAR::getTrackingConvergence",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "getTrackingConvergence"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [],
+   "snippet": "getTrackingConvergence()",
+   "qName": "faceAR.getTrackingConvergence"
   },
   "faceAR.drawFaceDeformation": {
    "kind": 3,
@@ -2707,37 +2904,45 @@
     "paramDefl": {},
     "callingConvention": 2,
     "_source": null,
-    "weight": 90,
-    "block": "draw face deformation",
+    "block": "Deform Face %deform",
+    "blockId": "face_deform",
+    "weight": 50,
     "shim": "faceAR::drawFaceDeformationAsync",
     "promise": "true",
     "paramHelp": {},
     "jsDoc": "Draw deformation",
-    "_name": "drawFaceDeformation",
-    "blockId": "faceAR_drawFaceDeformation"
+    "_name": "drawFaceDeformation"
    },
    "pkg": null,
    "retType": "void",
-   "parameters": [],
-   "snippet": "drawFaceDeformation()",
+   "parameters": [
+    {
+     "name": "deform",
+     "description": "",
+     "type": "faceDeform",
+     "options": {},
+     "isEnum": true
+    }
+   ],
+   "snippet": "drawFaceDeformation(null)",
    "qName": "faceAR.drawFaceDeformation"
   },
-  "faceAR.drawMasksLoop": {
+  "faceAR.drawMasks": {
    "kind": 3,
    "namespace": "faceAR",
-   "name": "drawMasksLoop",
+   "name": "drawMasks",
    "attributes": {
     "paramDefl": {},
     "callingConvention": 2,
     "_source": null,
     "weight": 90,
-    "block": "draw masks loop|mask %mask",
-    "shim": "faceAR::drawMasksLoopAsync",
+    "block": "Draw Mask %mask",
+    "blockId": "face_mask",
+    "shim": "faceAR::drawMasksAsync",
     "promise": "true",
     "paramHelp": {},
     "jsDoc": "Add MASKS to faces",
-    "_name": "drawMasksLoop",
-    "blockId": "faceAR_drawMasksLoop"
+    "_name": "drawMasks"
    },
    "pkg": null,
    "retType": "void",
@@ -2750,8 +2955,8 @@
      "isEnum": true
     }
    ],
-   "snippet": "drawMasksLoop(null)",
-   "qName": "faceAR.drawMasksLoop"
+   "snippet": "drawMasks(null)",
+   "qName": "faceAR.drawMasks"
   },
   "faceAR.faceSubstitutionLoop": {
    "kind": 3,
@@ -2762,13 +2967,13 @@
     "callingConvention": 2,
     "_source": null,
     "weight": 90,
-    "block": "face substitution loop|face %face",
+    "block": "Face Substitution %face",
+    "blockId": "face_sub",
     "shim": "faceAR::faceSubstitutionLoopAsync",
     "promise": "true",
     "paramHelp": {},
     "jsDoc": "Face substitution",
-    "_name": "faceSubstitutionLoop",
-    "blockId": "faceAR_faceSubstitutionLoop"
+    "_name": "faceSubstitutionLoop"
    },
    "pkg": null,
    "retType": "void",

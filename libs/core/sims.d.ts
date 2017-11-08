@@ -4,31 +4,50 @@ declare namespace faceAR {
      * Draw face outline
      */
     //% weight=90
-    //% block
-    //% shim=faceAR::drawFaceOutlineOnceAsync promise
-    function drawFaceOutlineOnce(): void;
+    //% block="Draw Face Outline" blockId="face_outline"
+    //% shim=faceAR::drawFaceOutlineAsync promise
+    function drawFaceOutline(): void;
+
+    /*
+     * Clear Canvas
+     * */
+    //% block="Clear Canvas" blockId="clear_canvas"
+    //% weight=90
+    //% shim=faceAR::clearCanvas
+    function clearCanvas(): void;
+
+    /*
+     * Tracking convergence
+     *
+     * This function indicates how well the face is being tracked.
+     * The smaller the number, the better the tracking results.
+     * */
+    //% block="Get Tracking Convergence" blockId="get_track_conv"
+    //% weight=90
+    //% shim=faceAR::getTrackingConvergence
+    function getTrackingConvergence(): number;
 
     /**
      * Draw deformation
      */
-    //% weight=90
-    //% block
+    //% block="Deform Face %deform" blockId="face_deform"
+    //% weight=50
     //% shim=faceAR::drawFaceDeformationAsync promise
-    function drawFaceDeformation(): void;
+    function drawFaceDeformation(deform: faceDeform): void;
 
     /**
      * Add MASKS to faces
      */
     //% weight=90
-    //% block
-    //% shim=faceAR::drawMasksLoopAsync promise
-    function drawMasksLoop(mask: maskType): void;
+    //% block="Draw Mask %mask" blockId="face_mask"
+    //% shim=faceAR::drawMasksAsync promise
+    function drawMasks(mask: maskType): void;
 
     /**
      * Face substitution
      */
     //% weight=90
-    //% block
+    //% block="Face Substitution %face" blockId="face_sub"
     //% shim=faceAR::faceSubstitutionLoopAsync promise
     function faceSubstitutionLoop(face: faceSubType): void;
 
