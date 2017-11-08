@@ -9,20 +9,12 @@ declare namespace faceAR {
     function drawFaceOutlineOnce(): void;
 
     /**
-     * Test on
+     * Draw deformation
      */
-    //% block="meow test %param" blockId=meow_test
-    //% blockGap=8 weight=54
-    //% shim=faceAR::meowTest
-    function meowTest(input: number, meow?: () => void, meow2?: () => void): void;
-
-    /**
-     * Test In
-     */
-    //% block="inner" blockId=inner
     //% weight=90
-    //% shim=faceAR::innerTest
-    function innerTest(): void;
+    //% block
+    //% shim=faceAR::drawFaceDeformationAsync promise
+    function drawFaceDeformation(): void;
 
     /**
      * Add MASKS to faces

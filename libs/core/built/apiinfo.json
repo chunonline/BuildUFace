@@ -2699,72 +2699,28 @@
    "snippet": "drawFaceOutlineOnce()",
    "qName": "faceAR.drawFaceOutlineOnce"
   },
-  "faceAR.meowTest": {
+  "faceAR.drawFaceDeformation": {
    "kind": 3,
    "namespace": "faceAR",
-   "name": "meowTest",
+   "name": "drawFaceDeformation",
    "attributes": {
     "paramDefl": {},
-    "callingConvention": 0,
+    "callingConvention": 2,
     "_source": null,
-    "block": "meow test %param",
-    "blockId": "meow_test",
-    "blockGap": "8",
-    "weight": 54,
-    "shim": "faceAR::meowTest",
-    "paramHelp": {},
-    "jsDoc": "Test on",
-    "_name": "meowTest"
-   },
-   "pkg": null,
-   "retType": "void",
-   "parameters": [
-    {
-     "name": "input",
-     "description": "",
-     "type": "number",
-     "options": {},
-     "isEnum": false
-    },
-    {
-     "name": "meow",
-     "description": "",
-     "type": "() => void",
-     "options": {},
-     "isEnum": false
-    },
-    {
-     "name": "meow2",
-     "description": "",
-     "type": "() => void",
-     "options": {},
-     "isEnum": false
-    }
-   ],
-   "snippet": "meowTest(0)",
-   "qName": "faceAR.meowTest"
-  },
-  "faceAR.innerTest": {
-   "kind": 3,
-   "namespace": "faceAR",
-   "name": "innerTest",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 0,
-    "_source": null,
-    "block": "inner",
-    "blockId": "inner",
     "weight": 90,
-    "shim": "faceAR::innerTest",
+    "block": "draw face deformation",
+    "shim": "faceAR::drawFaceDeformationAsync",
+    "promise": "true",
     "paramHelp": {},
-    "jsDoc": "Test In",
-    "_name": "innerTest"
+    "jsDoc": "Draw deformation",
+    "_name": "drawFaceDeformation",
+    "blockId": "faceAR_drawFaceDeformation"
    },
    "pkg": null,
    "retType": "void",
    "parameters": [],
-   "snippet": "innerTest()",
-   "qName": "faceAR.innerTest"
+   "snippet": "drawFaceDeformation()",
+   "qName": "faceAR.drawFaceDeformation"
   },
   "faceAR.drawMasksLoop": {
    "kind": 3,

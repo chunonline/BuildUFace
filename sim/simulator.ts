@@ -4,69 +4,66 @@
 
 /* -----------------------------------------
     Declare the usage of clmtrackr library.
+    Initialize video & clmtrackr library only once
 -------------------------------------------- */
 declare var clm: any;
 declare var faceDeformer: any;
 declare var pModel: any;
 declare var Poisson: any;
-//declare var requestAnimationFrame: any;
 
+interface Navigator {
+    getUserMedia(
+        options: { video?: boolean; audio?: boolean; },
+        success: (stream: any) => void,
+        error?: (error: string) => void
+    ) : void;
+}
 
-/* -----------------------------------------
-    Initialize video & clmtrackr library only once
- -------------------------------------------- */
-
+// Get Video Elements
 let VIDEO: any = <any>document.getElementById('videoel');
 let OVERLAY: any = <any>document.getElementById('overlay');
 let WEBGL: any = <any>document.getElementById('webgl');
 let WEBGL_2: any = <any>document.getElementById('webgl2');
-let CLM: any = <any>clm;
-let vid_width: number = 400;
-let vid_height: number = 300;
-
-// Get video
-navigator.getUserMedia({video : true}, function(stream: any) {
-    VIDEO.src = window.URL.createObjectURL(stream);
-    VIDEO.play();
-}.bind(this), function() {
-    //alert("There was some problem trying to fetch video from your webcam");
-});
+let P_MODEL: any = <any>pModel;
+let POISSON: any = <any> Poisson;
+let VID_WIDTH: number = 400;
+let VID_HEIGHT: number = 300;
 
 // Initialize tracker;
-let CLM_TRACKR: any =  <any>new CLM.tracker();
+let CLM_TRACKR: any =  <any>new clm.tracker();
 let FACE_DEFORMER: any = <any>new faceDeformer();
 let FACE_DEFORMER_2: any = <any>new faceDeformer();
-CLM_TRACKR.init(pModel);
-CLM_TRACKR.start(VIDEO);
-FACE_DEFORMER.init(WEBGL);
-FACE_DEFORMER_2.init(WEBGL_2);
+
+// Face substitution canvases
+let faceSubImageCanvases: any = {};
 
 
 /* -----------------------------------------
-    Setup drawing canvas
+    Setup drawing canvas for face substitution
  -------------------------------------------- */
 // canvas for copying the warped face to
 let NEW_CANVAS: any = document.createElement('CANVAS');
-//let NEW_CANVAS: any = document.getElementById('new-canvas');
-NEW_CANVAS.width = vid_width;
-NEW_CANVAS.height = vid_height;
+NEW_CANVAS.width = VID_WIDTH;
+NEW_CANVAS.height = VID_HEIGHT;
 // canvas for copying videoframes to
 let VIDEO_CANVAS: any = document.createElement('CANVAS');
-// let VIDEO_CANVAS: any = document.getElementById('video-canvas');
-VIDEO_CANVAS.width = vid_width;
-VIDEO_CANVAS.height = vid_height;
+VIDEO_CANVAS.width = VID_WIDTH;
+VIDEO_CANVAS.height = VID_HEIGHT;
 // canvas for masking
 let FACE_SUB_CANVAS: any = document.createElement('CANVAS');
-// let FACE_SUB_CANVAS: any = document.getElementById('face-sub-canvas');
-FACE_SUB_CANVAS.width = vid_width;
-FACE_SUB_CANVAS.height = vid_height;
+FACE_SUB_CANVAS.width = VID_WIDTH;
+FACE_SUB_CANVAS.height = VID_HEIGHT;
 
+
+/* ------------------------------------------
+    Start Video
+ ------------------------------------------ */
+navigator.getUserMedia({video : true}, gumSuccess.bind(this), gumFailed);
 
 
 /* -----------------------------------------
-    Load face substitution library
+    Load face substitution images
  -------------------------------------------- */
-let faceSubImageCanvases: any = {};
 // This function load inidividual face substitution masks
 function loadFaceSubMask(index: number) {
     let mask = new Image();
@@ -91,27 +88,35 @@ function loadFaceSubMasksLibrary() {
     }
 }
 
-loadFaceSubMasksLibrary();
 
+/* ------------------------------------------
+    Video success / fail handler
+ ------------------------------------------ */
+function gumSuccess(stream: any) {
+    VIDEO.src = window.URL.createObjectURL(stream);
+    VIDEO.play();
 
-/* -----------------------------------------
-     Face Detector main logic
- -------------------------------------------- */
+    // Start Tracking
+    CLM_TRACKR.init(P_MODEL);
+    CLM_TRACKR.start(VIDEO);
+    FACE_DEFORMER.init(WEBGL);
+    FACE_DEFORMER_2.init(WEBGL_2);
 
-interface Navigator {
-    getUserMedia(
-        options: { video?: boolean; audio?: boolean; },
-        success: (stream: any) => void,
-        error?: (error: string) => void
-    ) : void;
+    // Load face substitution library
+    loadFaceSubMasksLibrary();
 }
+
+function gumFailed() {
+    console.log("There was some problem trying to fetch video from your webcam");
+}
+
 
 namespace pxsim {
     /**
      * This function gets called each time the program restarts
      */
     initCurrentRuntime = () => {
-        runtime.board = new FaceDetector(VIDEO, OVERLAY, WEBGL, WEBGL_2, CLM, CLM_TRACKR);
+        runtime.board = new FaceDetector(VIDEO, OVERLAY, WEBGL, WEBGL_2, CLM_TRACKR);
     };
 
     /**
@@ -135,23 +140,23 @@ namespace pxsim {
         public webGL2: any;
         public webGLContext: any;
         public webGLContext2: any;
-        public clm: any;
         public clmtrackr: any;
         public curFaceSubMask: string;
         public mask: string;
+        public deform_parameters: number[];
+        private convergenceRatio: number = 0.6;
 
-        constructor(video: any, overlay: any, webgl: any, webgl2: any, clm: any, clmtrackr: any) {
+        constructor(video: any, overlay: any, webgl: any, webgl2: any, clmtrackr: any) {
             super();
             this.video = video;
-            this.video_width = vid_width;
-            this.video_height = vid_height;
+            this.video_width = VID_WIDTH;
+            this.video_height = VID_HEIGHT;
             this.overlay = overlay;
             this.overlayCC = <any>this.overlay.getContext('2d');
             this.webGL = webgl;
             this.webGL2 = webgl2;
             this.webGLContext = this.webGL.getContext('webgl');
             this.webGLContext2 = this.webGL2.getContext('webgl');
-            this.clm = <any>clm;
             this.clmtrackr =  clmtrackr;
         }
 
@@ -190,7 +195,7 @@ namespace pxsim {
             }
 
             let pn = this.clmtrackr.getConvergence();
-            if (pn < 0.6) {
+            if (pn < this.convergenceRatio) {
                 this.masksSwitchMasks(this.mask);
                 requestAnimationFrame(this.masksDrawMaskLoop.bind(this));
             } else {
@@ -201,7 +206,7 @@ namespace pxsim {
         masksDrawMaskLoop() {
             // get position of face
             let positions = this.clmtrackr.getCurrentPosition();
-            this.overlayCC.clearRect(0, 0, vid_width, vid_height);
+            this.overlayCC.clearRect(0, 0, VID_WIDTH, VID_HEIGHT);
             if (positions) {
                 // draw mask on top of face
                 FACE_DEFORMER.draw(positions);
@@ -210,7 +215,7 @@ namespace pxsim {
         }
 
         masksSwitchMasks(mask: string) {
-            FACE_DEFORMER.load(document.getElementById(mask), MASKS[mask], pModel);
+            FACE_DEFORMER.load(document.getElementById(mask), MASKS[mask], P_MODEL);
         }
 
         // This function load face substitution
@@ -226,7 +231,7 @@ namespace pxsim {
             // get position of face
             let positions = this.clmtrackr.getCurrentPosition();
 
-            this.overlayCC.clearRect(0, 0, vid_width, vid_height);
+            this.overlayCC.clearRect(0, 0, VID_WIDTH, VID_HEIGHT);
             if (positions) {
                 // draw current grid
                 this.clmtrackr.draw(this.overlay);
@@ -260,10 +265,10 @@ namespace pxsim {
                 newFacePos.push(newp);
             }
             // also need to make new vertices incorporating area outside mask
-            var newVertices = pModel.path.vertices.concat(FACE_SUB_EXTENDED_VERTICES);
+            var newVertices = P_MODEL.path.vertices.concat(FACE_SUB_EXTENDED_VERTICES);
 
             // deform the mask we want to use to face form
-            FACE_DEFORMER_2.load(faceSubImageCanvases[this.curFaceSubMask], newMaskPos, pModel, newVertices);
+            FACE_DEFORMER_2.load(faceSubImageCanvases[this.curFaceSubMask], newMaskPos, P_MODEL, newVertices);
             FACE_DEFORMER_2.draw(newFacePos);
             // and copy onto new canvas
             NEW_CANVAS.getContext('2d').drawImage(document.getElementById('webgl2'),0,0);
@@ -277,11 +282,11 @@ namespace pxsim {
             this.createMasking(FACE_SUB_CANVAS, tempcoords);
 
             // do poisson blending
-            Poisson.load(NEW_CANVAS, VIDEO_CANVAS, FACE_SUB_CANVAS, function() {
-                var result = Poisson.blend(30, 0, 0);
+            POISSON.load(NEW_CANVAS, VIDEO_CANVAS, FACE_SUB_CANVAS, function() {
+                var result = POISSON.blend(30, 0, 0);
                 // render to canvas
                 NEW_CANVAS.getContext('2d').putImageData(result, 0, 0);
-                FACE_DEFORMER.load(NEW_CANVAS, pos, pModel);
+                FACE_DEFORMER.load(NEW_CANVAS, pos, P_MODEL);
                 requestAnimationFrame(this.subDrawMaskLoop.bind(this));
             }.bind(this));
         }
@@ -291,11 +296,82 @@ namespace pxsim {
             // get position of face
             let positions = this.clmtrackr.getCurrentPosition();
 
-            this.overlayCC.clearRect(0, 0, vid_width, vid_height);
+            this.overlayCC.clearRect(0, 0, VID_WIDTH, VID_HEIGHT);
             if (positions) {
                 // draw mask on top of face
                 FACE_DEFORMER.draw(positions);
             }
+        }
+
+        loadFaceDeformAsync(deform_parameters: number[]) {
+            this.deform_parameters = deform_parameters;
+
+            this.clearCanvas();
+            this.deformDrawGridLoop();
+            return Promise.delay(100);
+        }
+
+        deformDrawGridLoop() {
+            // get position of face
+            let positions = this.clmtrackr.getCurrentPosition();
+
+            this.clearCanvas();
+            if (positions) {
+                // draw current grid
+                this.clmtrackr.draw(this.overlay);
+            }
+            // check whether mask has converged
+            let pn = this.clmtrackr.getConvergence();
+            if (pn < this.convergenceRatio) {
+                this.deformDrawMaskLoop();
+            } else {
+                requestAnimationFrame(this.deformDrawGridLoop.bind(this));
+            }
+        }
+
+        deformDrawMaskLoop() {
+            VIDEO_CANVAS.getContext('2d').drawImage(this.video, 0, 0, VIDEO_CANVAS.width, VIDEO_CANVAS.height);
+
+            let pos = this.clmtrackr.getCurrentPosition();
+
+            if (pos) {
+                // create additional points around face
+                let tempPos:any;
+                let addPos:any[] = [];
+                for (var i = 0;i < 23;i++) {
+                    tempPos = [];
+                    tempPos[0] = (pos[i][0] - pos[62][0])*1.3 + pos[62][0];
+                    tempPos[1] = (pos[i][1] - pos[62][1])*1.3 + pos[62][1];
+                    addPos.push(tempPos);
+                }
+                // merge with pos
+                let newPos = pos.concat(addPos);
+
+                let newVertices = P_MODEL.path.vertices.concat(FACE_DEFORM_MOUTH_VERTICES);
+                // merge with newVertices
+                newVertices = newVertices.concat(FACE_DEFORM_EXTENDED_VERTICES);
+
+                FACE_DEFORMER.load(VIDEO_CANVAS, newPos, P_MODEL, newVertices);
+
+                let parameters = this.clmtrackr.getCurrentParameters();
+                let eig:any;
+                console.log(parameters.length);
+                for (var i = 0;i < this.deform_parameters.length;i++) {
+                    //eig = -5*Math.sqrt(pModel.shapeModel.eigenValues[i])*3;
+                    parameters[i] += this.deform_parameters[i];
+                    //console.log(parameters);
+                }
+                let positions = this.clmtrackr.calculatePositions(parameters);
+
+                this.clearCanvas();
+                if (positions) {
+                    // add positions from extended boundary, unmodified
+                    newPos = positions.concat(addPos);
+                    // draw mask on top of face
+                    FACE_DEFORMER.draw(newPos);
+                }
+            }
+            requestAnimationFrame(this.deformDrawMaskLoop.bind(this));
         }
 
         // This function creates masks
