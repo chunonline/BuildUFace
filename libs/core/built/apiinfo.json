@@ -2896,8 +2896,10 @@
     "blockId": "onsentiment",
     "block": "on sentiment %sentiment",
     "shim": "faceAR::onSentiment",
-    "paramHelp": {},
-    "jsDoc": "* \r     * @param sentiment bla \r     * @param handler",
+    "paramHelp": {
+     "handler": ""
+    },
+    "jsDoc": "Act on Sentiment\n* @param sentiment bla",
     "_name": "onSentiment"
    },
    "pkg": null,
@@ -2921,6 +2923,25 @@
    "snippet": "onSentiment(null, function () {})",
    "qName": "faceAR.onSentiment"
   },
+  "faceAR.detectSentiment": {
+   "kind": 3,
+   "namespace": "faceAR",
+   "name": "detectSentiment",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "faceAR::detectSentiment",
+    "paramHelp": {},
+    "jsDoc": "Detect Sentiment",
+    "_name": "detectSentiment"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [],
+   "snippet": "detectSentiment()",
+   "qName": "faceAR.detectSentiment"
+  },
   "faceAR.drawFaceOutline": {
    "kind": 3,
    "namespace": "faceAR",
@@ -2935,7 +2956,7 @@
     "shim": "faceAR::drawFaceOutlineAsync",
     "promise": "true",
     "paramHelp": {},
-    "jsDoc": "* Draw face outline",
+    "jsDoc": "Draw face outline",
     "_name": "drawFaceOutline"
    },
    "pkg": null,
@@ -3002,7 +3023,7 @@
     "shim": "faceAR::drawFaceDeformationAsync",
     "promise": "true",
     "paramHelp": {},
-    "jsDoc": "* Draw deformation",
+    "jsDoc": "Draw deformation",
     "_name": "drawFaceDeformation"
    },
    "pkg": null,
@@ -3033,7 +3054,7 @@
     "shim": "faceAR::drawMasksAsync",
     "promise": "true",
     "paramHelp": {},
-    "jsDoc": "* Add MASKS to faces",
+    "jsDoc": "Add MASKS to faces",
     "_name": "drawMasks"
    },
    "pkg": null,
@@ -3064,7 +3085,7 @@
     "shim": "faceAR::faceSubstitutionLoopAsync",
     "promise": "true",
     "paramHelp": {},
-    "jsDoc": "* Face substitution",
+    "jsDoc": "Face substitution",
     "_name": "faceSubstitutionLoop"
    },
    "pkg": null,
@@ -3113,8 +3134,10 @@
     "blockId": "device_forever",
     "block": "forever",
     "shim": "loops::forever",
-    "paramHelp": {},
-    "jsDoc": "* Repeats the code forever in the background. On each iteration, allows other code to run.\r     * @param body the code to repeat",
+    "paramHelp": {
+     "body": "the code to repeat"
+    },
+    "jsDoc": "Repeats the code forever in the background. On each iteration, allows other code to run.",
     "_name": "forever"
    },
    "pkg": null,
@@ -3122,7 +3145,7 @@
    "parameters": [
     {
      "name": "body",
-     "description": "",
+     "description": "the code to repeat",
      "type": "() => void",
      "options": {},
      "isEnum": false
@@ -3136,7 +3159,9 @@
    "namespace": "loops",
    "name": "pause",
    "attributes": {
-    "paramDefl": {},
+    "paramDefl": {
+     "ms": "100"
+    },
     "callingConvention": 2,
     "_source": null,
     "help": "functions/pause",
@@ -3145,8 +3170,10 @@
     "blockId": "device_pause",
     "shim": "loops::pauseAsync",
     "promise": "true",
-    "paramHelp": {},
-    "jsDoc": "* Pause for the specified time in milliseconds\r     * @param ms how long to pause for, eg: 100, 200, 500, 1000, 2000",
+    "paramHelp": {
+     "ms": "how long to pause for, eg: 100, 200, 500, 1000, 2000"
+    },
+    "jsDoc": "Pause for the specified time in milliseconds",
     "_name": "pause"
    },
    "pkg": null,
@@ -3154,13 +3181,15 @@
    "parameters": [
     {
      "name": "ms",
-     "description": "",
+     "description": "how long to pause for, eg: 100, 200, 500, 1000, 2000",
      "type": "number",
+     "initializer": "100",
+     "default": "100",
      "options": {},
      "isEnum": false
     }
    ],
-   "snippet": "pause(0)",
+   "snippet": "pause(100)",
    "qName": "loops.pause"
   },
   "console": {
@@ -3191,7 +3220,7 @@
     "_source": null,
     "shim": "console::log",
     "paramHelp": {},
-    "jsDoc": "* Print out message",
+    "jsDoc": "Print out message",
     "_name": "log"
    },
    "pkg": null,

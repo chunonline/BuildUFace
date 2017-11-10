@@ -6,10 +6,13 @@
     Declare the usage of clmtrackr library.
     Initialize video & clmtrackr library only once
 -------------------------------------------- */
+import FaceDetector = pxsim.FaceDetector;
 declare var clm: any;
 declare var faceDeformer: any;
 declare var pModel: any;
 declare var Poisson: any;
+declare var emotionModel: any;
+declare var emotionClassifier: any;
 
 interface Navigator {
     getUserMedia(
@@ -29,10 +32,15 @@ let POISSON: any = <any> Poisson;
 let VID_WIDTH: number = 400;
 let VID_HEIGHT: number = 300;
 
+// set eigenvector 9 and 11 to not be regularized. This is to better detect motion of the eyebrows
+P_MODEL.shapeModel.nonRegularizedVectors.push(9);
+P_MODEL.shapeModel.nonRegularizedVectors.push(11);
+
 // Initialize tracker;
-let CLM_TRACKR: any =  <any>new clm.tracker();
+let CLM_TRACKR: any =  <any>new clm.tracker({useWebGL : true});
 let FACE_DEFORMER: any = <any>new faceDeformer();
 let FACE_DEFORMER_2: any = <any>new faceDeformer();
+let EMOTION_CLASSIFIER = <any>new emotionClassifier();
 
 // Face substitution canvases
 let faceSubImageCanvases: any = {};
@@ -59,6 +67,10 @@ FACE_SUB_CANVAS.height = VID_HEIGHT;
     Start Video
  ------------------------------------------ */
 navigator.getUserMedia({video : true}, gumSuccess.bind(this), gumFailed);
+
+
+
+
 
 
 /* -----------------------------------------
@@ -98,6 +110,7 @@ function gumSuccess(stream: any) {
 
     // Start Tracking
     CLM_TRACKR.init(P_MODEL);
+    EMOTION_CLASSIFIER.init(emotionModel);
     CLM_TRACKR.start(VIDEO);
     FACE_DEFORMER.init(WEBGL);
     FACE_DEFORMER_2.init(WEBGL_2);
@@ -174,9 +187,39 @@ namespace pxsim {
             this.webGLContext2.clear(this.webGLContext2.COLOR_BUFFER_BIT);
         }
 
+        // This function get face emotion
+        getFaceEmotion() {
+            let cp = this.clmtrackr.getCurrentParameters();
+            var er = EMOTION_CLASSIFIER.meanPredict(cp);
+            return er;
+        }
+
+        hasEmotion(sentimentList:any[], emotionName:string) {
+            for (let eachEmotion of sentimentList) {
+                if (eachEmotion.emotion == emotionName &&
+                    eachEmotion.value > 0.3) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /**
+         * Detect Sentiment
+         */
+        //let lastSentiment: Sentiment;
+        //% weight=100
+        //% blockId=detectSentiment block="detect sentiment"
+        detectSentiment() {
+        let sentiment = faceDetector().getFaceEmotion();
+            if(faceDetector().hasEmotion(sentiment, "happy")) {
+                faceDetector().bus.queue("sentiment", Sentiment.Happy);
+            }
+        }
+
         // This function draws face outline
         drawFaceOutlineAsync() {
-            //this.clearCanvas();
+            this.clearCanvas();
             if (this.clmtrackr.getCurrentPosition()) {
                 this.clmtrackr.draw(this.overlay);
             }

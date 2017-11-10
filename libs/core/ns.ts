@@ -14,3 +14,13 @@ namespace faceAR {
 namespace control {
 
 }
+
+/*
+ * Main Rendering Engine
+ * */
+loops.forever(() => {
+    if (true) {
+        //faceAR.clearCanvas();
+        faceAR.detectSentiment();
+    }
+});

@@ -2,7 +2,8 @@
 namespace pxsim.faceAR {
 
     /**
-     * 
+     * Act on Sentiment
+     *
      * @param sentiment bla 
      * @param handler 
      */
@@ -12,13 +13,21 @@ namespace pxsim.faceAR {
         faceDetector().bus.listen("sentiment", sentiment, handler);
     }
 
+    /**
+     * Detect Sentiment
+     */
     //let lastSentiment: Sentiment;
+    //%
     export function detectSentiment() {
-      //  let sentiment= currentSentiment();
-        //if(lastSentiment != sentiment) {
+        let sentiment = faceDetector().getFaceEmotion();
+        if(faceDetector().hasEmotion(sentiment, "happy")) {
             faceDetector().bus.queue("sentiment", Sentiment.Happy);
-       // }
+        }
+        else {
+            this.clearCanvas();
+        }
     }
+
 
     /**
      * Draw face outline
@@ -150,7 +159,7 @@ namespace pxsim.faceAR {
             case faceSubType.cage:
                 return faceDetector().drawFaceSubstitutionAsync("sub-cage");
             case faceSubType.queen:
-                    return faceDetector().drawFaceSubstitutionAsync("sub-queen");
+                return faceDetector().drawFaceSubstitutionAsync("sub-queen");
             case faceSubType.obama:
                 return faceDetector().drawFaceSubstitutionAsync("sub-obama");
             case faceSubType.chuck:
