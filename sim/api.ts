@@ -19,11 +19,13 @@ namespace pxsim.faceAR {
     //let lastSentiment: Sentiment;
     //%
     export function detectSentiment() {
-        let sentiment = faceDetector().getFaceEmotion();
-        if(faceDetector().hasEmotion(sentiment, "happy")) {
-            faceDetector().bus.queue("sentiment", Sentiment.Happy);
-        }
-        else {
+        let sentimentList = faceDetector().getFaceEmotionList();
+
+        let currentSentiment:SentimentPair = faceDetector().getTopEmotion(sentimentList);
+
+        if (currentSentiment.value > faceDetector().faceEmotionThreshold) {
+            faceDetector().bus.queue("sentiment", currentSentiment.sentiment);
+        } else {
             this.clearCanvas();
         }
     }

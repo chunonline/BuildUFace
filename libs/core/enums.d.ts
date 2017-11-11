@@ -1,17 +1,20 @@
-declare const enum Direction {
-    //% block=left
-    Left,
-    //% block=right
-    Right
-}
-
-
 declare const enum Sentiment {
     //% block=happy
-    Happy,
+    HAPPY,
     //% block=sad
-    Sad
+    SAD,
+    //% block=surprised
+    SURPRISED,
+    //% block=fear
+    FEAR,
+    //% block=disgusted
+    DISGUSTED,
+    //% block=angry
+    ANGRY,
+    //%
+    NOEMOTION
 }
+
 
 /**
  * Enum for MASKS

@@ -22,6 +22,11 @@ interface Navigator {
     ) : void;
 }
 
+interface SentimentPair {
+    sentiment: Sentiment,
+    value: number
+}
+
 // Get Video Elements
 let VIDEO: any = <any>document.getElementById('videoel');
 let OVERLAY: any = <any>document.getElementById('overlay');
@@ -161,6 +166,7 @@ namespace pxsim {
         private shouldContinueMask:boolean = false;
         private animationFrame:any;
         public bus: pxsim.EventBus;
+        public faceEmotionThreshold = 0.3
         
         constructor(video: any, overlay: any, webgl: any, webgl2: any, clmtrackr: any) {
             super();
@@ -188,34 +194,49 @@ namespace pxsim {
         }
 
         // This function get face emotion
-        getFaceEmotion() {
+        getFaceEmotionList() {
             let cp = this.clmtrackr.getCurrentParameters();
             var er = EMOTION_CLASSIFIER.meanPredict(cp);
             return er;
         }
 
-        hasEmotion(sentimentList:any[], emotionName:string) {
+        getTopEmotion(sentimentList:any[]): SentimentPair {
+            let topSentimentPair:SentimentPair = {sentiment: Sentiment.NOEMOTION, value: -1};
+
             for (let eachEmotion of sentimentList) {
-                if (eachEmotion.emotion == emotionName &&
-                    eachEmotion.value > 0.3) {
-                    return true;
+                if (eachEmotion.value > topSentimentPair.value) {
+                    topSentimentPair.sentiment = this.getSentimentEnum(eachEmotion.sentiment);
+                    topSentimentPair.value = eachEmotion.value;
                 }
             }
-            return false;
+            return topSentimentPair;
         }
 
-        /**
-         * Detect Sentiment
-         */
-        //let lastSentiment: Sentiment;
-        //% weight=100
-        //% blockId=detectSentiment block="detect sentiment"
-        detectSentiment() {
-        let sentiment = faceDetector().getFaceEmotion();
-            if(faceDetector().hasEmotion(sentiment, "happy")) {
-                faceDetector().bus.queue("sentiment", Sentiment.Happy);
+        getSentimentEnum(sentiment:string) {
+            switch (sentiment) {
+                case "happy":
+                    return Sentiment.HAPPY;
+
+                case "surprised":
+                    return Sentiment.SURPRISED;
+
+                case "sad":
+                    return Sentiment.SAD;
+
+                case "fear":
+                    return Sentiment.FEAR;
+
+                case "disgusted":
+                    return Sentiment.DISGUSTED;
+
+                case "angry":
+                    return Sentiment.ANGRY;
+
+                default:
+                    return Sentiment.NOEMOTION
             }
         }
+
 
         // This function draws face outline
         drawFaceOutlineAsync() {
