@@ -3,7 +3,7 @@ declare namespace faceAR {
     /**
      * Act on Sentiment
      *
-     * @param sentiment bla 
+     * @param sentiment
      * @param handler 
      */
     //% weight=100
@@ -14,7 +14,6 @@ declare namespace faceAR {
     /**
      * Detect Sentiment
      */
-    //let lastSentiment: Sentiment;
     //%
     //% shim=faceAR::detectSentiment
     function detectSentiment(): void;
@@ -26,14 +25,6 @@ declare namespace faceAR {
     //% block="draw face outline" blockId="face_outline"
     //% shim=faceAR::drawFaceOutlineAsync promise
     function drawFaceOutline(): void;
-
-    /*
-     * Clear Canvas
-     * */
-    //% block="Clear Canvas" blockId="clear_canvas"
-    //% weight=90
-    //% shim=faceAR::clearCanvas
-    function clearCanvas(): void;
 
     /*
      * Tracking convergence

@@ -2180,59 +2180,6 @@
    "snippet": "min(0, 0)",
    "qName": "Math.min"
   },
-  "Direction": {
-   "kind": 6,
-   "namespace": "",
-   "name": "Direction",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 0,
-    "_source": null,
-    "paramHelp": {},
-    "jsDoc": "",
-    "_name": "Direction"
-   },
-   "pkg": null,
-   "retType": "Direction",
-   "parameters": null,
-   "qName": "Direction"
-  },
-  "Direction.Left": {
-   "kind": 7,
-   "namespace": "Direction",
-   "name": "Left",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 0,
-    "_source": null,
-    "block": "left",
-    "paramHelp": {},
-    "jsDoc": "",
-    "_name": "Left"
-   },
-   "pkg": null,
-   "retType": "Direction",
-   "parameters": null,
-   "qName": "Direction.Left"
-  },
-  "Direction.Right": {
-   "kind": 7,
-   "namespace": "Direction",
-   "name": "Right",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 0,
-    "_source": null,
-    "block": "right",
-    "paramHelp": {},
-    "jsDoc": "",
-    "_name": "Right"
-   },
-   "pkg": null,
-   "retType": "Direction",
-   "parameters": null,
-   "qName": "Direction.Right"
-  },
   "Sentiment": {
    "kind": 6,
    "namespace": "",
@@ -2285,6 +2232,95 @@
    "retType": "Sentiment",
    "parameters": null,
    "qName": "Sentiment.Sad"
+  },
+  "Sentiment.Surprised": {
+   "kind": 7,
+   "namespace": "Sentiment",
+   "name": "Surprised",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "surprised",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Surprised"
+   },
+   "pkg": null,
+   "retType": "Sentiment",
+   "parameters": null,
+   "qName": "Sentiment.Surprised"
+  },
+  "Sentiment.Fear": {
+   "kind": 7,
+   "namespace": "Sentiment",
+   "name": "Fear",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "fear",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Fear"
+   },
+   "pkg": null,
+   "retType": "Sentiment",
+   "parameters": null,
+   "qName": "Sentiment.Fear"
+  },
+  "Sentiment.Disgusted": {
+   "kind": 7,
+   "namespace": "Sentiment",
+   "name": "Disgusted",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "disgusted",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Disgusted"
+   },
+   "pkg": null,
+   "retType": "Sentiment",
+   "parameters": null,
+   "qName": "Sentiment.Disgusted"
+  },
+  "Sentiment.Angry": {
+   "kind": 7,
+   "namespace": "Sentiment",
+   "name": "Angry",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "angry",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Angry"
+   },
+   "pkg": null,
+   "retType": "Sentiment",
+   "parameters": null,
+   "qName": "Sentiment.Angry"
+  },
+  "Sentiment.NOEMOTION": {
+   "kind": 7,
+   "namespace": "Sentiment",
+   "name": "NOEMOTION",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "NOEMOTION"
+   },
+   "pkg": null,
+   "retType": "Sentiment",
+   "parameters": null,
+   "qName": "Sentiment.NOEMOTION"
   },
   "maskType": {
    "kind": 6,
@@ -2899,7 +2935,7 @@
     "paramHelp": {
      "handler": ""
     },
-    "jsDoc": "Act on Sentiment\n* @param sentiment bla",
+    "jsDoc": "Act on Sentiment\n* @param sentiment",
     "_name": "onSentiment"
    },
    "pkg": null,
@@ -2964,28 +3000,6 @@
    "parameters": [],
    "snippet": "drawFaceOutline()",
    "qName": "faceAR.drawFaceOutline"
-  },
-  "faceAR.clearCanvas": {
-   "kind": 3,
-   "namespace": "faceAR",
-   "name": "clearCanvas",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 0,
-    "_source": null,
-    "block": "Clear Canvas",
-    "blockId": "clear_canvas",
-    "weight": 90,
-    "shim": "faceAR::clearCanvas",
-    "paramHelp": {},
-    "jsDoc": "",
-    "_name": "clearCanvas"
-   },
-   "pkg": null,
-   "retType": "void",
-   "parameters": [],
-   "snippet": "clearCanvas()",
-   "qName": "faceAR.clearCanvas"
   },
   "faceAR.getTrackingConvergence": {
    "kind": 3,

@@ -4,7 +4,7 @@ namespace pxsim.faceAR {
     /**
      * Act on Sentiment
      *
-     * @param sentiment bla 
+     * @param sentiment
      * @param handler 
      */
     //% weight=100
@@ -16,7 +16,6 @@ namespace pxsim.faceAR {
     /**
      * Detect Sentiment
      */
-    //let lastSentiment: Sentiment;
     //%
     export function detectSentiment() {
         let sentimentList = faceDetector().getFaceEmotionList();
@@ -41,15 +40,6 @@ namespace pxsim.faceAR {
     }
 
     /*
-     * Clear Canvas
-     * */
-    //% block="Clear Canvas" blockId="clear_canvas"
-    //% weight=90
-    export function clearCanvas() {
-        return faceDetector().clearCanvas();
-    }
-
-    /*
      * Tracking convergence
      *
      * This function indicates how well the face is being tracked.
@@ -70,28 +60,28 @@ namespace pxsim.faceAR {
     export function drawFaceDeformationAsync(deform: faceDeform) {
         switch (deform) {
             case faceDeform.unwell:
-                return faceDetector().loadFaceDeformAsync([0, 0, 0, 0, 0, 0, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                return faceDetector().drawFaceDeformAsync([0, 0, 0, 0, 0, 0, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
             case faceDeform.inca:
-                return faceDetector().loadFaceDeformAsync([0, 0, -9, 0, -11, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 0, 0]);
+                return faceDetector().drawFaceDeformAsync([0, 0, -9, 0, -11, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 0, 0]);
 
             case faceDeform.cheery:
-                return faceDetector().loadFaceDeformAsync([0, 0, -9, 9, -11, 0, 0, 0, 0, 0, 0, 0, -9, 0, 0, 0, 0, 0]);
+                return faceDetector().drawFaceDeformAsync([0, 0, -9, 9, -11, 0, 0, 0, 0, 0, 0, 0, -9, 0, 0, 0, 0, 0]);
 
             case faceDeform.dopey:
-                return faceDetector().loadFaceDeformAsync([0, 0, 0, 0, 0, 0, 0, -11, 0, 0, 0, 0, 0, 0, 20, 0, 0, 0]);
+                return faceDetector().drawFaceDeformAsync([0, 0, 0, 0, 0, 0, 0, -11, 0, 0, 0, 0, 0, 0, 20, 0, 0, 0]);
 
             case faceDeform.longface:
-                return faceDetector().loadFaceDeformAsync( [0, 0, 0, 0, -15, 0, 0, -12, 0, 0, 0, 0, 0, 0, -7, 0, 0, 5]);
+                return faceDetector().drawFaceDeformAsync( [0, 0, 0, 0, -15, 0, 0, -12, 0, 0, 0, 0, 0, 0, -7, 0, 0, 5]);
 
             case faceDeform.lucky:
-                return faceDetector().loadFaceDeformAsync([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -4, 0, -6, 12, 0, 0]);
+                return faceDetector().drawFaceDeformAsync([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -4, 0, -6, 12, 0, 0]);
 
             case faceDeform.overcute:
-                return faceDetector().loadFaceDeformAsync([0, 0, 0, 0, 16, 0, -14, 0, 0, 0, 0, 0, -7, 0, 0, 0, 0, 0]);
+                return faceDetector().drawFaceDeformAsync([0, 0, 0, 0, 16, 0, -14, 0, 0, 0, 0, 0, -7, 0, 0, 0, 0, 0]);
 
             case faceDeform.aloof:
-                return faceDetector().loadFaceDeformAsync([0, 0, 0, 0, 0, 0, 0, -8, 0, 0, 0, 0, 0, 0, -2, 0, 0, 10]);
+                return faceDetector().drawFaceDeformAsync([0, 0, 0, 0, 0, 0, 0, -8, 0, 0, 0, 0, 0, 0, -2, 0, 0, 10]);
 
             default:
                 return Promise.delay(100);

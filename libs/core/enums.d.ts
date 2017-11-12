@@ -1,17 +1,16 @@
 declare const enum Sentiment {
     //% block=happy
-    HAPPY,
+    Happy,
     //% block=sad
-    SAD,
+    Sad,
     //% block=surprised
-    SURPRISED,
+    Surprised,
     //% block=fear
-    FEAR,
+    Fear,
     //% block=disgusted
-    DISGUSTED,
+    Disgusted,
     //% block=angry
-    ANGRY,
-    //%
+    Angry,
     NOEMOTION
 }
 

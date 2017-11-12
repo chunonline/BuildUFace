@@ -102,7 +102,7 @@
   "faceAR.drawFaceOutline": "Draw face outline",
   "faceAR.drawMasks": "Add MASKS to faces",
   "faceAR.faceSubstitutionLoop": "Face substitution",
-  "faceAR.onSentiment": "Act on Sentiment\n* @param sentiment bla",
+  "faceAR.onSentiment": "Act on Sentiment\n* @param sentiment",
   "loops.forever": "Repeats the code forever in the background. On each iteration, allows other code to run.",
   "loops.forever|param|body": "the code to repeat",
   "loops.pause": "Pause for the specified time in milliseconds",

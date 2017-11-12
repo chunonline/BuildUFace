@@ -166,7 +166,7 @@ namespace pxsim {
         private shouldContinueMask:boolean = false;
         private animationFrame:any;
         public bus: pxsim.EventBus;
-        public faceEmotionThreshold = 0.3
+        public faceEmotionThreshold = 0.2;
         
         constructor(video: any, overlay: any, webgl: any, webgl2: any, clmtrackr: any) {
             super();
@@ -205,7 +205,7 @@ namespace pxsim {
 
             for (let eachEmotion of sentimentList) {
                 if (eachEmotion.value > topSentimentPair.value) {
-                    topSentimentPair.sentiment = this.getSentimentEnum(eachEmotion.sentiment);
+                    topSentimentPair.sentiment = this.getSentimentEnum(eachEmotion.emotion);
                     topSentimentPair.value = eachEmotion.value;
                 }
             }
@@ -215,22 +215,22 @@ namespace pxsim {
         getSentimentEnum(sentiment:string) {
             switch (sentiment) {
                 case "happy":
-                    return Sentiment.HAPPY;
+                    return Sentiment.Happy;
 
                 case "surprised":
-                    return Sentiment.SURPRISED;
+                    return Sentiment.Surprised;
 
                 case "sad":
-                    return Sentiment.SAD;
+                    return Sentiment.Sad;
 
                 case "fear":
-                    return Sentiment.FEAR;
+                    return Sentiment.Fear;
 
                 case "disgusted":
-                    return Sentiment.DISGUSTED;
+                    return Sentiment.Disgusted;
 
                 case "angry":
-                    return Sentiment.ANGRY;
+                    return Sentiment.Angry;
 
                 default:
                     return Sentiment.NOEMOTION
@@ -249,6 +249,7 @@ namespace pxsim {
 
         // This function draws a Mask
         drawFaceMasksAsync(mask: string) {
+            this.clearCanvas();
             this.mask = mask;
 
             // get current mask
@@ -264,6 +265,7 @@ namespace pxsim {
 
         // This function load face substitution
         drawFaceSubstitutionAsync(face: string) {
+            this.clearCanvas();
             this.curFaceSubMask = face;
 
             let positions = this.clmtrackr.getCurrentPosition();
@@ -318,7 +320,6 @@ namespace pxsim {
         }
 
         subDrawMaskLoop() {
-            //requestAnimationFrame(this.subDrawMaskLoop.bind(this));
             // get position of face
             let positions = this.clmtrackr.getCurrentPosition();
 
@@ -328,7 +329,8 @@ namespace pxsim {
             }
         }
 
-        loadFaceDeformAsync(deform_parameters: number[]) {
+        drawFaceDeformAsync(deform_parameters: number[]) {
+            this.clearCanvas();
             this.deform_parameters = deform_parameters;
 
             this.deformDrawMask();
