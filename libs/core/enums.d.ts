@@ -1,3 +1,6 @@
+/**
+ * Enum for emotions
+ */
 declare const enum Sentiment {
     //% block=happy
     Happy,
@@ -12,6 +15,16 @@ declare const enum Sentiment {
     //% block=angry
     Angry,
     NOEMOTION
+}
+
+/**
+ * Enum for eye status
+ */
+declare const enum MouthStatus {
+    //% block=open
+    Open,
+    //% block=close
+    Close
 }
 
 

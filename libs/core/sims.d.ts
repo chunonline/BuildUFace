@@ -12,11 +12,29 @@ declare namespace faceAR {
     function onSentiment(sentiment: Sentiment, handler: () => void): void;
 
     /**
+     * Act on Eyes Close
+     *
+     * @param mouthStatus
+     * @param hander
+     */
+    //% weight=100
+    //% blockId=onmouthstatus block="on mouth %mouthStatus"
+    //% shim=faceAR::onMouthStatus
+    function onMouthStatus(mouthStatus: MouthStatus, handler: () => void): void;
+
+    /**
      * Detect Sentiment
      */
     //%
     //% shim=faceAR::detectSentiment
     function detectSentiment(): void;
+
+    /**
+     * Detect MouthStatus
+     */
+    //%
+    //% shim=faceAR::detectMouthStatus
+    function detectMouthStatus(): void;
 
     /**
      * Draw face outline

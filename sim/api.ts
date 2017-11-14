@@ -14,6 +14,18 @@ namespace pxsim.faceAR {
     }
 
     /**
+     * Act on Eyes Close
+     *
+     * @param mouthStatus
+     * @param hander
+     */
+    //% weight=100
+    //% blockId=onmouthstatus block="on mouth %mouthStatus"
+    export function onMouthStatus(mouthStatus: MouthStatus, handler: RefAction) {
+        faceDetector().bus.listen("mouthStatus", mouthStatus, handler);
+    }
+
+    /**
      * Detect Sentiment
      */
     //%
@@ -29,6 +41,17 @@ namespace pxsim.faceAR {
         }
     }
 
+    /**
+     * Detect MouthStatus
+     */
+    //%
+    export function detectMouthStatus() {
+        if (faceDetector().isMouthOpen()) {
+            faceDetector().bus.queue("mouthStatus", MouthStatus.Open);
+        } else {
+            faceDetector().clearCanvas();
+        }
+    }
 
     /**
      * Draw face outline

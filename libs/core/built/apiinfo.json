@@ -2189,7 +2189,7 @@
     "callingConvention": 0,
     "_source": null,
     "paramHelp": {},
-    "jsDoc": "",
+    "jsDoc": "Enum for emotions",
     "_name": "Sentiment"
    },
    "pkg": null,
@@ -2321,6 +2321,59 @@
    "retType": "Sentiment",
    "parameters": null,
    "qName": "Sentiment.NOEMOTION"
+  },
+  "MouthStatus": {
+   "kind": 6,
+   "namespace": "",
+   "name": "MouthStatus",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "Enum for eye status",
+    "_name": "MouthStatus"
+   },
+   "pkg": null,
+   "retType": "MouthStatus",
+   "parameters": null,
+   "qName": "MouthStatus"
+  },
+  "MouthStatus.Open": {
+   "kind": 7,
+   "namespace": "MouthStatus",
+   "name": "Open",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "open",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Open"
+   },
+   "pkg": null,
+   "retType": "MouthStatus",
+   "parameters": null,
+   "qName": "MouthStatus.Open"
+  },
+  "MouthStatus.Close": {
+   "kind": 7,
+   "namespace": "MouthStatus",
+   "name": "Close",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "close",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Close"
+   },
+   "pkg": null,
+   "retType": "MouthStatus",
+   "parameters": null,
+   "qName": "MouthStatus.Close"
   },
   "maskType": {
    "kind": 6,
@@ -2959,6 +3012,45 @@
    "snippet": "onSentiment(null, function () {})",
    "qName": "faceAR.onSentiment"
   },
+  "faceAR.onMouthStatus": {
+   "kind": 3,
+   "namespace": "faceAR",
+   "name": "onMouthStatus",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "weight": 100,
+    "blockId": "onmouthstatus",
+    "block": "on mouth %mouthStatus",
+    "shim": "faceAR::onMouthStatus",
+    "paramHelp": {
+     "hander": ""
+    },
+    "jsDoc": "Act on Eyes Close\n* @param mouthStatus",
+    "_name": "onMouthStatus"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [
+    {
+     "name": "mouthStatus",
+     "description": "",
+     "type": "MouthStatus",
+     "options": {},
+     "isEnum": true
+    },
+    {
+     "name": "handler",
+     "description": "",
+     "type": "() => void",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "onMouthStatus(null, function () {})",
+   "qName": "faceAR.onMouthStatus"
+  },
   "faceAR.detectSentiment": {
    "kind": 3,
    "namespace": "faceAR",
@@ -2977,6 +3069,25 @@
    "parameters": [],
    "snippet": "detectSentiment()",
    "qName": "faceAR.detectSentiment"
+  },
+  "faceAR.detectMouthStatus": {
+   "kind": 3,
+   "namespace": "faceAR",
+   "name": "detectMouthStatus",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "faceAR::detectMouthStatus",
+    "paramHelp": {},
+    "jsDoc": "Detect MouthStatus",
+    "_name": "detectMouthStatus"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [],
+   "snippet": "detectMouthStatus()",
+   "qName": "faceAR.detectMouthStatus"
   },
   "faceAR.drawFaceOutline": {
    "kind": 3,

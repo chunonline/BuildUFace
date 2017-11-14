@@ -167,6 +167,7 @@ namespace pxsim {
         private animationFrame:any;
         public bus: pxsim.EventBus;
         public faceEmotionThreshold = 0.2;
+        private mouthOpenRatio = 0.2;
         
         constructor(video: any, overlay: any, webgl: any, webgl2: any, clmtrackr: any) {
             super();
@@ -413,6 +414,42 @@ namespace pxsim {
             cc.closePath();
             cc.fillStyle="#ffffff";
             cc.fill();
+        }
+
+        getVertiHorizontalRatio(top: number, bottom: number, left: number, right: number, positions: any[]) {
+            let posTop = positions[top];
+            let posBottom = positions[bottom];
+
+            let posLeft = positions[left];
+            let posRight = positions[right];
+
+            let vertiHorizontalRatio = this.getCartesianDistance(posTop, posBottom) /
+                                       this.getCartesianDistance(posLeft, posRight);
+            return vertiHorizontalRatio;
+        }
+
+
+        checkLeftEyeOpen(positions:any) {
+            return this.getVertiHorizontalRatio(24, 26, 23, 25, positions);
+        }
+
+        checkMouthOpen(positions:any) {
+            return this.getVertiHorizontalRatio(60, 57, 44, 50, positions);
+        }
+
+        getCartesianDistance(coor1:any, coor2:any):number {
+            return Math.sqrt(Math.pow(coor1[0] - coor2[0], 2) +
+                    Math.pow(coor1[1] - coor2[1], 2));
+        }
+
+        isMouthOpen() {
+            let positions = this.clmtrackr.getCurrentPosition();
+            if (positions) {
+                return this.checkMouthOpen(positions) > this.mouthOpenRatio;
+            } else {
+                return false;
+            }
+
         }
 
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {

@@ -22,5 +22,6 @@ loops.forever(() => {
     if (true) {
         //faceAR.clearCanvas();
         faceAR.detectSentiment();
+        faceAR.detectMouthStatus();
     }
 });
