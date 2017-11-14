@@ -25,7 +25,7 @@ namespace pxsim.faceAR {
         if (currentSentiment.value > faceDetector().faceEmotionThreshold) {
             faceDetector().bus.queue("sentiment", currentSentiment.sentiment);
         } else {
-            this.clearCanvas();
+            faceDetector().clearCanvas();
         }
     }
 
