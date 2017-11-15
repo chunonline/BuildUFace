@@ -2,7 +2,7 @@
 namespace pxsim.faceAR {
 
     /**
-     * Act on Sentiment
+     * Act on sentiment
      *
      * @param sentiment
      * @param handler 
@@ -14,7 +14,19 @@ namespace pxsim.faceAR {
     }
 
     /**
-     * Act on Eyes Close
+     * Act on sentiment
+     *
+     * @param gender
+     * @param handler
+     */
+    //% weight=100
+    //% blockId=ongender block="on gender %gender"
+    export function onGender(gender: Gender, handler: RefAction) {
+        faceDetector().bus.listen("gender", gender, handler);
+    }
+
+    /**
+     * Act on mouth open or close
      *
      * @param mouthStatus
      * @param hander
@@ -26,19 +38,24 @@ namespace pxsim.faceAR {
     }
 
     /**
-     * Detect Sentiment
+     * Detect sentiment
      */
     //%
     export function detectSentiment() {
         let sentimentList = faceDetector().getFaceEmotionList();
 
-        let currentSentiment:SentimentPair = faceDetector().getTopEmotion(sentimentList);
+        if (sentimentList && sentimentList.length != 0) {
+            let currentSentiment:SentimentPair = faceDetector().getTopEmotion(sentimentList);
 
-        if (currentSentiment.value > faceDetector().faceEmotionThreshold) {
-            faceDetector().bus.queue("sentiment", currentSentiment.sentiment);
+            if (currentSentiment.value > faceDetector().faceEmotionThreshold) {
+                faceDetector().bus.queue("sentiment", currentSentiment.sentiment);
+            } else {
+                faceDetector().clearCanvas();
+            }
         } else {
             faceDetector().clearCanvas();
         }
+
     }
 
     /**
@@ -48,6 +65,20 @@ namespace pxsim.faceAR {
     export function detectMouthStatus() {
         if (faceDetector().isMouthOpen()) {
             faceDetector().bus.queue("mouthStatus", MouthStatus.Open);
+        } else {
+            faceDetector().clearCanvas();
+        }
+    }
+
+    /**
+     * Detect Gender
+     */
+    //%
+    export function detectGender() {
+        let genderList = faceDetector().getGenderPredictionList();
+        if (genderList && genderList.length != 0) {
+            let topGender = faceDetector().getTopGender(genderList);
+            faceDetector().bus.queue("gender", topGender);
         } else {
             faceDetector().clearCanvas();
         }

@@ -13,6 +13,7 @@ declare var pModel: any;
 declare var Poisson: any;
 declare var emotionModel: any;
 declare var emotionClassifier: any;
+declare var genderModel: any;
 
 interface Navigator {
     getUserMedia(
@@ -46,6 +47,7 @@ let CLM_TRACKR: any =  <any>new clm.tracker({useWebGL : true});
 let FACE_DEFORMER: any = <any>new faceDeformer();
 let FACE_DEFORMER_2: any = <any>new faceDeformer();
 let EMOTION_CLASSIFIER = <any>new emotionClassifier();
+let GENDER_CLASSIFIER = <any>new emotionClassifier();
 
 // Face substitution canvases
 let faceSubImageCanvases: any = {};
@@ -116,6 +118,8 @@ function gumSuccess(stream: any) {
     // Start Tracking
     CLM_TRACKR.init(P_MODEL);
     EMOTION_CLASSIFIER.init(emotionModel);
+    GENDER_CLASSIFIER.init(genderModel);
+
     CLM_TRACKR.start(VIDEO);
     FACE_DEFORMER.init(WEBGL);
     FACE_DEFORMER_2.init(WEBGL_2);
@@ -197,8 +201,23 @@ namespace pxsim {
         // This function get face emotion
         getFaceEmotionList() {
             let cp = this.clmtrackr.getCurrentParameters();
-            var er = EMOTION_CLASSIFIER.meanPredict(cp);
-            return er;
+            let emotionList = EMOTION_CLASSIFIER.meanPredict(cp);
+            return emotionList;
+        }
+
+        // This function get gender prediction
+        getGenderPredictionList() {
+            let cp = this.clmtrackr.getCurrentParameters();
+            let genderList = GENDER_CLASSIFIER.meanPredict(cp);
+            return genderList;
+        }
+
+        getTopGender(genderList: any[]) {
+            if (genderList[0].value > genderList[1].value) {
+                return Gender.Female;
+            } else {
+                return Gender.Male;
+            }
         }
 
         getTopEmotion(sentimentList:any[]): SentimentPair {

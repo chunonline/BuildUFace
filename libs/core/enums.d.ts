@@ -29,6 +29,16 @@ declare const enum MouthStatus {
 
 
 /**
+ * Enum for gender
+ */
+declare const enum Gender {
+    //% block=male
+    Male,
+    //% block=female
+    Female
+}
+
+/**
  * Enum for MASKS
  */
 declare const enum maskType {
