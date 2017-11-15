@@ -13,6 +13,7 @@ declare var pModel: any;
 declare var Poisson: any;
 declare var emotionModel: any;
 declare var emotionClassifier: any;
+declare var genderModel: any;
 
 interface Navigator {
     getUserMedia(
@@ -46,6 +47,7 @@ let CLM_TRACKR: any =  <any>new clm.tracker({useWebGL : true});
 let FACE_DEFORMER: any = <any>new faceDeformer();
 let FACE_DEFORMER_2: any = <any>new faceDeformer();
 let EMOTION_CLASSIFIER = <any>new emotionClassifier();
+let GENDER_CLASSIFIER = <any>new emotionClassifier();
 
 // Face substitution canvases
 let faceSubImageCanvases: any = {};
@@ -116,6 +118,8 @@ function gumSuccess(stream: any) {
     // Start Tracking
     CLM_TRACKR.init(P_MODEL);
     EMOTION_CLASSIFIER.init(emotionModel);
+    GENDER_CLASSIFIER.init(genderModel);
+
     CLM_TRACKR.start(VIDEO);
     FACE_DEFORMER.init(WEBGL);
     FACE_DEFORMER_2.init(WEBGL_2);
@@ -167,6 +171,7 @@ namespace pxsim {
         private animationFrame:any;
         public bus: pxsim.EventBus;
         public faceEmotionThreshold = 0.2;
+        private mouthOpenRatio = 0.2;
         
         constructor(video: any, overlay: any, webgl: any, webgl2: any, clmtrackr: any) {
             super();
@@ -196,8 +201,23 @@ namespace pxsim {
         // This function get face emotion
         getFaceEmotionList() {
             let cp = this.clmtrackr.getCurrentParameters();
-            var er = EMOTION_CLASSIFIER.meanPredict(cp);
-            return er;
+            let emotionList = EMOTION_CLASSIFIER.meanPredict(cp);
+            return emotionList;
+        }
+
+        // This function get gender prediction
+        getGenderPredictionList() {
+            let cp = this.clmtrackr.getCurrentParameters();
+            let genderList = GENDER_CLASSIFIER.meanPredict(cp);
+            return genderList;
+        }
+
+        getTopGender(genderList: any[]) {
+            if (genderList[0].value > genderList[1].value) {
+                return Gender.Female;
+            } else {
+                return Gender.Male;
+            }
         }
 
         getTopEmotion(sentimentList:any[]): SentimentPair {
@@ -413,6 +433,42 @@ namespace pxsim {
             cc.closePath();
             cc.fillStyle="#ffffff";
             cc.fill();
+        }
+
+        getVertiHorizontalRatio(top: number, bottom: number, left: number, right: number, positions: any[]) {
+            let posTop = positions[top];
+            let posBottom = positions[bottom];
+
+            let posLeft = positions[left];
+            let posRight = positions[right];
+
+            let vertiHorizontalRatio = this.getCartesianDistance(posTop, posBottom) /
+                                       this.getCartesianDistance(posLeft, posRight);
+            return vertiHorizontalRatio;
+        }
+
+
+        checkLeftEyeOpen(positions:any) {
+            return this.getVertiHorizontalRatio(24, 26, 23, 25, positions);
+        }
+
+        checkMouthOpen(positions:any) {
+            return this.getVertiHorizontalRatio(60, 57, 44, 50, positions);
+        }
+
+        getCartesianDistance(coor1:any, coor2:any):number {
+            return Math.sqrt(Math.pow(coor1[0] - coor2[0], 2) +
+                    Math.pow(coor1[1] - coor2[1], 2));
+        }
+
+        isMouthOpen() {
+            let positions = this.clmtrackr.getCurrentPosition();
+            if (positions) {
+                return this.checkMouthOpen(positions) > this.mouthOpenRatio;
+            } else {
+                return false;
+            }
+
         }
 
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {

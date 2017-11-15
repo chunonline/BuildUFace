@@ -1,7 +1,7 @@
 // Auto-generated from simulator. Do not edit.
 declare namespace faceAR {
     /**
-     * Act on Sentiment
+     * Act on sentiment
      *
      * @param sentiment
      * @param handler 
@@ -12,11 +12,47 @@ declare namespace faceAR {
     function onSentiment(sentiment: Sentiment, handler: () => void): void;
 
     /**
-     * Detect Sentiment
+     * Act on sentiment
+     *
+     * @param gender
+     * @param handler
+     */
+    //% weight=100
+    //% blockId=ongender block="on gender %gender"
+    //% shim=faceAR::onGender
+    function onGender(gender: Gender, handler: () => void): void;
+
+    /**
+     * Act on mouth open or close
+     *
+     * @param mouthStatus
+     * @param hander
+     */
+    //% weight=100
+    //% blockId=onmouthstatus block="on mouth %mouthStatus"
+    //% shim=faceAR::onMouthStatus
+    function onMouthStatus(mouthStatus: MouthStatus, handler: () => void): void;
+
+    /**
+     * Detect sentiment
      */
     //%
     //% shim=faceAR::detectSentiment
     function detectSentiment(): void;
+
+    /**
+     * Detect MouthStatus
+     */
+    //%
+    //% shim=faceAR::detectMouthStatus
+    function detectMouthStatus(): void;
+
+    /**
+     * Detect Gender
+     */
+    //%
+    //% shim=faceAR::detectGender
+    function detectGender(): void;
 
     /**
      * Draw face outline

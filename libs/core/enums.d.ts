@@ -1,3 +1,6 @@
+/**
+ * Enum for emotions
+ */
 declare const enum Sentiment {
     //% block=happy
     Happy,
@@ -14,6 +17,26 @@ declare const enum Sentiment {
     NOEMOTION
 }
 
+/**
+ * Enum for eye status
+ */
+declare const enum MouthStatus {
+    //% block=open
+    Open,
+    //% block=close
+    Close
+}
+
+
+/**
+ * Enum for gender
+ */
+declare const enum Gender {
+    //% block=male
+    Male,
+    //% block=female
+    Female
+}
 
 /**
  * Enum for MASKS

@@ -2189,7 +2189,7 @@
     "callingConvention": 0,
     "_source": null,
     "paramHelp": {},
-    "jsDoc": "",
+    "jsDoc": "Enum for emotions",
     "_name": "Sentiment"
    },
    "pkg": null,
@@ -2321,6 +2321,112 @@
    "retType": "Sentiment",
    "parameters": null,
    "qName": "Sentiment.NOEMOTION"
+  },
+  "MouthStatus": {
+   "kind": 6,
+   "namespace": "",
+   "name": "MouthStatus",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "Enum for eye status",
+    "_name": "MouthStatus"
+   },
+   "pkg": null,
+   "retType": "MouthStatus",
+   "parameters": null,
+   "qName": "MouthStatus"
+  },
+  "MouthStatus.Open": {
+   "kind": 7,
+   "namespace": "MouthStatus",
+   "name": "Open",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "open",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Open"
+   },
+   "pkg": null,
+   "retType": "MouthStatus",
+   "parameters": null,
+   "qName": "MouthStatus.Open"
+  },
+  "MouthStatus.Close": {
+   "kind": 7,
+   "namespace": "MouthStatus",
+   "name": "Close",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "close",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Close"
+   },
+   "pkg": null,
+   "retType": "MouthStatus",
+   "parameters": null,
+   "qName": "MouthStatus.Close"
+  },
+  "Gender": {
+   "kind": 6,
+   "namespace": "",
+   "name": "Gender",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "Enum for gender",
+    "_name": "Gender"
+   },
+   "pkg": null,
+   "retType": "Gender",
+   "parameters": null,
+   "qName": "Gender"
+  },
+  "Gender.Male": {
+   "kind": 7,
+   "namespace": "Gender",
+   "name": "Male",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "male",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Male"
+   },
+   "pkg": null,
+   "retType": "Gender",
+   "parameters": null,
+   "qName": "Gender.Male"
+  },
+  "Gender.Female": {
+   "kind": 7,
+   "namespace": "Gender",
+   "name": "Female",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "female",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Female"
+   },
+   "pkg": null,
+   "retType": "Gender",
+   "parameters": null,
+   "qName": "Gender.Female"
   },
   "maskType": {
    "kind": 6,
@@ -2935,7 +3041,7 @@
     "paramHelp": {
      "handler": ""
     },
-    "jsDoc": "Act on Sentiment\n* @param sentiment",
+    "jsDoc": "Act on sentiment\n* @param sentiment",
     "_name": "onSentiment"
    },
    "pkg": null,
@@ -2959,6 +3065,84 @@
    "snippet": "onSentiment(null, function () {})",
    "qName": "faceAR.onSentiment"
   },
+  "faceAR.onGender": {
+   "kind": 3,
+   "namespace": "faceAR",
+   "name": "onGender",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "weight": 100,
+    "blockId": "ongender",
+    "block": "on gender %gender",
+    "shim": "faceAR::onGender",
+    "paramHelp": {
+     "handler": ""
+    },
+    "jsDoc": "Act on sentiment\n* @param gender",
+    "_name": "onGender"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [
+    {
+     "name": "gender",
+     "description": "",
+     "type": "Gender",
+     "options": {},
+     "isEnum": true
+    },
+    {
+     "name": "handler",
+     "description": "",
+     "type": "() => void",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "onGender(null, function () {})",
+   "qName": "faceAR.onGender"
+  },
+  "faceAR.onMouthStatus": {
+   "kind": 3,
+   "namespace": "faceAR",
+   "name": "onMouthStatus",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "weight": 100,
+    "blockId": "onmouthstatus",
+    "block": "on mouth %mouthStatus",
+    "shim": "faceAR::onMouthStatus",
+    "paramHelp": {
+     "hander": ""
+    },
+    "jsDoc": "Act on mouth open or close\n* @param mouthStatus",
+    "_name": "onMouthStatus"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [
+    {
+     "name": "mouthStatus",
+     "description": "",
+     "type": "MouthStatus",
+     "options": {},
+     "isEnum": true
+    },
+    {
+     "name": "handler",
+     "description": "",
+     "type": "() => void",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "onMouthStatus(null, function () {})",
+   "qName": "faceAR.onMouthStatus"
+  },
   "faceAR.detectSentiment": {
    "kind": 3,
    "namespace": "faceAR",
@@ -2969,7 +3153,7 @@
     "_source": null,
     "shim": "faceAR::detectSentiment",
     "paramHelp": {},
-    "jsDoc": "Detect Sentiment",
+    "jsDoc": "Detect sentiment",
     "_name": "detectSentiment"
    },
    "pkg": null,
@@ -2977,6 +3161,44 @@
    "parameters": [],
    "snippet": "detectSentiment()",
    "qName": "faceAR.detectSentiment"
+  },
+  "faceAR.detectMouthStatus": {
+   "kind": 3,
+   "namespace": "faceAR",
+   "name": "detectMouthStatus",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "faceAR::detectMouthStatus",
+    "paramHelp": {},
+    "jsDoc": "Detect MouthStatus",
+    "_name": "detectMouthStatus"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [],
+   "snippet": "detectMouthStatus()",
+   "qName": "faceAR.detectMouthStatus"
+  },
+  "faceAR.detectGender": {
+   "kind": 3,
+   "namespace": "faceAR",
+   "name": "detectGender",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "faceAR::detectGender",
+    "paramHelp": {},
+    "jsDoc": "Detect Gender",
+    "_name": "detectGender"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [],
+   "snippet": "detectGender()",
+   "qName": "faceAR.detectGender"
   },
   "faceAR.drawFaceOutline": {
    "kind": 3,
