@@ -2909,7 +2909,7 @@
     "callingConvention": 0,
     "_source": null,
     "weight": 100,
-    "color": "#636363",
+    "color": "#3891a6",
     "icon": "",
     "paramHelp": {},
     "jsDoc": "The Face apis",

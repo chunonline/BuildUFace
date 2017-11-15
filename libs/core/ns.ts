@@ -2,7 +2,7 @@
  * The Face apis
  */
 //% weight=100
-//% color=#636363 icon="\uf2bd"
+//% color=#3891a6 icon="\uf2bd"
 namespace faceAR {
 
 }
