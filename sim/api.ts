@@ -79,6 +79,22 @@ namespace pxsim.faceAR {
     }
 
     /**
+     * isFaceLeanLeft
+     *
+     * @param leftRight
+     */
+    //% weight=100
+    //% blockId=isFaceLeanLeft block="face lean %leftRight"
+    export function faceLean(leftRight:LeftRight):boolean {
+        if (leftRight == LeftRight.Left) {
+            return faceDetector().isFaceLeanLeft();
+        } else {
+            return faceDetector().isFaceLeanRight();
+        }
+
+    }
+
+    /**
      * Draw face outline
      */
     //% weight=90

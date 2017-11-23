@@ -174,6 +174,8 @@ namespace pxsim {
         public bus: pxsim.EventBus;
         public faceEmotionThreshold = 0.2;
         private mouthOpenRatio = 0.25;
+        private faceLeanLeftTangentThreshold = -4;
+        private faceLeanRightTangentThreshold = 4;
         
         constructor(video: any, overlay: any, webgl: any, webgl2: any, clmtrackr: any) {
             super();
@@ -263,7 +265,8 @@ namespace pxsim {
             if (this.clmtrackr.getCurrentPosition()) {
                 this.clmtrackr.draw(this.overlay);
             }
-            return Promise.delay(50).then(()=>{this.clearCanvas()});
+            //return Promise.delay(50).then(()=>{this.clearCanvas()});
+            return Promise.delay(50);
         }
 
         // This function draws a Mask
@@ -279,7 +282,8 @@ namespace pxsim {
                 // draw mask on top of face
                 FACE_DEFORMER.draw(positions);
             }
-            return Promise.delay(50).then(()=>{this.clearCanvas()});
+            //return Promise.delay(50).then(()=>{this.clearCanvas()});
+            return Promise.delay(50);
         }
 
         // This function load face substitution
@@ -291,7 +295,8 @@ namespace pxsim {
             if (positions) {
                 this.subSwitchMasks(positions);
             }
-            return Promise.delay(50).then(()=>{this.clearCanvas()});;
+            //return Promise.delay(50).then(()=>{this.clearCanvas()});
+            return Promise.delay(50);
         }
 
 
@@ -469,7 +474,34 @@ namespace pxsim {
             } else {
                 return false;
             }
+        }
 
+        isFaceLeanLeft() {
+            let positions = this.clmtrackr.getCurrentPosition();
+            if (positions) {
+                let tangent:number = this.getTangent(positions[33], positions[62]);
+                console.log("Tan: " + tangent);
+                return tangent > this.faceLeanLeftTangentThreshold && tangent < 0;
+            } else {
+                return false;
+            }
+        }
+
+        isFaceLeanRight() {
+            let positions = this.clmtrackr.getCurrentPosition();
+            if (positions) {
+                let tangent:number = this.getTangent(positions[33], positions[62]);
+                return tangent < this.faceLeanRightTangentThreshold && tangent > 0;
+            } else {
+                return false;
+            }
+        }
+
+        getTangent(pointTop:any, pointBottom:any) {
+            let vertical = pointTop[1] - pointBottom[1];
+            let horizontal = pointTop[0] - pointBottom[0];
+
+            return vertical / horizontal;
         }
 
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {

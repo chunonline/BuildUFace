@@ -17,6 +17,16 @@ declare const enum Sentiment {
 }
 
 /**
+ * Enum for lean left / right
+ */
+declare const enum LeftRight {
+    //% block=left
+    Left,
+    //% block=right
+    Right
+}
+
+/**
  * Default status of all detector
  */
 declare const enum DefaultStatus {

@@ -55,6 +55,16 @@ declare namespace faceAR {
     function detectGender(): void;
 
     /**
+     * isFaceLeanLeft
+     *
+     * @param leftRight
+     */
+    //% weight=100
+    //% blockId=isFaceLeanLeft block="face lean %leftRight"
+    //% shim=faceAR::faceLean
+    function faceLean(leftRight: LeftRight): boolean;
+
+    /**
      * Draw face outline
      */
     //% weight=90

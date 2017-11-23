@@ -103,6 +103,7 @@
   "faceAR.drawFaceDeformation": "Draw deformation",
   "faceAR.drawFaceOutline": "Draw face outline",
   "faceAR.drawMasks": "Add MASKS to faces",
+  "faceAR.faceLean": "isFaceLeanLeft\n* @param leftRight",
   "faceAR.faceSubstitutionLoop": "Face substitution",
   "faceAR.onGender": "Act on sentiment\n* @param gender",
   "faceAR.onMouthStatus": "Act on mouth open or close\n* @param mouthStatus",

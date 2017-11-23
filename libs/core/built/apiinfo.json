@@ -2305,6 +2305,59 @@
    "parameters": null,
    "qName": "Sentiment.Angry"
   },
+  "LeftRight": {
+   "kind": 6,
+   "namespace": "",
+   "name": "LeftRight",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "Enum for lean left / right",
+    "_name": "LeftRight"
+   },
+   "pkg": null,
+   "retType": "LeftRight",
+   "parameters": null,
+   "qName": "LeftRight"
+  },
+  "LeftRight.Left": {
+   "kind": 7,
+   "namespace": "LeftRight",
+   "name": "Left",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "left",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Left"
+   },
+   "pkg": null,
+   "retType": "LeftRight",
+   "parameters": null,
+   "qName": "LeftRight.Left"
+  },
+  "LeftRight.Right": {
+   "kind": 7,
+   "namespace": "LeftRight",
+   "name": "Right",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "right",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Right"
+   },
+   "pkg": null,
+   "retType": "LeftRight",
+   "parameters": null,
+   "qName": "LeftRight.Right"
+  },
   "DefaultStatus": {
    "kind": 6,
    "namespace": "",
@@ -3216,6 +3269,36 @@
    "parameters": [],
    "snippet": "detectGender()",
    "qName": "faceAR.detectGender"
+  },
+  "faceAR.faceLean": {
+   "kind": 3,
+   "namespace": "faceAR",
+   "name": "faceLean",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "weight": 100,
+    "blockId": "isFaceLeanLeft",
+    "block": "face lean %leftRight",
+    "shim": "faceAR::faceLean",
+    "paramHelp": {},
+    "jsDoc": "isFaceLeanLeft\n* @param leftRight",
+    "_name": "faceLean"
+   },
+   "pkg": null,
+   "retType": "boolean",
+   "parameters": [
+    {
+     "name": "leftRight",
+     "description": "",
+     "type": "LeftRight",
+     "options": {},
+     "isEnum": true
+    }
+   ],
+   "snippet": "faceLean(null)",
+   "qName": "faceAR.faceLean"
   },
   "faceAR.drawFaceOutline": {
    "kind": 3,
