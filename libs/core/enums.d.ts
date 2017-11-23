@@ -13,8 +13,14 @@ declare const enum Sentiment {
     //% block=disgusted
     Disgusted,
     //% block=angry
-    Angry,
-    NOEMOTION
+    Angry
+}
+
+/**
+ * Default status of all detector
+ */
+declare const enum DefaultStatus {
+    ValueHolder
 }
 
 /**

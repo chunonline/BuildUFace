@@ -76,7 +76,7 @@ declare namespace faceAR {
     /**
      * Draw deformation
      */
-    //% block="Deform Face %deform" blockId="face_deform"
+    //% block="deform face %deform" blockId="face_deform"
     //% weight=50
     //% shim=faceAR::drawFaceDeformationAsync promise
     function drawFaceDeformation(deform: faceDeform): void;
@@ -85,7 +85,7 @@ declare namespace faceAR {
      * Add MASKS to faces
      */
     //% weight=90
-    //% block="Draw Mask %mask" blockId="face_mask"
+    //% block="draw mask %mask" blockId="face_mask"
     //% shim=faceAR::drawMasksAsync promise
     function drawMasks(mask: maskType): void;
 
@@ -93,7 +93,7 @@ declare namespace faceAR {
      * Face substitution
      */
     //% weight=90
-    //% block="Face Substitution %face" blockId="face_sub"
+    //% block="face substitution %face" blockId="face_sub"
     //% shim=faceAR::faceSubstitutionLoopAsync promise
     function faceSubstitutionLoop(face: faceSubType): void;
 

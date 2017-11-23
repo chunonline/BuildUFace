@@ -49,13 +49,8 @@ namespace pxsim.faceAR {
 
             if (currentSentiment.value > faceDetector().faceEmotionThreshold) {
                 faceDetector().bus.queue("sentiment", currentSentiment.sentiment);
-            } else {
-                faceDetector().clearCanvas();
             }
-        } else {
-            faceDetector().clearCanvas();
         }
-
     }
 
     /**
@@ -66,7 +61,7 @@ namespace pxsim.faceAR {
         if (faceDetector().isMouthOpen()) {
             faceDetector().bus.queue("mouthStatus", MouthStatus.Open);
         } else {
-            faceDetector().clearCanvas();
+            faceDetector().bus.queue("mouthStatus", MouthStatus.Close);
         }
     }
 
@@ -78,9 +73,8 @@ namespace pxsim.faceAR {
         let genderList = faceDetector().getGenderPredictionList();
         if (genderList && genderList.length != 0) {
             let topGender = faceDetector().getTopGender(genderList);
+
             faceDetector().bus.queue("gender", topGender);
-        } else {
-            faceDetector().clearCanvas();
         }
     }
 
@@ -109,7 +103,7 @@ namespace pxsim.faceAR {
     /**
      * Draw deformation
      */
-    //% block="Deform Face %deform" blockId="face_deform"
+    //% block="deform face %deform" blockId="face_deform"
     //% weight=50
     export function drawFaceDeformationAsync(deform: faceDeform) {
         switch (deform) {
@@ -146,7 +140,7 @@ namespace pxsim.faceAR {
      * Add MASKS to faces
      */
     //% weight=90
-    //% block="Draw Mask %mask" blockId="face_mask"
+    //% block="draw mask %mask" blockId="face_mask"
     export function drawMasksAsync(mask: maskType) {
         switch (mask) {
             case maskType.ironman:
@@ -179,7 +173,7 @@ namespace pxsim.faceAR {
      * Face substitution
      */
     //% weight=90
-    //% block="Face Substitution %face" blockId="face_sub"
+    //% block="face substitution %face" blockId="face_sub"
     export function faceSubstitutionLoopAsync(face: faceSubType) {
         switch (face) {
             case faceSubType.average:

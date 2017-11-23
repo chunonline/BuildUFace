@@ -166,12 +166,14 @@ namespace pxsim {
         public curFaceSubMask: string;
         public mask: string;
         public deform_parameters: number[];
+        public MOUTH_STATUS:any = DefaultStatus.ValueHolder;
+        public EMOTION_STATUS:any = DefaultStatus.ValueHolder;
         private convergenceRatio: number = 0.6;
         private shouldContinueMask:boolean = false;
         private animationFrame:any;
         public bus: pxsim.EventBus;
         public faceEmotionThreshold = 0.2;
-        private mouthOpenRatio = 0.2;
+        private mouthOpenRatio = 0.25;
         
         constructor(video: any, overlay: any, webgl: any, webgl2: any, clmtrackr: any) {
             super();
@@ -221,7 +223,7 @@ namespace pxsim {
         }
 
         getTopEmotion(sentimentList:any[]): SentimentPair {
-            let topSentimentPair:SentimentPair = {sentiment: Sentiment.NOEMOTION, value: -1};
+            let topSentimentPair:SentimentPair = {sentiment: Sentiment.Angry, value: -1};
 
             for (let eachEmotion of sentimentList) {
                 if (eachEmotion.value > topSentimentPair.value) {
@@ -249,11 +251,8 @@ namespace pxsim {
                 case "disgusted":
                     return Sentiment.Disgusted;
 
-                case "angry":
-                    return Sentiment.Angry;
-
                 default:
-                    return Sentiment.NOEMOTION
+                    return Sentiment.Angry;
             }
         }
 
@@ -264,7 +263,7 @@ namespace pxsim {
             if (this.clmtrackr.getCurrentPosition()) {
                 this.clmtrackr.draw(this.overlay);
             }
-            return Promise.delay(100);
+            return Promise.delay(50).then(()=>{this.clearCanvas()});
         }
 
         // This function draws a Mask
@@ -280,7 +279,7 @@ namespace pxsim {
                 // draw mask on top of face
                 FACE_DEFORMER.draw(positions);
             }
-            return Promise.delay(100);
+            return Promise.delay(50).then(()=>{this.clearCanvas()});
         }
 
         // This function load face substitution
@@ -289,8 +288,10 @@ namespace pxsim {
             this.curFaceSubMask = face;
 
             let positions = this.clmtrackr.getCurrentPosition();
-            this.subSwitchMasks(positions);
-            return Promise.resolve();
+            if (positions) {
+                this.subSwitchMasks(positions);
+            }
+            return Promise.delay(50).then(()=>{this.clearCanvas()});;
         }
 
 
@@ -354,7 +355,7 @@ namespace pxsim {
             this.deform_parameters = deform_parameters;
 
             this.deformDrawMask();
-            return Promise.delay(100);
+            return Promise.delay(50);
         }
 
         getMaskConvergence():number {

@@ -2305,22 +2305,39 @@
    "parameters": null,
    "qName": "Sentiment.Angry"
   },
-  "Sentiment.NOEMOTION": {
+  "DefaultStatus": {
+   "kind": 6,
+   "namespace": "",
+   "name": "DefaultStatus",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "Default status of all detector",
+    "_name": "DefaultStatus"
+   },
+   "pkg": null,
+   "retType": "DefaultStatus",
+   "parameters": null,
+   "qName": "DefaultStatus"
+  },
+  "DefaultStatus.ValueHolder": {
    "kind": 7,
-   "namespace": "Sentiment",
-   "name": "NOEMOTION",
+   "namespace": "DefaultStatus",
+   "name": "ValueHolder",
    "attributes": {
     "paramDefl": {},
     "callingConvention": 0,
     "_source": null,
     "paramHelp": {},
     "jsDoc": "",
-    "_name": "NOEMOTION"
+    "_name": "ValueHolder"
    },
    "pkg": null,
-   "retType": "Sentiment",
+   "retType": "DefaultStatus",
    "parameters": null,
-   "qName": "Sentiment.NOEMOTION"
+   "qName": "DefaultStatus.ValueHolder"
   },
   "MouthStatus": {
    "kind": 6,
@@ -3253,7 +3270,7 @@
     "paramDefl": {},
     "callingConvention": 2,
     "_source": null,
-    "block": "Deform Face %deform",
+    "block": "deform face %deform",
     "blockId": "face_deform",
     "weight": 50,
     "shim": "faceAR::drawFaceDeformationAsync",
@@ -3285,7 +3302,7 @@
     "callingConvention": 2,
     "_source": null,
     "weight": 90,
-    "block": "Draw Mask %mask",
+    "block": "draw mask %mask",
     "blockId": "face_mask",
     "shim": "faceAR::drawMasksAsync",
     "promise": "true",
@@ -3316,7 +3333,7 @@
     "callingConvention": 2,
     "_source": null,
     "weight": 90,
-    "block": "Face Substitution %face",
+    "block": "face substitution %face",
     "blockId": "face_sub",
     "shim": "faceAR::faceSubstitutionLoopAsync",
     "promise": "true",
@@ -3472,25 +3489,6 @@
    ],
    "snippet": "log(\"\")",
    "qName": "console.log"
-  },
-  "control": {
-   "kind": 5,
-   "namespace": "",
-   "name": "control",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 0,
-    "_source": null,
-    "color": "#FF5722",
-    "weight": 90,
-    "paramHelp": {},
-    "jsDoc": "Control flow",
-    "_name": "control"
-   },
-   "pkg": null,
-   "retType": "",
-   "parameters": null,
-   "qName": "control"
   }
  }
 }
