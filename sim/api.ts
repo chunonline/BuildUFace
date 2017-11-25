@@ -1,4 +1,5 @@
 /// <reference path="../libs/core/enums.d.ts"/>
+
 namespace pxsim.faceAR {
 
     /**
@@ -10,6 +11,7 @@ namespace pxsim.faceAR {
     //% weight=100
     //% blockId=onsentiment block="on sentiment %sentiment"
     export function onSentiment(sentiment: Sentiment, handler: RefAction) {
+        faceDetector().isOnDetecting = true;
         faceDetector().bus.listen("sentiment", sentiment, handler);
     }
 
@@ -22,6 +24,7 @@ namespace pxsim.faceAR {
     //% weight=100
     //% blockId=ongender block="on gender %gender"
     export function onGender(gender: Gender, handler: RefAction) {
+        faceDetector().isOnDetecting = true;
         faceDetector().bus.listen("gender", gender, handler);
     }
 
@@ -34,6 +37,7 @@ namespace pxsim.faceAR {
     //% weight=100
     //% blockId=onmouthstatus block="on mouth %mouthStatus"
     export function onMouthStatus(mouthStatus: MouthStatus, handler: RefAction) {
+        faceDetector().isOnDetecting = true;
         faceDetector().bus.listen("mouthStatus", mouthStatus, handler);
     }
 
@@ -241,7 +245,8 @@ namespace pxsim.loops {
     //% help=functions/forever weight=55 blockGap=8
     //% blockId=device_forever block="forever" 
     export function forever(body: RefAction): void {
-        thread.forever(body)
+        faceDetector().isOnDetecting = false;
+        thread.forever(body);
     }
 
     /**

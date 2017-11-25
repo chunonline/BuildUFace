@@ -132,7 +132,6 @@ function gumFailed() {
     console.log("There was some problem trying to fetch video from your webcam");
 }
 
-
 namespace pxsim {
     /**
      * This function gets called each time the program restarts
@@ -166,6 +165,7 @@ namespace pxsim {
         public curFaceSubMask: string;
         public mask: string;
         public deform_parameters: number[];
+        public isOnDetecting: boolean = false;
         public MOUTH_STATUS:any = DefaultStatus.ValueHolder;
         public EMOTION_STATUS:any = DefaultStatus.ValueHolder;
         private convergenceRatio: number = 0.6;
@@ -258,15 +258,17 @@ namespace pxsim {
             }
         }
 
-
         // This function draws face outline
         drawFaceOutlineAsync() {
             this.clearCanvas();
             if (this.clmtrackr.getCurrentPosition()) {
                 this.clmtrackr.draw(this.overlay);
             }
-            //return Promise.delay(50).then(()=>{this.clearCanvas()});
-            return Promise.delay(50);
+            if (this.isOnDetecting) {
+                return Promise.delay(50).then(()=>{this.clearCanvas()});
+            } else {
+                return Promise.delay(50);
+            }
         }
 
         // This function draws a Mask
@@ -282,8 +284,11 @@ namespace pxsim {
                 // draw mask on top of face
                 FACE_DEFORMER.draw(positions);
             }
-            //return Promise.delay(50).then(()=>{this.clearCanvas()});
-            return Promise.delay(50);
+            if (this.isOnDetecting) {
+                return Promise.delay(50).then(()=>{this.clearCanvas()});
+            } else {
+                return Promise.delay(50);
+            }
         }
 
         // This function load face substitution
@@ -295,10 +300,12 @@ namespace pxsim {
             if (positions) {
                 this.subSwitchMasks(positions);
             }
-            //return Promise.delay(50).then(()=>{this.clearCanvas()});
-            return Promise.delay(50);
+            if (this.isOnDetecting) {
+                return Promise.delay(50).then(()=>{this.clearCanvas()});
+            } else {
+                return Promise.delay(50);
+            }
         }
-
 
         subSwitchMasks(pos: any) {
             VIDEO_CANVAS.getContext('2d').drawImage(this.video,0,0, VIDEO_CANVAS.width, VIDEO_CANVAS.height);
@@ -360,7 +367,11 @@ namespace pxsim {
             this.deform_parameters = deform_parameters;
 
             this.deformDrawMask();
-            return Promise.delay(50);
+            if (this.isOnDetecting) {
+                return Promise.delay(50).then(()=>{this.clearCanvas()});
+            } else {
+                return Promise.delay(50);
+            }
         }
 
         getMaskConvergence():number {
