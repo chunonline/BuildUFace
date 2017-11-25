@@ -1,12 +1,11 @@
 /// <reference path="../libs/core/enums.d.ts"/>
 
-namespace pxsim.faceAR {
-
+namespace pxsim.detector {
     /**
      * Act on sentiment
      *
      * @param sentiment
-     * @param handler 
+     * @param handler
      */
     //% weight=100
     //% blockId=onsentiment block="on sentiment %sentiment"
@@ -118,15 +117,6 @@ namespace pxsim.faceAR {
         return faceDetector().getFaceCenterYPosition();
     }
 
-    /**
-     * Draw face outline
-     */
-    //% weight=90
-    //% block="draw face outline" blockId="face_outline"
-    export function drawFaceOutlineAsync() {
-        return faceDetector().drawFaceOutlineAsync();
-    }
-
     /*
      * Tracking convergence
      *
@@ -138,7 +128,18 @@ namespace pxsim.faceAR {
     export function getTrackingConvergence():number {
         return faceDetector().getMaskConvergence();
     }
+}
 
+namespace pxsim.AugmentedReality {
+
+    /**
+     * Draw face outline
+     */
+    //% weight=90
+    //% block="draw face outline" blockId="face_outline"
+    export function drawFaceOutlineAsync() {
+        return faceDetector().drawFaceOutlineAsync();
+    }
 
     /**
      * Draw deformation
@@ -295,7 +296,20 @@ namespace pxsim.console {
 }
 
 namespace pxsim {
-    /**
-     * A ghost on the screen.
-     */
+
+    export class Sprite {
+        /**
+         * The X-coordiante
+         */
+        //%
+        public x = 100;
+        /**
+         * The Y-coordiante
+         */
+        //%
+        public y = 100;
+        public angle = 90;
+
+        constructor() {}
+    }
 }

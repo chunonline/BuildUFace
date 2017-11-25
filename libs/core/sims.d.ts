@@ -1,14 +1,14 @@
 // Auto-generated from simulator. Do not edit.
-declare namespace faceAR {
+declare namespace detector {
     /**
      * Act on sentiment
      *
      * @param sentiment
-     * @param handler 
+     * @param handler
      */
     //% weight=100
     //% blockId=onsentiment block="on sentiment %sentiment"
-    //% shim=faceAR::onSentiment
+    //% shim=detector::onSentiment
     function onSentiment(sentiment: Sentiment, handler: () => void): void;
 
     /**
@@ -19,7 +19,7 @@ declare namespace faceAR {
      */
     //% weight=100
     //% blockId=ongender block="on gender %gender"
-    //% shim=faceAR::onGender
+    //% shim=detector::onGender
     function onGender(gender: Gender, handler: () => void): void;
 
     /**
@@ -30,28 +30,28 @@ declare namespace faceAR {
      */
     //% weight=100
     //% blockId=onmouthstatus block="on mouth %mouthStatus"
-    //% shim=faceAR::onMouthStatus
+    //% shim=detector::onMouthStatus
     function onMouthStatus(mouthStatus: MouthStatus, handler: () => void): void;
 
     /**
      * Detect sentiment
      */
     //%
-    //% shim=faceAR::detectSentiment
+    //% shim=detector::detectSentiment
     function detectSentiment(): void;
 
     /**
      * Detect MouthStatus
      */
     //%
-    //% shim=faceAR::detectMouthStatus
+    //% shim=detector::detectMouthStatus
     function detectMouthStatus(): void;
 
     /**
      * Detect Gender
      */
     //%
-    //% shim=faceAR::detectGender
+    //% shim=detector::detectGender
     function detectGender(): void;
 
     /**
@@ -61,7 +61,7 @@ declare namespace faceAR {
      */
     //% weight=100
     //% blockId=isFaceLeanLeft block="face lean %leftRight"
-    //% shim=faceAR::faceLean
+    //% shim=detector::faceLean
     function faceLean(leftRight: LeftRight): boolean;
 
     /**
@@ -70,7 +70,7 @@ declare namespace faceAR {
      */
     //% weight=100
     //% blockId=getFaceHorizontalPosition block="get face horizontal position"
-    //% shim=faceAR::getFaceXPosition
+    //% shim=detector::getFaceXPosition
     function getFaceXPosition(): number;
 
     /**
@@ -79,16 +79,8 @@ declare namespace faceAR {
      */
     //% weight=100
     //% blockId=getFaceVerticalPosition block="get face vertical position"
-    //% shim=faceAR::getFaceYPosition
+    //% shim=detector::getFaceYPosition
     function getFaceYPosition(): number;
-
-    /**
-     * Draw face outline
-     */
-    //% weight=90
-    //% block="draw face outline" blockId="face_outline"
-    //% shim=faceAR::drawFaceOutlineAsync promise
-    function drawFaceOutline(): void;
 
     /*
      * Tracking convergence
@@ -98,15 +90,25 @@ declare namespace faceAR {
      * */
     //% block="Get Tracking Convergence" blockId="get_track_conv"
     //% weight=90
-    //% shim=faceAR::getTrackingConvergence
+    //% shim=detector::getTrackingConvergence
     function getTrackingConvergence(): number;
+
+}
+declare namespace AugmentedReality {
+    /**
+     * Draw face outline
+     */
+    //% weight=90
+    //% block="draw face outline" blockId="face_outline"
+    //% shim=AugmentedReality::drawFaceOutlineAsync promise
+    function drawFaceOutline(): void;
 
     /**
      * Draw deformation
      */
     //% block="deform face %deform" blockId="face_deform"
     //% weight=50
-    //% shim=faceAR::drawFaceDeformationAsync promise
+    //% shim=AugmentedReality::drawFaceDeformationAsync promise
     function drawFaceDeformation(deform: faceDeform): void;
 
     /**
@@ -114,7 +116,7 @@ declare namespace faceAR {
      */
     //% weight=90
     //% block="draw mask %mask" blockId="face_mask"
-    //% shim=faceAR::drawMasksAsync promise
+    //% shim=AugmentedReality::drawMasksAsync promise
     function drawMasks(mask: maskType): void;
 
     /**
@@ -122,7 +124,7 @@ declare namespace faceAR {
      */
     //% weight=90
     //% block="face substitution %face" blockId="face_sub"
-    //% shim=faceAR::faceSubstitutionLoopAsync promise
+    //% shim=AugmentedReality::faceSubstitutionLoopAsync promise
     function faceSubstitutionLoop(face: faceSubType): void;
 
 }

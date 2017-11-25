@@ -3076,29 +3076,29 @@
    "parameters": null,
    "qName": "faceDeform.aloof"
   },
-  "faceAR": {
+  "detector": {
    "kind": 5,
    "namespace": "",
-   "name": "faceAR",
+   "name": "detector",
    "attributes": {
     "paramDefl": {},
     "callingConvention": 0,
     "_source": null,
     "weight": 100,
-    "color": "#3891a6",
-    "icon": "",
+    "block": "Face Detector",
+    "color": "#5B0621",
+    "icon": "",
     "paramHelp": {},
-    "jsDoc": "The Face apis",
-    "block": "faceAR"
+    "jsDoc": "The detector apis"
    },
    "pkg": null,
    "retType": "",
    "parameters": null,
-   "qName": "faceAR"
+   "qName": "detector"
   },
-  "faceAR.onSentiment": {
+  "detector.onSentiment": {
    "kind": 3,
-   "namespace": "faceAR",
+   "namespace": "detector",
    "name": "onSentiment",
    "attributes": {
     "paramDefl": {},
@@ -3107,7 +3107,7 @@
     "weight": 100,
     "blockId": "onsentiment",
     "block": "on sentiment %sentiment",
-    "shim": "faceAR::onSentiment",
+    "shim": "detector::onSentiment",
     "paramHelp": {
      "handler": ""
     },
@@ -3133,11 +3133,11 @@
     }
    ],
    "snippet": "onSentiment(null, function () {})",
-   "qName": "faceAR.onSentiment"
+   "qName": "detector.onSentiment"
   },
-  "faceAR.onGender": {
+  "detector.onGender": {
    "kind": 3,
-   "namespace": "faceAR",
+   "namespace": "detector",
    "name": "onGender",
    "attributes": {
     "paramDefl": {},
@@ -3146,7 +3146,7 @@
     "weight": 100,
     "blockId": "ongender",
     "block": "on gender %gender",
-    "shim": "faceAR::onGender",
+    "shim": "detector::onGender",
     "paramHelp": {
      "handler": ""
     },
@@ -3172,11 +3172,11 @@
     }
    ],
    "snippet": "onGender(null, function () {})",
-   "qName": "faceAR.onGender"
+   "qName": "detector.onGender"
   },
-  "faceAR.onMouthStatus": {
+  "detector.onMouthStatus": {
    "kind": 3,
-   "namespace": "faceAR",
+   "namespace": "detector",
    "name": "onMouthStatus",
    "attributes": {
     "paramDefl": {},
@@ -3185,7 +3185,7 @@
     "weight": 100,
     "blockId": "onmouthstatus",
     "block": "on mouth %mouthStatus",
-    "shim": "faceAR::onMouthStatus",
+    "shim": "detector::onMouthStatus",
     "paramHelp": {
      "hander": ""
     },
@@ -3211,17 +3211,17 @@
     }
    ],
    "snippet": "onMouthStatus(null, function () {})",
-   "qName": "faceAR.onMouthStatus"
+   "qName": "detector.onMouthStatus"
   },
-  "faceAR.detectSentiment": {
+  "detector.detectSentiment": {
    "kind": 3,
-   "namespace": "faceAR",
+   "namespace": "detector",
    "name": "detectSentiment",
    "attributes": {
     "paramDefl": {},
     "callingConvention": 0,
     "_source": null,
-    "shim": "faceAR::detectSentiment",
+    "shim": "detector::detectSentiment",
     "paramHelp": {},
     "jsDoc": "Detect sentiment",
     "_name": "detectSentiment"
@@ -3230,17 +3230,17 @@
    "retType": "void",
    "parameters": [],
    "snippet": "detectSentiment()",
-   "qName": "faceAR.detectSentiment"
+   "qName": "detector.detectSentiment"
   },
-  "faceAR.detectMouthStatus": {
+  "detector.detectMouthStatus": {
    "kind": 3,
-   "namespace": "faceAR",
+   "namespace": "detector",
    "name": "detectMouthStatus",
    "attributes": {
     "paramDefl": {},
     "callingConvention": 0,
     "_source": null,
-    "shim": "faceAR::detectMouthStatus",
+    "shim": "detector::detectMouthStatus",
     "paramHelp": {},
     "jsDoc": "Detect MouthStatus",
     "_name": "detectMouthStatus"
@@ -3249,17 +3249,17 @@
    "retType": "void",
    "parameters": [],
    "snippet": "detectMouthStatus()",
-   "qName": "faceAR.detectMouthStatus"
+   "qName": "detector.detectMouthStatus"
   },
-  "faceAR.detectGender": {
+  "detector.detectGender": {
    "kind": 3,
-   "namespace": "faceAR",
+   "namespace": "detector",
    "name": "detectGender",
    "attributes": {
     "paramDefl": {},
     "callingConvention": 0,
     "_source": null,
-    "shim": "faceAR::detectGender",
+    "shim": "detector::detectGender",
     "paramHelp": {},
     "jsDoc": "Detect Gender",
     "_name": "detectGender"
@@ -3268,11 +3268,11 @@
    "retType": "void",
    "parameters": [],
    "snippet": "detectGender()",
-   "qName": "faceAR.detectGender"
+   "qName": "detector.detectGender"
   },
-  "faceAR.faceLean": {
+  "detector.faceLean": {
    "kind": 3,
-   "namespace": "faceAR",
+   "namespace": "detector",
    "name": "faceLean",
    "attributes": {
     "paramDefl": {},
@@ -3281,7 +3281,7 @@
     "weight": 100,
     "blockId": "isFaceLeanLeft",
     "block": "face lean %leftRight",
-    "shim": "faceAR::faceLean",
+    "shim": "detector::faceLean",
     "paramHelp": {},
     "jsDoc": "isFaceLeanLeft\n* @param leftRight",
     "_name": "faceLean"
@@ -3298,11 +3298,11 @@
     }
    ],
    "snippet": "faceLean(null)",
-   "qName": "faceAR.faceLean"
+   "qName": "detector.faceLean"
   },
-  "faceAR.getFaceXPosition": {
+  "detector.getFaceXPosition": {
    "kind": 3,
-   "namespace": "faceAR",
+   "namespace": "detector",
    "name": "getFaceXPosition",
    "attributes": {
     "paramDefl": {},
@@ -3311,7 +3311,7 @@
     "weight": 100,
     "blockId": "getFaceHorizontalPosition",
     "block": "get face horizontal position",
-    "shim": "faceAR::getFaceXPosition",
+    "shim": "detector::getFaceXPosition",
     "paramHelp": {},
     "jsDoc": "get face center X position",
     "_name": "getFaceXPosition"
@@ -3320,11 +3320,11 @@
    "retType": "number",
    "parameters": [],
    "snippet": "getFaceXPosition()",
-   "qName": "faceAR.getFaceXPosition"
+   "qName": "detector.getFaceXPosition"
   },
-  "faceAR.getFaceYPosition": {
+  "detector.getFaceYPosition": {
    "kind": 3,
-   "namespace": "faceAR",
+   "namespace": "detector",
    "name": "getFaceYPosition",
    "attributes": {
     "paramDefl": {},
@@ -3333,7 +3333,7 @@
     "weight": 100,
     "blockId": "getFaceVerticalPosition",
     "block": "get face vertical position",
-    "shim": "faceAR::getFaceYPosition",
+    "shim": "detector::getFaceYPosition",
     "paramHelp": {},
     "jsDoc": "get face center Y position",
     "_name": "getFaceYPosition"
@@ -3342,11 +3342,53 @@
    "retType": "number",
    "parameters": [],
    "snippet": "getFaceYPosition()",
-   "qName": "faceAR.getFaceYPosition"
+   "qName": "detector.getFaceYPosition"
   },
-  "faceAR.drawFaceOutline": {
+  "detector.getTrackingConvergence": {
    "kind": 3,
-   "namespace": "faceAR",
+   "namespace": "detector",
+   "name": "getTrackingConvergence",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "Get Tracking Convergence",
+    "blockId": "get_track_conv",
+    "weight": 90,
+    "shim": "detector::getTrackingConvergence",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "getTrackingConvergence"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [],
+   "snippet": "getTrackingConvergence()",
+   "qName": "detector.getTrackingConvergence"
+  },
+  "AugmentedReality": {
+   "kind": 5,
+   "namespace": "",
+   "name": "AugmentedReality",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "weight": 100,
+    "block": "Augmented Reality",
+    "color": "#3891a6",
+    "icon": "",
+    "paramHelp": {},
+    "jsDoc": "The special effect apis"
+   },
+   "pkg": null,
+   "retType": "",
+   "parameters": null,
+   "qName": "AugmentedReality"
+  },
+  "AugmentedReality.drawFaceOutline": {
+   "kind": 3,
+   "namespace": "AugmentedReality",
    "name": "drawFaceOutline",
    "attributes": {
     "paramDefl": {},
@@ -3355,7 +3397,7 @@
     "weight": 90,
     "block": "draw face outline",
     "blockId": "face_outline",
-    "shim": "faceAR::drawFaceOutlineAsync",
+    "shim": "AugmentedReality::drawFaceOutlineAsync",
     "promise": "true",
     "paramHelp": {},
     "jsDoc": "Draw face outline",
@@ -3365,33 +3407,11 @@
    "retType": "void",
    "parameters": [],
    "snippet": "drawFaceOutline()",
-   "qName": "faceAR.drawFaceOutline"
+   "qName": "AugmentedReality.drawFaceOutline"
   },
-  "faceAR.getTrackingConvergence": {
+  "AugmentedReality.drawFaceDeformation": {
    "kind": 3,
-   "namespace": "faceAR",
-   "name": "getTrackingConvergence",
-   "attributes": {
-    "paramDefl": {},
-    "callingConvention": 0,
-    "_source": null,
-    "block": "Get Tracking Convergence",
-    "blockId": "get_track_conv",
-    "weight": 90,
-    "shim": "faceAR::getTrackingConvergence",
-    "paramHelp": {},
-    "jsDoc": "",
-    "_name": "getTrackingConvergence"
-   },
-   "pkg": null,
-   "retType": "number",
-   "parameters": [],
-   "snippet": "getTrackingConvergence()",
-   "qName": "faceAR.getTrackingConvergence"
-  },
-  "faceAR.drawFaceDeformation": {
-   "kind": 3,
-   "namespace": "faceAR",
+   "namespace": "AugmentedReality",
    "name": "drawFaceDeformation",
    "attributes": {
     "paramDefl": {},
@@ -3400,7 +3420,7 @@
     "block": "deform face %deform",
     "blockId": "face_deform",
     "weight": 50,
-    "shim": "faceAR::drawFaceDeformationAsync",
+    "shim": "AugmentedReality::drawFaceDeformationAsync",
     "promise": "true",
     "paramHelp": {},
     "jsDoc": "Draw deformation",
@@ -3418,11 +3438,11 @@
     }
    ],
    "snippet": "drawFaceDeformation(null)",
-   "qName": "faceAR.drawFaceDeformation"
+   "qName": "AugmentedReality.drawFaceDeformation"
   },
-  "faceAR.drawMasks": {
+  "AugmentedReality.drawMasks": {
    "kind": 3,
-   "namespace": "faceAR",
+   "namespace": "AugmentedReality",
    "name": "drawMasks",
    "attributes": {
     "paramDefl": {},
@@ -3431,7 +3451,7 @@
     "weight": 90,
     "block": "draw mask %mask",
     "blockId": "face_mask",
-    "shim": "faceAR::drawMasksAsync",
+    "shim": "AugmentedReality::drawMasksAsync",
     "promise": "true",
     "paramHelp": {},
     "jsDoc": "Add MASKS to faces",
@@ -3449,11 +3469,11 @@
     }
    ],
    "snippet": "drawMasks(null)",
-   "qName": "faceAR.drawMasks"
+   "qName": "AugmentedReality.drawMasks"
   },
-  "faceAR.faceSubstitutionLoop": {
+  "AugmentedReality.faceSubstitutionLoop": {
    "kind": 3,
-   "namespace": "faceAR",
+   "namespace": "AugmentedReality",
    "name": "faceSubstitutionLoop",
    "attributes": {
     "paramDefl": {},
@@ -3462,7 +3482,7 @@
     "weight": 90,
     "block": "face substitution %face",
     "blockId": "face_sub",
-    "shim": "faceAR::faceSubstitutionLoopAsync",
+    "shim": "AugmentedReality::faceSubstitutionLoopAsync",
     "promise": "true",
     "paramHelp": {},
     "jsDoc": "Face substitution",
@@ -3480,7 +3500,7 @@
     }
    ],
    "snippet": "faceSubstitutionLoop(null)",
-   "qName": "faceAR.faceSubstitutionLoop"
+   "qName": "AugmentedReality.faceSubstitutionLoop"
   },
   "loops": {
    "kind": 5,

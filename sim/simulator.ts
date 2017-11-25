@@ -176,7 +176,11 @@ namespace pxsim {
         private mouthOpenRatio = 0.25;
         private faceLeanLeftTangentThreshold = -4;
         private faceLeanRightTangentThreshold = 4;
-        
+
+        public element : SVGSVGElement;
+        public spriteElement: SVGCircleElement;
+        public sprite : Sprite;
+
         constructor(video: any, overlay: any, webgl: any, webgl2: any, clmtrackr: any) {
             super();
             this.video = video;
@@ -190,6 +194,9 @@ namespace pxsim {
             this.webGLContext2 = this.webGL2.getContext('webgl');
             this.clmtrackr =  clmtrackr;
             this.bus = new pxsim.EventBus(runtime);
+            //this.element = <SVGSVGElement><any>document.getElementById('svgcanvas');
+            //this.spriteElement = <SVGCircleElement>this.element.getElementById('svgsprite');
+            //this.sprite = new Sprite();
         }
 
         clearCanvas() {

@@ -35,9 +35,9 @@ switch (step) {
 
     r0 = pxsim.numops.toBoolDecr(true);
     if (!r0) { step = 1; continue; }
-    r0 = pxsim.faceAR.detectSentiment();
-    r0 = pxsim.faceAR.detectMouthStatus();
-    r0 = pxsim.faceAR.detectGender();
+    r0 = pxsim.detector.detectSentiment();
+    r0 = pxsim.detector.detectMouthStatus();
+    r0 = pxsim.detector.detectGender();
     { step = 2; continue; }
   case 1:
   case 2:
@@ -45,7 +45,7 @@ switch (step) {
     return leave(s, r0)
   default: oops()
 } } }
-inline__P20.info = {"start":143,"length":132,"line":12,"column":14,"endLine":18,"endColumn":1,"fileName":"ns.ts","functionName":"inline"}
+inline__P20.info = {"start":320,"length":138,"line":23,"column":14,"endLine":29,"endColumn":1,"fileName":"ns.ts","functionName":"inline"}
 
 
 setupDebugger(1)
