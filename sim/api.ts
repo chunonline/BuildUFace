@@ -99,6 +99,26 @@ namespace pxsim.faceAR {
     }
 
     /**
+     * get face center X position
+     *
+     */
+    //% weight=100
+    //% blockId=getFaceHorizontalPosition block="get face horizontal position"
+    export function getFaceXPosition():number {
+        return faceDetector().getFaceCenterXPosition();
+    }
+
+    /**
+     * get face center Y position
+     *
+     */
+    //% weight=100
+    //% blockId=getFaceVerticalPosition block="get face vertical position"
+    export function getFaceYPosition():number {
+        return faceDetector().getFaceCenterYPosition();
+    }
+
+    /**
      * Draw face outline
      */
     //% weight=90

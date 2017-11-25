@@ -3300,6 +3300,50 @@
    "snippet": "faceLean(null)",
    "qName": "faceAR.faceLean"
   },
+  "faceAR.getFaceXPosition": {
+   "kind": 3,
+   "namespace": "faceAR",
+   "name": "getFaceXPosition",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "weight": 100,
+    "blockId": "getFaceHorizontalPosition",
+    "block": "get face horizontal position",
+    "shim": "faceAR::getFaceXPosition",
+    "paramHelp": {},
+    "jsDoc": "get face center X position",
+    "_name": "getFaceXPosition"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [],
+   "snippet": "getFaceXPosition()",
+   "qName": "faceAR.getFaceXPosition"
+  },
+  "faceAR.getFaceYPosition": {
+   "kind": 3,
+   "namespace": "faceAR",
+   "name": "getFaceYPosition",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "weight": 100,
+    "blockId": "getFaceVerticalPosition",
+    "block": "get face vertical position",
+    "shim": "faceAR::getFaceYPosition",
+    "paramHelp": {},
+    "jsDoc": "get face center Y position",
+    "_name": "getFaceYPosition"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [],
+   "snippet": "getFaceYPosition()",
+   "qName": "faceAR.getFaceYPosition"
+  },
   "faceAR.drawFaceOutline": {
    "kind": 3,
    "namespace": "faceAR",

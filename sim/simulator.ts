@@ -224,6 +224,24 @@ namespace pxsim {
             }
         }
 
+        getFaceCenterXPosition():number {
+            let positions = this.clmtrackr.getCurrentPosition();
+            if (positions) {
+                return positions[62][0];
+            } else {
+                return -1;
+            }
+        }
+
+        getFaceCenterYPosition():number {
+            let positions = this.clmtrackr.getCurrentPosition();
+            if (positions) {
+                return positions[62][1];
+            } else {
+                return -1;
+            }
+        }
+
         getTopEmotion(sentimentList:any[]): SentimentPair {
             let topSentimentPair:SentimentPair = {sentiment: Sentiment.Angry, value: -1};
 

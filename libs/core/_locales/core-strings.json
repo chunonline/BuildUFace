@@ -35,6 +35,8 @@
   "faceAR.drawMasks|block": "draw mask %mask",
   "faceAR.faceLean|block": "face lean %leftRight",
   "faceAR.faceSubstitutionLoop|block": "face substitution %face",
+  "faceAR.getFaceXPosition|block": "get face horizontal position",
+  "faceAR.getFaceYPosition|block": "get face vertical position",
   "faceAR.onGender|block": "on gender %gender",
   "faceAR.onMouthStatus|block": "on mouth %mouthStatus",
   "faceAR.onSentiment|block": "on sentiment %sentiment",

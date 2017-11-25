@@ -105,6 +105,8 @@
   "faceAR.drawMasks": "Add MASKS to faces",
   "faceAR.faceLean": "isFaceLeanLeft\n* @param leftRight",
   "faceAR.faceSubstitutionLoop": "Face substitution",
+  "faceAR.getFaceXPosition": "get face center X position",
+  "faceAR.getFaceYPosition": "get face center Y position",
   "faceAR.onGender": "Act on sentiment\n* @param gender",
   "faceAR.onMouthStatus": "Act on mouth open or close\n* @param mouthStatus",
   "faceAR.onSentiment": "Act on sentiment\n* @param sentiment",

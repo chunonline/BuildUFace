@@ -65,6 +65,24 @@ declare namespace faceAR {
     function faceLean(leftRight: LeftRight): boolean;
 
     /**
+     * get face center X position
+     *
+     */
+    //% weight=100
+    //% blockId=getFaceHorizontalPosition block="get face horizontal position"
+    //% shim=faceAR::getFaceXPosition
+    function getFaceXPosition(): number;
+
+    /**
+     * get face center Y position
+     *
+     */
+    //% weight=100
+    //% blockId=getFaceVerticalPosition block="get face vertical position"
+    //% shim=faceAR::getFaceYPosition
+    function getFaceYPosition(): number;
+
+    /**
      * Draw face outline
      */
     //% weight=90
