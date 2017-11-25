@@ -1,4 +1,14 @@
 // Auto-generated from simulator. Do not edit.
+declare namespace gaming {
+    /**
+     * Drop ball
+     */
+    //% weight=100
+    //% blockId=onballdrop block="on ball drop"
+    //% shim=gaming::onBallDrop
+    function onBallDrop(handler: () => void): void;
+
+}
 declare namespace detector {
     /**
      * Act on sentiment
@@ -94,13 +104,13 @@ declare namespace detector {
     function getTrackingConvergence(): number;
 
 }
-declare namespace AugmentedReality {
+declare namespace augmentedReality {
     /**
      * Draw face outline
      */
     //% weight=90
     //% block="draw face outline" blockId="face_outline"
-    //% shim=AugmentedReality::drawFaceOutlineAsync promise
+    //% shim=augmentedReality::drawFaceOutlineAsync promise
     function drawFaceOutline(): void;
 
     /**
@@ -108,7 +118,7 @@ declare namespace AugmentedReality {
      */
     //% block="deform face %deform" blockId="face_deform"
     //% weight=50
-    //% shim=AugmentedReality::drawFaceDeformationAsync promise
+    //% shim=augmentedReality::drawFaceDeformationAsync promise
     function drawFaceDeformation(deform: faceDeform): void;
 
     /**
@@ -116,7 +126,7 @@ declare namespace AugmentedReality {
      */
     //% weight=90
     //% block="draw mask %mask" blockId="face_mask"
-    //% shim=AugmentedReality::drawMasksAsync promise
+    //% shim=augmentedReality::drawMasksAsync promise
     function drawMasks(mask: maskType): void;
 
     /**
@@ -124,7 +134,7 @@ declare namespace AugmentedReality {
      */
     //% weight=90
     //% block="face substitution %face" blockId="face_sub"
-    //% shim=AugmentedReality::faceSubstitutionLoopAsync promise
+    //% shim=augmentedReality::faceSubstitutionLoopAsync promise
     function faceSubstitutionLoop(face: faceSubType): void;
 
 }

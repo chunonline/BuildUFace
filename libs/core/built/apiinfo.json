@@ -3076,6 +3076,56 @@
    "parameters": null,
    "qName": "faceDeform.aloof"
   },
+  "gaming": {
+   "kind": 5,
+   "namespace": "",
+   "name": "gaming",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "weight": 100,
+    "block": "Gaming",
+    "color": "#E87B21",
+    "icon": "",
+    "paramHelp": {},
+    "jsDoc": "The gamming effect apis"
+   },
+   "pkg": null,
+   "retType": "",
+   "parameters": null,
+   "qName": "gaming"
+  },
+  "gaming.onBallDrop": {
+   "kind": 3,
+   "namespace": "gaming",
+   "name": "onBallDrop",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "weight": 100,
+    "blockId": "onballdrop",
+    "block": "on ball drop",
+    "shim": "gaming::onBallDrop",
+    "paramHelp": {},
+    "jsDoc": "Drop ball",
+    "_name": "onBallDrop"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [
+    {
+     "name": "handler",
+     "description": "",
+     "type": "() => void",
+     "options": {},
+     "isEnum": false
+    }
+   ],
+   "snippet": "onBallDrop(function () {})",
+   "qName": "gaming.onBallDrop"
+  },
   "detector": {
    "kind": 5,
    "namespace": "",
@@ -3366,10 +3416,10 @@
    "snippet": "getTrackingConvergence()",
    "qName": "detector.getTrackingConvergence"
   },
-  "AugmentedReality": {
+  "augmentedReality": {
    "kind": 5,
    "namespace": "",
-   "name": "AugmentedReality",
+   "name": "augmentedReality",
    "attributes": {
     "paramDefl": {},
     "callingConvention": 0,
@@ -3384,11 +3434,11 @@
    "pkg": null,
    "retType": "",
    "parameters": null,
-   "qName": "AugmentedReality"
+   "qName": "augmentedReality"
   },
-  "AugmentedReality.drawFaceOutline": {
+  "augmentedReality.drawFaceOutline": {
    "kind": 3,
-   "namespace": "AugmentedReality",
+   "namespace": "augmentedReality",
    "name": "drawFaceOutline",
    "attributes": {
     "paramDefl": {},
@@ -3397,7 +3447,7 @@
     "weight": 90,
     "block": "draw face outline",
     "blockId": "face_outline",
-    "shim": "AugmentedReality::drawFaceOutlineAsync",
+    "shim": "augmentedReality::drawFaceOutlineAsync",
     "promise": "true",
     "paramHelp": {},
     "jsDoc": "Draw face outline",
@@ -3407,11 +3457,11 @@
    "retType": "void",
    "parameters": [],
    "snippet": "drawFaceOutline()",
-   "qName": "AugmentedReality.drawFaceOutline"
+   "qName": "augmentedReality.drawFaceOutline"
   },
-  "AugmentedReality.drawFaceDeformation": {
+  "augmentedReality.drawFaceDeformation": {
    "kind": 3,
-   "namespace": "AugmentedReality",
+   "namespace": "augmentedReality",
    "name": "drawFaceDeformation",
    "attributes": {
     "paramDefl": {},
@@ -3420,7 +3470,7 @@
     "block": "deform face %deform",
     "blockId": "face_deform",
     "weight": 50,
-    "shim": "AugmentedReality::drawFaceDeformationAsync",
+    "shim": "augmentedReality::drawFaceDeformationAsync",
     "promise": "true",
     "paramHelp": {},
     "jsDoc": "Draw deformation",
@@ -3438,11 +3488,11 @@
     }
    ],
    "snippet": "drawFaceDeformation(null)",
-   "qName": "AugmentedReality.drawFaceDeformation"
+   "qName": "augmentedReality.drawFaceDeformation"
   },
-  "AugmentedReality.drawMasks": {
+  "augmentedReality.drawMasks": {
    "kind": 3,
-   "namespace": "AugmentedReality",
+   "namespace": "augmentedReality",
    "name": "drawMasks",
    "attributes": {
     "paramDefl": {},
@@ -3451,7 +3501,7 @@
     "weight": 90,
     "block": "draw mask %mask",
     "blockId": "face_mask",
-    "shim": "AugmentedReality::drawMasksAsync",
+    "shim": "augmentedReality::drawMasksAsync",
     "promise": "true",
     "paramHelp": {},
     "jsDoc": "Add MASKS to faces",
@@ -3469,11 +3519,11 @@
     }
    ],
    "snippet": "drawMasks(null)",
-   "qName": "AugmentedReality.drawMasks"
+   "qName": "augmentedReality.drawMasks"
   },
-  "AugmentedReality.faceSubstitutionLoop": {
+  "augmentedReality.faceSubstitutionLoop": {
    "kind": 3,
-   "namespace": "AugmentedReality",
+   "namespace": "augmentedReality",
    "name": "faceSubstitutionLoop",
    "attributes": {
     "paramDefl": {},
@@ -3482,7 +3532,7 @@
     "weight": 90,
     "block": "face substitution %face",
     "blockId": "face_sub",
-    "shim": "AugmentedReality::faceSubstitutionLoopAsync",
+    "shim": "augmentedReality::faceSubstitutionLoopAsync",
     "promise": "true",
     "paramHelp": {},
     "jsDoc": "Face substitution",
@@ -3500,7 +3550,7 @@
     }
    ],
    "snippet": "faceSubstitutionLoop(null)",
-   "qName": "AugmentedReality.faceSubstitutionLoop"
+   "qName": "augmentedReality.faceSubstitutionLoop"
   },
   "loops": {
    "kind": 5,

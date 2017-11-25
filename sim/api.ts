@@ -1,5 +1,16 @@
 /// <reference path="../libs/core/enums.d.ts"/>
 
+namespace pxsim.gaming {
+    /**
+     * Drop ball
+     */
+    //% weight=100
+    //% blockId=onballdrop block="on ball drop"
+    export function onBallDrop(handler: RefAction) {
+        runtimeStateFactory().dropDown();
+    }
+}
+
 namespace pxsim.detector {
     /**
      * Act on sentiment
@@ -10,8 +21,8 @@ namespace pxsim.detector {
     //% weight=100
     //% blockId=onsentiment block="on sentiment %sentiment"
     export function onSentiment(sentiment: Sentiment, handler: RefAction) {
-        faceDetector().isOnDetecting = true;
-        faceDetector().bus.listen("sentiment", sentiment, handler);
+        runtimeStateFactory().isOnDetecting = true;
+        runtimeStateFactory().bus.listen("sentiment", sentiment, handler);
     }
 
     /**
@@ -23,8 +34,8 @@ namespace pxsim.detector {
     //% weight=100
     //% blockId=ongender block="on gender %gender"
     export function onGender(gender: Gender, handler: RefAction) {
-        faceDetector().isOnDetecting = true;
-        faceDetector().bus.listen("gender", gender, handler);
+        runtimeStateFactory().isOnDetecting = true;
+        runtimeStateFactory().bus.listen("gender", gender, handler);
     }
 
     /**
@@ -36,8 +47,8 @@ namespace pxsim.detector {
     //% weight=100
     //% blockId=onmouthstatus block="on mouth %mouthStatus"
     export function onMouthStatus(mouthStatus: MouthStatus, handler: RefAction) {
-        faceDetector().isOnDetecting = true;
-        faceDetector().bus.listen("mouthStatus", mouthStatus, handler);
+        runtimeStateFactory().isOnDetecting = true;
+        runtimeStateFactory().bus.listen("mouthStatus", mouthStatus, handler);
     }
 
     /**
@@ -45,13 +56,13 @@ namespace pxsim.detector {
      */
     //%
     export function detectSentiment() {
-        let sentimentList = faceDetector().getFaceEmotionList();
+        let sentimentList = runtimeStateFactory().getFaceEmotionList();
 
         if (sentimentList && sentimentList.length != 0) {
-            let currentSentiment:SentimentPair = faceDetector().getTopEmotion(sentimentList);
+            let currentSentiment:SentimentPair = runtimeStateFactory().getTopEmotion(sentimentList);
 
-            if (currentSentiment.value > faceDetector().faceEmotionThreshold) {
-                faceDetector().bus.queue("sentiment", currentSentiment.sentiment);
+            if (currentSentiment.value > runtimeStateFactory().faceEmotionThreshold) {
+                runtimeStateFactory().bus.queue("sentiment", currentSentiment.sentiment);
             }
         }
     }
@@ -61,10 +72,10 @@ namespace pxsim.detector {
      */
     //%
     export function detectMouthStatus() {
-        if (faceDetector().isMouthOpen()) {
-            faceDetector().bus.queue("mouthStatus", MouthStatus.Open);
+        if (runtimeStateFactory().isMouthOpen()) {
+            runtimeStateFactory().bus.queue("mouthStatus", MouthStatus.Open);
         } else {
-            faceDetector().bus.queue("mouthStatus", MouthStatus.Close);
+            runtimeStateFactory().bus.queue("mouthStatus", MouthStatus.Close);
         }
     }
 
@@ -73,11 +84,11 @@ namespace pxsim.detector {
      */
     //%
     export function detectGender() {
-        let genderList = faceDetector().getGenderPredictionList();
+        let genderList = runtimeStateFactory().getGenderPredictionList();
         if (genderList && genderList.length != 0) {
-            let topGender = faceDetector().getTopGender(genderList);
+            let topGender = runtimeStateFactory().getTopGender(genderList);
 
-            faceDetector().bus.queue("gender", topGender);
+            runtimeStateFactory().bus.queue("gender", topGender);
         }
     }
 
@@ -90,9 +101,9 @@ namespace pxsim.detector {
     //% blockId=isFaceLeanLeft block="face lean %leftRight"
     export function faceLean(leftRight:LeftRight):boolean {
         if (leftRight == LeftRight.Left) {
-            return faceDetector().isFaceLeanLeft();
+            return runtimeStateFactory().isFaceLeanLeft();
         } else {
-            return faceDetector().isFaceLeanRight();
+            return runtimeStateFactory().isFaceLeanRight();
         }
 
     }
@@ -104,7 +115,7 @@ namespace pxsim.detector {
     //% weight=100
     //% blockId=getFaceHorizontalPosition block="get face horizontal position"
     export function getFaceXPosition():number {
-        return faceDetector().getFaceCenterXPosition();
+        return runtimeStateFactory().getFaceCenterXPosition();
     }
 
     /**
@@ -114,7 +125,7 @@ namespace pxsim.detector {
     //% weight=100
     //% blockId=getFaceVerticalPosition block="get face vertical position"
     export function getFaceYPosition():number {
-        return faceDetector().getFaceCenterYPosition();
+        return runtimeStateFactory().getFaceCenterYPosition();
     }
 
     /*
@@ -126,11 +137,11 @@ namespace pxsim.detector {
     //% block="Get Tracking Convergence" blockId="get_track_conv"
     //% weight=90
     export function getTrackingConvergence():number {
-        return faceDetector().getMaskConvergence();
+        return runtimeStateFactory().getMaskConvergence();
     }
 }
 
-namespace pxsim.AugmentedReality {
+namespace pxsim.augmentedReality {
 
     /**
      * Draw face outline
@@ -138,7 +149,7 @@ namespace pxsim.AugmentedReality {
     //% weight=90
     //% block="draw face outline" blockId="face_outline"
     export function drawFaceOutlineAsync() {
-        return faceDetector().drawFaceOutlineAsync();
+        return runtimeStateFactory().drawFaceOutlineAsync();
     }
 
     /**
@@ -149,28 +160,28 @@ namespace pxsim.AugmentedReality {
     export function drawFaceDeformationAsync(deform: faceDeform) {
         switch (deform) {
             case faceDeform.unwell:
-                return faceDetector().drawFaceDeformAsync([0, 0, 0, 0, 0, 0, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                return runtimeStateFactory().drawFaceDeformAsync([0, 0, 0, 0, 0, 0, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
             case faceDeform.inca:
-                return faceDetector().drawFaceDeformAsync([0, 0, -9, 0, -11, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 0, 0]);
+                return runtimeStateFactory().drawFaceDeformAsync([0, 0, -9, 0, -11, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 0, 0]);
 
             case faceDeform.cheery:
-                return faceDetector().drawFaceDeformAsync([0, 0, -9, 9, -11, 0, 0, 0, 0, 0, 0, 0, -9, 0, 0, 0, 0, 0]);
+                return runtimeStateFactory().drawFaceDeformAsync([0, 0, -9, 9, -11, 0, 0, 0, 0, 0, 0, 0, -9, 0, 0, 0, 0, 0]);
 
             case faceDeform.dopey:
-                return faceDetector().drawFaceDeformAsync([0, 0, 0, 0, 0, 0, 0, -11, 0, 0, 0, 0, 0, 0, 20, 0, 0, 0]);
+                return runtimeStateFactory().drawFaceDeformAsync([0, 0, 0, 0, 0, 0, 0, -11, 0, 0, 0, 0, 0, 0, 20, 0, 0, 0]);
 
             case faceDeform.longface:
-                return faceDetector().drawFaceDeformAsync( [0, 0, 0, 0, -15, 0, 0, -12, 0, 0, 0, 0, 0, 0, -7, 0, 0, 5]);
+                return runtimeStateFactory().drawFaceDeformAsync( [0, 0, 0, 0, -15, 0, 0, -12, 0, 0, 0, 0, 0, 0, -7, 0, 0, 5]);
 
             case faceDeform.lucky:
-                return faceDetector().drawFaceDeformAsync([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -4, 0, -6, 12, 0, 0]);
+                return runtimeStateFactory().drawFaceDeformAsync([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -4, 0, -6, 12, 0, 0]);
 
             case faceDeform.overcute:
-                return faceDetector().drawFaceDeformAsync([0, 0, 0, 0, 16, 0, -14, 0, 0, 0, 0, 0, -7, 0, 0, 0, 0, 0]);
+                return runtimeStateFactory().drawFaceDeformAsync([0, 0, 0, 0, 16, 0, -14, 0, 0, 0, 0, 0, -7, 0, 0, 0, 0, 0]);
 
             case faceDeform.aloof:
-                return faceDetector().drawFaceDeformAsync([0, 0, 0, 0, 0, 0, 0, -8, 0, 0, 0, 0, 0, 0, -2, 0, 0, 10]);
+                return runtimeStateFactory().drawFaceDeformAsync([0, 0, 0, 0, 0, 0, 0, -8, 0, 0, 0, 0, 0, 0, -2, 0, 0, 10]);
 
             default:
                 return Promise.delay(100);
@@ -185,25 +196,25 @@ namespace pxsim.AugmentedReality {
     export function drawMasksAsync(mask: maskType) {
         switch (mask) {
             case maskType.ironman:
-                return faceDetector().drawFaceMasksAsync('ironman');
+                return runtimeStateFactory().drawFaceMasksAsync('ironman');
 
             case maskType.audrey:
-                return faceDetector().drawFaceMasksAsync('audrey');
+                return runtimeStateFactory().drawFaceMasksAsync('audrey');
 
             case maskType.average:
-                return faceDetector().drawFaceMasksAsync('average');
+                return runtimeStateFactory().drawFaceMasksAsync('average');
 
             case maskType.nicolas_cage:
-                return faceDetector().drawFaceMasksAsync('cage2');
+                return runtimeStateFactory().drawFaceMasksAsync('cage2');
 
             case maskType.monalisa:
-                return faceDetector().drawFaceMasksAsync('joconde');
+                return runtimeStateFactory().drawFaceMasksAsync('joconde');
 
             case maskType.sean_connery:
-                return faceDetector().drawFaceMasksAsync('SeanConnery');
+                return runtimeStateFactory().drawFaceMasksAsync('SeanConnery');
 
             case maskType.skull:
-                return faceDetector().drawFaceMasksAsync('skull');
+                return runtimeStateFactory().drawFaceMasksAsync('skull');
 
             default:
                 return Promise.delay(100);
@@ -218,37 +229,37 @@ namespace pxsim.AugmentedReality {
     export function faceSubstitutionLoopAsync(face: faceSubType) {
         switch (face) {
             case faceSubType.average:
-                return faceDetector().drawFaceSubstitutionAsync("sub-average");
+                return runtimeStateFactory().drawFaceSubstitutionAsync("sub-average");
             case faceSubType.terminator:
-                return faceDetector().drawFaceSubstitutionAsync("sub-terminator");
+                return runtimeStateFactory().drawFaceSubstitutionAsync("sub-terminator");
             case faceSubType.walter:
-                return faceDetector().drawFaceSubstitutionAsync("sub-walter");
+                return runtimeStateFactory().drawFaceSubstitutionAsync("sub-walter");
             case faceSubType.clooney:
-                return faceDetector().drawFaceSubstitutionAsync("sub-clooney");
+                return runtimeStateFactory().drawFaceSubstitutionAsync("sub-clooney");
             case faceSubType.bieber:
-                return faceDetector().drawFaceSubstitutionAsync("sub-bieber");
+                return runtimeStateFactory().drawFaceSubstitutionAsync("sub-bieber");
             case faceSubType.kim:
-                return faceDetector().drawFaceSubstitutionAsync("sub-kim");
+                return runtimeStateFactory().drawFaceSubstitutionAsync("sub-kim");
             case faceSubType.rihanna:
-                return faceDetector().drawFaceSubstitutionAsync("sub-rihanna");
+                return runtimeStateFactory().drawFaceSubstitutionAsync("sub-rihanna");
             case faceSubType.audrey:
-                return faceDetector().drawFaceSubstitutionAsync("sub-audrey");
+                return runtimeStateFactory().drawFaceSubstitutionAsync("sub-audrey");
             case faceSubType.bill:
-                return faceDetector().drawFaceSubstitutionAsync("sub-bill");
+                return runtimeStateFactory().drawFaceSubstitutionAsync("sub-bill");
             case faceSubType.connery:
-                return faceDetector().drawFaceSubstitutionAsync("sub-connery");
+                return runtimeStateFactory().drawFaceSubstitutionAsync("sub-connery");
             case faceSubType.cage:
-                return faceDetector().drawFaceSubstitutionAsync("sub-cage");
+                return runtimeStateFactory().drawFaceSubstitutionAsync("sub-cage");
             case faceSubType.queen:
-                return faceDetector().drawFaceSubstitutionAsync("sub-queen");
+                return runtimeStateFactory().drawFaceSubstitutionAsync("sub-queen");
             case faceSubType.obama:
-                return faceDetector().drawFaceSubstitutionAsync("sub-obama");
+                return runtimeStateFactory().drawFaceSubstitutionAsync("sub-obama");
             case faceSubType.chuck:
-                return faceDetector().drawFaceSubstitutionAsync("sub-chuck");
+                return runtimeStateFactory().drawFaceSubstitutionAsync("sub-chuck");
             case faceSubType.monalisa:
-                return faceDetector().drawFaceSubstitutionAsync("sub-monalisa");
+                return runtimeStateFactory().drawFaceSubstitutionAsync("sub-monalisa");
             case faceSubType.scream:
-                return faceDetector().drawFaceSubstitutionAsync("sub-scream");
+                return runtimeStateFactory().drawFaceSubstitutionAsync("sub-scream");
 
             default:
                 return Promise.delay(100);
@@ -266,7 +277,7 @@ namespace pxsim.loops {
     //% help=functions/forever weight=55 blockGap=8
     //% blockId=device_forever block="forever" 
     export function forever(body: RefAction): void {
-        faceDetector().isOnDetecting = false;
+        runtimeStateFactory().isOnDetecting = false;
         thread.forever(body);
     }
 
@@ -291,7 +302,7 @@ namespace pxsim.console {
     export function log(msg:string) {
         logMsg("CONSOLE: " + msg);
         // why doesn't that work?
-        faceDetector().writeSerial(msg + "\n");
+        runtimeStateFactory().writeSerial(msg + "\n");
     }
 }
 

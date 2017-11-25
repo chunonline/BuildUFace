@@ -9,7 +9,7 @@
         #webgl2 {
             visibility: hidden;
         }
-        #overlay, #webgl {
+        #overlay, #webgl, #svgcanvas {
             position: absolute;
             top: 0px;
             left: 0px;
@@ -49,9 +49,9 @@
         <canvas id="overlay" width="400" height="300"></canvas>
         <canvas id="webgl" width="400" height="300"></canvas>
 
-        <!--<svg id='svgcanvas' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">-->
-            <!--<circle id='svgsprite' cx="100" cy="100" r="50" class="sprite" />-->
-        <!--</svg>-->
+        <svg id='svgcanvas' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+            <circle id='svgsprite' cx="100" cy="100" r="50" class="sprite" />
+        </svg>
     </div>
     <canvas id="webgl2" width="400" height="300"></canvas>
 

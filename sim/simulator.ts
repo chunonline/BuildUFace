@@ -6,7 +6,7 @@
     Declare the usage of clmtrackr library.
     Initialize video & clmtrackr library only once
 -------------------------------------------- */
-import FaceDetector = pxsim.FaceDetector;
+import FaceDetector = pxsim.BuildUFace;
 declare var clm: any;
 declare var faceDeformer: any;
 declare var pModel: any;
@@ -78,8 +78,6 @@ navigator.getUserMedia({video : true}, gumSuccess.bind(this), gumFailed);
 
 
 
-
-
 /* -----------------------------------------
     Load face substitution images
  -------------------------------------------- */
@@ -137,21 +135,21 @@ namespace pxsim {
      * This function gets called each time the program restarts
      */
     initCurrentRuntime = () => {
-        runtime.board = new FaceDetector(VIDEO, OVERLAY, WEBGL, WEBGL_2, CLM_TRACKR);
+        runtime.board = new BuildUFace(VIDEO, OVERLAY, WEBGL, WEBGL_2, CLM_TRACKR);
     };
 
     /**
      * Gets the current 'board', eg. program state.
      */
-    export function faceDetector() : FaceDetector {
-        return runtime.board as FaceDetector;
+    export function runtimeStateFactory() : BuildUFace {
+        return runtime.board as BuildUFace;
     }
 
     /**
      * Represents the entire state of the executing program.
      * Do not store state anywhere else!
      */
-    export class FaceDetector extends pxsim.BaseBoard{
+    export class BuildUFace extends pxsim.BaseBoard{
         public video: any;
         public video_width: number;
         public video_height: number;
@@ -194,9 +192,9 @@ namespace pxsim {
             this.webGLContext2 = this.webGL2.getContext('webgl');
             this.clmtrackr =  clmtrackr;
             this.bus = new pxsim.EventBus(runtime);
-            //this.element = <SVGSVGElement><any>document.getElementById('svgcanvas');
-            //this.spriteElement = <SVGCircleElement>this.element.getElementById('svgsprite');
-            //this.sprite = new Sprite();
+            this.element = <SVGSVGElement><any>document.getElementById('svgcanvas');
+            this.spriteElement = <SVGCircleElement>this.element.getElementById('svgsprite');
+            this.sprite = new Sprite();
         }
 
         clearCanvas() {
@@ -538,6 +536,11 @@ namespace pxsim {
             let horizontal = pointTop[0] - pointBottom[0];
 
             return vertical / horizontal;
+        }
+
+        dropDown() {
+            this.sprite.y += 1;
+            this.spriteElement.cy.baseVal.value = this.sprite.y;
         }
 
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
