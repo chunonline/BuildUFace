@@ -27,6 +27,18 @@ declare const enum LeftRight {
 }
 
 /**
+ * Enum for ball drop speed
+ */
+declare const enum Speed {
+    //% block=slow
+    Slow,
+    //% block=medium
+    Medium,
+    //% block=fast
+    Fast
+}
+
+/**
  * Default status of all detector
  */
 declare const enum DefaultStatus {

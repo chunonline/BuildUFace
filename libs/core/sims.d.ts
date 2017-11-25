@@ -1,12 +1,53 @@
 // Auto-generated from simulator. Do not edit.
 declare namespace gaming {
     /**
-     * Drop ball
+     * Drop ball catcher
+     *
+     * @param speed
      */
     //% weight=100
-    //% blockId=onballdrop block="on ball drop"
+    //% blockId=onballdrop block="on ball drop speed %speed"
     //% shim=gaming::onBallDrop
-    function onBallDrop(handler: () => void): void;
+    function onBallDrop(speed: Speed, handler: () => void): void;
+
+    /**
+     * get ball x position
+     */
+    //% weight=100
+    //% blockId=getBallXPos block="get ball horizontal position"
+    //% shim=gaming::getBallXPos
+    function getBallXPos(): number;
+
+    /**
+     * get ball y position
+     */
+    //% weight=100
+    //% blockId=getBallYPos block="get ball vertical position"
+    //% shim=gaming::getBallYPos
+    function getBallYPos(): number;
+
+    /**
+     * check if ball hit mouth
+     */
+    //% weight=100
+    //% blockId=ifBallHitMouth block="check ball hit mouth"
+    //% shim=gaming::ifBallHitMouth
+    function ifBallHitMouth(): boolean;
+
+    /**
+     * check if ball hit nose
+     */
+    //% weight=100
+    //% blockId=ifBallHitNose block="check ball hit nose"
+    //% shim=gaming::ifBallHitNose
+    function ifBallHitNose(): boolean;
+
+    /**
+     * Drop ball
+     */
+    //%
+    //% shim=gaming::dropBall
+    function dropBall(): void;
 
 }
 declare namespace detector {

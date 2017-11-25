@@ -36,5 +36,10 @@ loops.forever(() => {
         detector.detectSentiment();
         detector.detectMouthStatus();
         detector.detectGender();
+
+    }
+
+    if (true) {
+        gaming.dropBall();
     }
 });

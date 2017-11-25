@@ -2358,6 +2358,77 @@
    "parameters": null,
    "qName": "LeftRight.Right"
   },
+  "Speed": {
+   "kind": 6,
+   "namespace": "",
+   "name": "Speed",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "paramHelp": {},
+    "jsDoc": "Enum for ball drop speed",
+    "_name": "Speed"
+   },
+   "pkg": null,
+   "retType": "Speed",
+   "parameters": null,
+   "qName": "Speed"
+  },
+  "Speed.Slow": {
+   "kind": 7,
+   "namespace": "Speed",
+   "name": "Slow",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "slow",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Slow"
+   },
+   "pkg": null,
+   "retType": "Speed",
+   "parameters": null,
+   "qName": "Speed.Slow"
+  },
+  "Speed.Medium": {
+   "kind": 7,
+   "namespace": "Speed",
+   "name": "Medium",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "medium",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Medium"
+   },
+   "pkg": null,
+   "retType": "Speed",
+   "parameters": null,
+   "qName": "Speed.Medium"
+  },
+  "Speed.Fast": {
+   "kind": 7,
+   "namespace": "Speed",
+   "name": "Fast",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "block": "fast",
+    "paramHelp": {},
+    "jsDoc": "",
+    "_name": "Fast"
+   },
+   "pkg": null,
+   "retType": "Speed",
+   "parameters": null,
+   "qName": "Speed.Fast"
+  },
   "DefaultStatus": {
    "kind": 6,
    "namespace": "",
@@ -3106,15 +3177,22 @@
     "_source": null,
     "weight": 100,
     "blockId": "onballdrop",
-    "block": "on ball drop",
+    "block": "on ball drop speed %speed",
     "shim": "gaming::onBallDrop",
     "paramHelp": {},
-    "jsDoc": "Drop ball",
+    "jsDoc": "Drop ball catcher\n* @param speed",
     "_name": "onBallDrop"
    },
    "pkg": null,
    "retType": "void",
    "parameters": [
+    {
+     "name": "speed",
+     "description": "",
+     "type": "Speed",
+     "options": {},
+     "isEnum": true
+    },
     {
      "name": "handler",
      "description": "",
@@ -3123,8 +3201,115 @@
      "isEnum": false
     }
    ],
-   "snippet": "onBallDrop(function () {})",
+   "snippet": "onBallDrop(null, function () {})",
    "qName": "gaming.onBallDrop"
+  },
+  "gaming.getBallXPos": {
+   "kind": 3,
+   "namespace": "gaming",
+   "name": "getBallXPos",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "weight": 100,
+    "blockId": "getBallXPos",
+    "block": "get ball horizontal position",
+    "shim": "gaming::getBallXPos",
+    "paramHelp": {},
+    "jsDoc": "get ball x position",
+    "_name": "getBallXPos"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [],
+   "snippet": "getBallXPos()",
+   "qName": "gaming.getBallXPos"
+  },
+  "gaming.getBallYPos": {
+   "kind": 3,
+   "namespace": "gaming",
+   "name": "getBallYPos",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "weight": 100,
+    "blockId": "getBallYPos",
+    "block": "get ball vertical position",
+    "shim": "gaming::getBallYPos",
+    "paramHelp": {},
+    "jsDoc": "get ball y position",
+    "_name": "getBallYPos"
+   },
+   "pkg": null,
+   "retType": "number",
+   "parameters": [],
+   "snippet": "getBallYPos()",
+   "qName": "gaming.getBallYPos"
+  },
+  "gaming.ifBallHitMouth": {
+   "kind": 3,
+   "namespace": "gaming",
+   "name": "ifBallHitMouth",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "weight": 100,
+    "blockId": "ifBallHitMouth",
+    "block": "check ball hit mouth",
+    "shim": "gaming::ifBallHitMouth",
+    "paramHelp": {},
+    "jsDoc": "check if ball hit mouth",
+    "_name": "ifBallHitMouth"
+   },
+   "pkg": null,
+   "retType": "boolean",
+   "parameters": [],
+   "snippet": "ifBallHitMouth()",
+   "qName": "gaming.ifBallHitMouth"
+  },
+  "gaming.ifBallHitNose": {
+   "kind": 3,
+   "namespace": "gaming",
+   "name": "ifBallHitNose",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "weight": 100,
+    "blockId": "ifBallHitNose",
+    "block": "check ball hit nose",
+    "shim": "gaming::ifBallHitNose",
+    "paramHelp": {},
+    "jsDoc": "check if ball hit nose",
+    "_name": "ifBallHitNose"
+   },
+   "pkg": null,
+   "retType": "boolean",
+   "parameters": [],
+   "snippet": "ifBallHitNose()",
+   "qName": "gaming.ifBallHitNose"
+  },
+  "gaming.dropBall": {
+   "kind": 3,
+   "namespace": "gaming",
+   "name": "dropBall",
+   "attributes": {
+    "paramDefl": {},
+    "callingConvention": 0,
+    "_source": null,
+    "shim": "gaming::dropBall",
+    "paramHelp": {},
+    "jsDoc": "Drop ball",
+    "_name": "dropBall"
+   },
+   "pkg": null,
+   "retType": "void",
+   "parameters": [],
+   "snippet": "dropBall()",
+   "qName": "gaming.dropBall"
   },
   "detector": {
    "kind": 5,

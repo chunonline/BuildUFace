@@ -41,11 +41,17 @@ switch (step) {
     { step = 2; continue; }
   case 1:
   case 2:
+    r0 = pxsim.numops.toBoolDecr(true);
+    if (!r0) { step = 3; continue; }
+    r0 = pxsim.gaming.dropBall();
+    { step = 4; continue; }
   case 3:
+  case 4:
+  case 5:
     return leave(s, r0)
   default: oops()
 } } }
-inline__P20.info = {"start":444,"length":138,"line":33,"column":14,"endLine":39,"endColumn":1,"fileName":"ns.ts","functionName":"inline"}
+inline__P20.info = {"start":444,"length":189,"line":33,"column":14,"endLine":44,"endColumn":1,"fileName":"ns.ts","functionName":"inline"}
 
 
 setupDebugger(1)

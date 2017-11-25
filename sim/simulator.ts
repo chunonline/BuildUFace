@@ -176,8 +176,10 @@ namespace pxsim {
         private faceLeanRightTangentThreshold = 4;
 
         public element : SVGSVGElement;
-        public spriteElement: SVGCircleElement;
+        public spriteElement: SVGImageElement;
         public sprite : Sprite;
+        public gameBallOn: boolean = false;
+        public ballDropSpeed: Speed = Speed.Slow;
 
         constructor(video: any, overlay: any, webgl: any, webgl2: any, clmtrackr: any) {
             super();
@@ -193,7 +195,8 @@ namespace pxsim {
             this.clmtrackr =  clmtrackr;
             this.bus = new pxsim.EventBus(runtime);
             this.element = <SVGSVGElement><any>document.getElementById('svgcanvas');
-            this.spriteElement = <SVGCircleElement>this.element.getElementById('svgsprite');
+            this.spriteElement = <SVGImageElement><any>this.element.getElementById('svgsprite');
+            this.spriteElement.style.visibility = "hidden";
             this.sprite = new Sprite();
         }
 
@@ -481,47 +484,42 @@ namespace pxsim {
 
             let posLeft = positions[left];
             let posRight = positions[right];
-
             let vertiHorizontalRatio = this.getCartesianDistance(posTop, posBottom) /
                                        this.getCartesianDistance(posLeft, posRight);
             return vertiHorizontalRatio;
         }
 
-
-        checkLeftEyeOpen(positions:any) {
-            return this.getVertiHorizontalRatio(24, 26, 23, 25, positions);
-        }
-
-        checkMouthOpen(positions:any) {
+        getMouthOpenRadio(positions:any):number {
             return this.getVertiHorizontalRatio(60, 57, 44, 50, positions);
         }
 
         getCartesianDistance(coor1:any, coor2:any):number {
             return Math.sqrt(Math.pow(coor1[0] - coor2[0], 2) +
-                    Math.pow(coor1[1] - coor2[1], 2));
+                             Math.pow(coor1[1] - coor2[1], 2));
         }
 
-        isMouthOpen() {
+        isMouthOpen():boolean {
             let positions = this.clmtrackr.getCurrentPosition();
             if (positions) {
-                return this.checkMouthOpen(positions) > this.mouthOpenRatio;
+                return this.getMouthOpenRadio(positions) > this.mouthOpenRatio;
             } else {
                 return false;
             }
         }
 
-        isFaceLeanLeft() {
+        isFaceLeanLeft():boolean {
             let positions = this.clmtrackr.getCurrentPosition();
             if (positions) {
                 let tangent:number = this.getTangent(positions[33], positions[62]);
-                console.log("Tan: " + tangent);
                 return tangent > this.faceLeanLeftTangentThreshold && tangent < 0;
             } else {
                 return false;
             }
+
+
         }
 
-        isFaceLeanRight() {
+        isFaceLeanRight():boolean {
             let positions = this.clmtrackr.getCurrentPosition();
             if (positions) {
                 let tangent:number = this.getTangent(positions[33], positions[62]);
@@ -538,9 +536,49 @@ namespace pxsim {
             return vertical / horizontal;
         }
 
-        dropDown() {
-            this.sprite.y += 1;
-            this.spriteElement.cy.baseVal.value = this.sprite.y;
+        gameShowBall() {
+            this.gameBallOn = true;
+            this.spriteElement.style.visibility = "visible";
+        }
+
+        dropBall() {
+            if (this.sprite.y > this.video_height) {
+                this.sprite.x = Math.random() * this.video_width;
+                this.sprite.y = 0;
+            } else {
+                if (this.ballDropSpeed == Speed.Slow) {
+                    this.sprite.y += 1;
+                } else if (this.ballDropSpeed == Speed.Medium) {
+                    this.sprite.y += 3;
+                } else {
+                    this.sprite.y += 7;
+                }
+
+            }
+            this.spriteElement.x.baseVal.value = this.sprite.x;
+            this.spriteElement.y.baseVal.value = this.sprite.y;
+        }
+
+        getMouthXPosition():number {
+            let positions = this.clmtrackr.getCurrentPosition();
+            if (positions) {
+                return (positions[57][0] + positions[60][0]) / 2;
+            } else {
+                return -1;
+            }
+        }
+
+        getMouthYPosition():number {
+            let positions = this.clmtrackr.getCurrentPosition();
+            if (positions) {
+                return (positions[57][1] + positions[60][1]) / 2;
+            } else {
+                return -1;
+            }
+        }
+
+        getCartiseanDistance(point1:any, point2:any) {
+            Math.sqrt(Math.pow(point1[0] - point2[0], 2) + Math.pow(point1[1] - point2[1], 2));
         }
 
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
