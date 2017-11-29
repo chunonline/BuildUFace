@@ -2,3 +2,4 @@
 built/*
 projects/*
 node_modules/*
+libs/core/built/*

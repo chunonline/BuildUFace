@@ -111,7 +111,6 @@
     "help": "arrays/reverse",
     "helper": "arrayReverse",
     "weight": 10,
-    "advanced": true,
     "blockId": "array_reverse",
     "block": "reverse %list",
     "blockNamespace": "arrays",
@@ -136,7 +135,6 @@
     "help": "arrays/shift",
     "helper": "arrayShift",
     "weight": 70,
-    "advanced": true,
     "blockId": "array_shift",
     "block": "get and remove first value from %list",
     "blockNamespace": "arrays",
@@ -161,7 +159,6 @@
     "help": "arrays/unshift",
     "helper": "arrayUnshift",
     "weight": 69,
-    "advanced": true,
     "blockId": "array_unshift",
     "block": "%list| insert %value| at beginning",
     "blockNamespace": "arrays",
@@ -199,7 +196,6 @@
     "help": "arrays/slice",
     "helper": "arraySlice",
     "weight": 41,
-    "advanced": true,
     "blockNamespace": "arrays",
     "paramHelp": {
      "start": "The beginning of the specified portion of the array. eg: 0",
@@ -301,6 +297,16 @@
      "name": "callbackfn",
      "description": "",
      "type": "(value1: T, value2: T) => number",
+     "handlerParameters": [
+      {
+       "name": "value1",
+       "type": "T"
+      },
+      {
+       "name": "value2",
+       "type": "T"
+      }
+     ],
      "options": {},
      "isEnum": false
     }
@@ -331,6 +337,16 @@
      "name": "callbackfn",
      "description": "A function that accepts up to two arguments. The map method calls the callbackfn function one time for each element in the array.",
      "type": "(value: T, index: number) => U",
+     "handlerParameters": [
+      {
+       "name": "value",
+       "type": "T"
+      },
+      {
+       "name": "index",
+       "type": "number"
+      }
+     ],
      "options": {},
      "isEnum": false
     }
@@ -361,6 +377,16 @@
      "name": "callbackfn",
      "description": "A function that accepts up to two arguments. The filter method calls the callbackfn function one time for each element in the array.",
      "type": "(value: T, index: number) => boolean",
+     "handlerParameters": [
+      {
+       "name": "value",
+       "type": "T"
+      },
+      {
+       "name": "index",
+       "type": "number"
+      }
+     ],
      "options": {},
      "isEnum": false
     }
@@ -392,6 +418,20 @@
      "name": "callbackfn",
      "description": "A function that accepts up to three arguments. The reduce method calls the callbackfn function one time for each element in the array.",
      "type": "(previousValue: U, currentValue: T, currentIndex: number) => U",
+     "handlerParameters": [
+      {
+       "name": "previousValue",
+       "type": "U"
+      },
+      {
+       "name": "currentValue",
+       "type": "T"
+      },
+      {
+       "name": "currentIndex",
+       "type": "number"
+      }
+     ],
      "options": {},
      "isEnum": false
     },
@@ -445,7 +485,6 @@
     "help": "arrays/remove-at",
     "shim": "Array_::removeAt",
     "weight": 49,
-    "advanced": true,
     "blockId": "array_removeat",
     "block": "%list| remove value at %index",
     "blockNamespace": "arrays",
@@ -481,7 +520,6 @@
     "help": "arrays/insert-at",
     "shim": "Array_::insertAt",
     "weight": 84,
-    "advanced": true,
     "blockId": "array_insertAt",
     "block": "%list| insert at %index| value %value",
     "blockNamespace": "arrays",
@@ -526,7 +564,6 @@
     "help": "arrays/index-of",
     "shim": "Array_::indexOf",
     "weight": 50,
-    "advanced": true,
     "blockId": "array_indexof",
     "block": "%list| find index of %value",
     "blockNamespace": "arrays",
@@ -814,7 +851,7 @@
    "name": "substr",
    "attributes": {
     "paramDefl": {
-     "length": "1000000",
+     "length": "10",
      "start": "0"
     },
     "callingConvention": 0,
@@ -847,8 +884,8 @@
      "name": "length",
      "description": "number of characters to extract",
      "type": "number",
-     "initializer": "1000000",
-     "default": "1000000",
+     "initializer": "10",
+     "default": "10",
      "options": {},
      "isEnum": false
     }
@@ -882,7 +919,10 @@
    "namespace": "",
    "name": "parseInt",
    "attributes": {
-    "paramDefl": {},
+    "paramDefl": {
+     "text": "123",
+     "s": "123"
+    },
     "callingConvention": 0,
     "_source": null,
     "shim": "String_::toNumber",
@@ -891,7 +931,7 @@
     "block": "parse to integer %text",
     "blockNamespace": "text",
     "paramHelp": {
-     "s": "A string to convert into a number."
+     "s": "A string to convert into a number. eg: 123"
     },
     "jsDoc": "Convert a string to an integer.",
     "_name": "parseInt"
@@ -903,11 +943,13 @@
      "name": "text",
      "description": "",
      "type": "string",
+     "initializer": "123",
+     "default": "123",
      "options": {},
      "isEnum": false
     }
    ],
-   "snippet": "parseInt(\"\")",
+   "snippet": "parseInt(\"123\")",
    "qName": "parseInt"
   },
   "Object": {
@@ -1027,10 +1069,10 @@
     "paramDefl": {},
     "callingConvention": 0,
     "_source": null,
-    "help": "math/string-from-char-code",
+    "help": "math/from-char-code",
     "shim": "String_::fromCharCode",
     "weight": 1,
-    "blockNamespace": "Math",
+    "blockNamespace": "Text",
     "blockId": "stringFromCharCode",
     "block": "text from char code %code",
     "paramHelp": {},
@@ -1865,6 +1907,16 @@
      "name": "callbackfn",
      "description": "",
      "type": "(value1: T, value2: T) => number",
+     "handlerParameters": [
+      {
+       "name": "value1",
+       "type": "T"
+      },
+      {
+       "name": "value2",
+       "type": "T"
+      }
+     ],
      "options": {},
      "isEnum": false
     }
@@ -1898,6 +1950,16 @@
      "name": "callbackfn",
      "description": "",
      "type": "(value: T, index: number) => U",
+     "handlerParameters": [
+      {
+       "name": "value",
+       "type": "T"
+      },
+      {
+       "name": "index",
+       "type": "number"
+      }
+     ],
      "options": {},
      "isEnum": false
     }
@@ -1931,6 +1993,16 @@
      "name": "callbackfn",
      "description": "",
      "type": "(value: T, index: number) => boolean",
+     "handlerParameters": [
+      {
+       "name": "value",
+       "type": "T"
+      },
+      {
+       "name": "index",
+       "type": "number"
+      }
+     ],
      "options": {},
      "isEnum": false
     }
@@ -1964,6 +2036,20 @@
      "name": "callbackfn",
      "description": "",
      "type": "(previousValue: U, currentValue: T, currentIndex: number) => U",
+     "handlerParameters": [
+      {
+       "name": "previousValue",
+       "type": "U"
+      },
+      {
+       "name": "currentValue",
+       "type": "T"
+      },
+      {
+       "name": "currentIndex",
+       "type": "number"
+      }
+     ],
      "options": {},
      "isEnum": false
     },
@@ -3180,7 +3266,7 @@
     "block": "on ball drop speed %speed",
     "shim": "gaming::onBallDrop",
     "paramHelp": {},
-    "jsDoc": "Drop ball catcher\n* @param speed",
+    "jsDoc": "* Drop ball catcher\r     *\r     * @param speed",
     "_name": "onBallDrop"
    },
    "pkg": null,
@@ -3197,6 +3283,7 @@
      "name": "handler",
      "description": "",
      "type": "() => void",
+     "handlerParameters": [],
      "options": {},
      "isEnum": false
     }
@@ -3217,7 +3304,7 @@
     "block": "get ball horizontal position",
     "shim": "gaming::getBallXPos",
     "paramHelp": {},
-    "jsDoc": "get ball x position",
+    "jsDoc": "* get ball x position",
     "_name": "getBallXPos"
    },
    "pkg": null,
@@ -3239,7 +3326,7 @@
     "block": "get ball vertical position",
     "shim": "gaming::getBallYPos",
     "paramHelp": {},
-    "jsDoc": "get ball y position",
+    "jsDoc": "* get ball y position",
     "_name": "getBallYPos"
    },
    "pkg": null,
@@ -3261,7 +3348,7 @@
     "block": "check ball hit mouth",
     "shim": "gaming::ifBallHitMouth",
     "paramHelp": {},
-    "jsDoc": "check if ball hit mouth",
+    "jsDoc": "* check if ball hit mouth",
     "_name": "ifBallHitMouth"
    },
    "pkg": null,
@@ -3283,7 +3370,7 @@
     "block": "check ball hit nose",
     "shim": "gaming::ifBallHitNose",
     "paramHelp": {},
-    "jsDoc": "check if ball hit nose",
+    "jsDoc": "* check if ball hit nose",
     "_name": "ifBallHitNose"
    },
    "pkg": null,
@@ -3302,7 +3389,7 @@
     "_source": null,
     "shim": "gaming::dropBall",
     "paramHelp": {},
-    "jsDoc": "Drop ball",
+    "jsDoc": "* Drop ball",
     "_name": "dropBall"
    },
    "pkg": null,
@@ -3343,10 +3430,8 @@
     "blockId": "onsentiment",
     "block": "on sentiment %sentiment",
     "shim": "detector::onSentiment",
-    "paramHelp": {
-     "handler": ""
-    },
-    "jsDoc": "Act on sentiment\n* @param sentiment",
+    "paramHelp": {},
+    "jsDoc": "* Act on sentiment\r     *\r     * @param sentiment\r     * @param handler",
     "_name": "onSentiment"
    },
    "pkg": null,
@@ -3363,6 +3448,7 @@
      "name": "handler",
      "description": "",
      "type": "() => void",
+     "handlerParameters": [],
      "options": {},
      "isEnum": false
     }
@@ -3382,10 +3468,8 @@
     "blockId": "ongender",
     "block": "on gender %gender",
     "shim": "detector::onGender",
-    "paramHelp": {
-     "handler": ""
-    },
-    "jsDoc": "Act on sentiment\n* @param gender",
+    "paramHelp": {},
+    "jsDoc": "* Act on sentiment\r     *\r     * @param gender\r     * @param handler",
     "_name": "onGender"
    },
    "pkg": null,
@@ -3402,6 +3486,7 @@
      "name": "handler",
      "description": "",
      "type": "() => void",
+     "handlerParameters": [],
      "options": {},
      "isEnum": false
     }
@@ -3421,10 +3506,8 @@
     "blockId": "onmouthstatus",
     "block": "on mouth %mouthStatus",
     "shim": "detector::onMouthStatus",
-    "paramHelp": {
-     "hander": ""
-    },
-    "jsDoc": "Act on mouth open or close\n* @param mouthStatus",
+    "paramHelp": {},
+    "jsDoc": "* Act on mouth open or close\r     *\r     * @param mouthStatus\r     * @param hander",
     "_name": "onMouthStatus"
    },
    "pkg": null,
@@ -3441,6 +3524,7 @@
      "name": "handler",
      "description": "",
      "type": "() => void",
+     "handlerParameters": [],
      "options": {},
      "isEnum": false
     }
@@ -3458,7 +3542,7 @@
     "_source": null,
     "shim": "detector::detectSentiment",
     "paramHelp": {},
-    "jsDoc": "Detect sentiment",
+    "jsDoc": "* Detect sentiment",
     "_name": "detectSentiment"
    },
    "pkg": null,
@@ -3477,7 +3561,7 @@
     "_source": null,
     "shim": "detector::detectMouthStatus",
     "paramHelp": {},
-    "jsDoc": "Detect MouthStatus",
+    "jsDoc": "* Detect MouthStatus",
     "_name": "detectMouthStatus"
    },
    "pkg": null,
@@ -3496,7 +3580,7 @@
     "_source": null,
     "shim": "detector::detectGender",
     "paramHelp": {},
-    "jsDoc": "Detect Gender",
+    "jsDoc": "* Detect Gender",
     "_name": "detectGender"
    },
    "pkg": null,
@@ -3518,7 +3602,7 @@
     "block": "face lean %leftRight",
     "shim": "detector::faceLean",
     "paramHelp": {},
-    "jsDoc": "isFaceLeanLeft\n* @param leftRight",
+    "jsDoc": "* isFaceLeanLeft\r     *\r     * @param leftRight",
     "_name": "faceLean"
    },
    "pkg": null,
@@ -3548,7 +3632,7 @@
     "block": "get face horizontal position",
     "shim": "detector::getFaceXPosition",
     "paramHelp": {},
-    "jsDoc": "get face center X position",
+    "jsDoc": "* get face center X position\r     *",
     "_name": "getFaceXPosition"
    },
    "pkg": null,
@@ -3570,7 +3654,7 @@
     "block": "get face vertical position",
     "shim": "detector::getFaceYPosition",
     "paramHelp": {},
-    "jsDoc": "get face center Y position",
+    "jsDoc": "* get face center Y position\r     *",
     "_name": "getFaceYPosition"
    },
    "pkg": null,
@@ -3635,7 +3719,7 @@
     "shim": "augmentedReality::drawFaceOutlineAsync",
     "promise": "true",
     "paramHelp": {},
-    "jsDoc": "Draw face outline",
+    "jsDoc": "* Draw face outline",
     "_name": "drawFaceOutline"
    },
    "pkg": null,
@@ -3658,7 +3742,7 @@
     "shim": "augmentedReality::drawFaceDeformationAsync",
     "promise": "true",
     "paramHelp": {},
-    "jsDoc": "Draw deformation",
+    "jsDoc": "* Draw deformation",
     "_name": "drawFaceDeformation"
    },
    "pkg": null,
@@ -3689,7 +3773,7 @@
     "shim": "augmentedReality::drawMasksAsync",
     "promise": "true",
     "paramHelp": {},
-    "jsDoc": "Add MASKS to faces",
+    "jsDoc": "* Add MASKS to faces",
     "_name": "drawMasks"
    },
    "pkg": null,
@@ -3720,7 +3804,7 @@
     "shim": "augmentedReality::faceSubstitutionLoopAsync",
     "promise": "true",
     "paramHelp": {},
-    "jsDoc": "Face substitution",
+    "jsDoc": "* Face substitution",
     "_name": "faceSubstitutionLoop"
    },
    "pkg": null,
@@ -3769,10 +3853,8 @@
     "blockId": "device_forever",
     "block": "forever",
     "shim": "loops::forever",
-    "paramHelp": {
-     "body": "the code to repeat"
-    },
-    "jsDoc": "Repeats the code forever in the background. On each iteration, allows other code to run.",
+    "paramHelp": {},
+    "jsDoc": "* Repeats the code forever in the background. On each iteration, allows other code to run.\r     * @param body the code to repeat",
     "_name": "forever"
    },
    "pkg": null,
@@ -3780,8 +3862,9 @@
    "parameters": [
     {
      "name": "body",
-     "description": "the code to repeat",
+     "description": "",
      "type": "() => void",
+     "handlerParameters": [],
      "options": {},
      "isEnum": false
     }
@@ -3794,9 +3877,7 @@
    "namespace": "loops",
    "name": "pause",
    "attributes": {
-    "paramDefl": {
-     "ms": "100"
-    },
+    "paramDefl": {},
     "callingConvention": 2,
     "_source": null,
     "help": "functions/pause",
@@ -3805,10 +3886,8 @@
     "blockId": "device_pause",
     "shim": "loops::pauseAsync",
     "promise": "true",
-    "paramHelp": {
-     "ms": "how long to pause for, eg: 100, 200, 500, 1000, 2000"
-    },
-    "jsDoc": "Pause for the specified time in milliseconds",
+    "paramHelp": {},
+    "jsDoc": "* Pause for the specified time in milliseconds\r     * @param ms how long to pause for, eg: 100, 200, 500, 1000, 2000",
     "_name": "pause"
    },
    "pkg": null,
@@ -3816,15 +3895,13 @@
    "parameters": [
     {
      "name": "ms",
-     "description": "how long to pause for, eg: 100, 200, 500, 1000, 2000",
+     "description": "",
      "type": "number",
-     "initializer": "100",
-     "default": "100",
      "options": {},
      "isEnum": false
     }
    ],
-   "snippet": "pause(100)",
+   "snippet": "pause(0)",
    "qName": "loops.pause"
   },
   "console": {
@@ -3855,7 +3932,7 @@
     "_source": null,
     "shim": "console::log",
     "paramHelp": {},
-    "jsDoc": "Print out message",
+    "jsDoc": "* Print out message",
     "_name": "log"
    },
    "pkg": null,
@@ -3872,5 +3949,6 @@
    "snippet": "log(\"\")",
    "qName": "console.log"
   }
- }
+ },
+ "jres": {}
 }
