@@ -1,6 +1,8 @@
 # Microsoft_MakeCode
 This is the repo to host our project on MakeCode for Microsoft Research.
 
+* Try it live at https://jcspec.github.io/BuildUFace/
+
 ## Running locally
 
 These instructions allow to run locally to modify the sample.
@@ -34,6 +36,20 @@ After making a change in the source, refresh the page in the browser.
 If you would like to pick up the latest PXT build, simply run
 ```
 pxt update
+```
+
+## Deploy to github pages
+
+Run the following command to update the github page build of this editor
+
+```
+pxt staticpkg --gh
+```
+
+You can also minify it but it takes longer to generate:
+
+```
+pxt staticpkg --gh --minify
 ```
 
 More instructions at https://github.com/Microsoft/pxt#running-a-target-from-localhost 
