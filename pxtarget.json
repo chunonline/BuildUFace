@@ -30,6 +30,13 @@
         "betaUrl": "https://makecode.com/",
         "homeScreenHero": "./static/hero.png",
         "logo": "./img/logo-01.png",
+        "docsLogo": "./img/logo-01.png",
+        "portraitLogo": "./img/logo-01.png",
+        "footerLogo": "./img/logo-01.png",
+        "organization": "Cornell CIS",
+        "organizationUrl": "http://infosci.cornell.edu/",
+        "organizationLogo": "./img/cis.png",
+        "organizationWideLogo": "./img/cis.png",
         "docMenu": [
             {
                 "name": "About",
