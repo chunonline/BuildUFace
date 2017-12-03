@@ -180,6 +180,7 @@ namespace pxsim {
         public sprite : Sprite;
         public gameBallOn: boolean = false;
         public ballDropSpeed: Speed = Speed.Slow;
+        public numOfBalls:number = 0;
 
         constructor(video: any, overlay: any, webgl: any, webgl2: any, clmtrackr: any) {
             super();

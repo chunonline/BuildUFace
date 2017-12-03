@@ -55,6 +55,22 @@ declare const enum MouthStatus {
     Close
 }
 
+/**
+ * Ball Number
+ */
+declare const enum BallNumber {
+    //% block=one
+    One,
+    //% block=two
+    Two,
+    //% block=three
+    Three,
+    //% block=four
+    Four,
+    //% block=five
+    Five
+}
+
 
 /**
  * Enum for gender

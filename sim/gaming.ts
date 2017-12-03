@@ -2,6 +2,7 @@
  * Created by chendi on 2/12/17.
  */
 namespace pxsim.gaming {
+
     /**
      * Drop ball catcher
      *
@@ -27,6 +28,7 @@ namespace pxsim.gaming {
      */
     //% weight=100
     //% blockId=getBallXPos block="get ball horizontal position"
+    //% advanced=true
     export function getBallXPos():number {
         return runtimeStateFactory().sprite.x;
     }
@@ -36,6 +38,7 @@ namespace pxsim.gaming {
      */
     //% weight=100
     //% blockId=getBallYPos block="get ball vertical position"
+    //% advanced=true
     export function getBallYPos():number {
         return runtimeStateFactory().sprite.y;
     }
@@ -44,7 +47,7 @@ namespace pxsim.gaming {
      * check if ball hit mouth
      */
     //% weight=100
-    //% blockId=ifBallHitMouth block="check ball hit mouth"
+    //% blockId=ifBallHitMouth block="is ball hitting mouth"
     export function ifBallHitMouth():boolean {
         let point1X:number = runtimeStateFactory().sprite.x;
         let point1Y:number = runtimeStateFactory().sprite.y;
@@ -62,7 +65,7 @@ namespace pxsim.gaming {
      * check if ball hit nose
      */
     //% weight=100
-    //% blockId=ifBallHitNose block="check ball hit nose"
+    //% blockId=ifBallHitNose block="is ball hitting nose"
     export function ifBallHitNose():boolean {
         let point1X:number = runtimeStateFactory().sprite.x;
         let point1Y:number = runtimeStateFactory().sprite.y;

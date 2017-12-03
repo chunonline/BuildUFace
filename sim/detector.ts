@@ -88,7 +88,7 @@ namespace pxsim.detector {
      * @param leftRight
      */
     //% weight=100
-    //% blockId=isFaceLeanLeft block="face lean %leftRight"
+    //% blockId=isFaceLeanLeft block="is face lean %leftRight"
     export function faceLean(leftRight:LeftRight):boolean {
         if (leftRight == LeftRight.Left) {
             return runtimeStateFactory().isFaceLeanLeft();
@@ -104,6 +104,7 @@ namespace pxsim.detector {
      */
     //% weight=100
     //% blockId=getFaceHorizontalPosition block="get face horizontal position"
+    //% advanced=true
     export function getFaceXPosition():number {
         return runtimeStateFactory().getFaceCenterXPosition();
     }
@@ -114,6 +115,7 @@ namespace pxsim.detector {
      */
     //% weight=100
     //% blockId=getFaceVerticalPosition block="get face vertical position"
+    //% advanced=true
     export function getFaceYPosition():number {
         return runtimeStateFactory().getFaceCenterYPosition();
     }
@@ -124,8 +126,9 @@ namespace pxsim.detector {
      * This function indicates how well the face is being tracked.
      * The smaller the number, the better the tracking results.
      * */
-    //% block="Get Tracking Convergence" blockId="get_track_conv"
+    //% block="get tracking convergence" blockId="get_track_conv"
     //% weight=90
+    //% advanced=true
     export function getTrackingConvergence():number {
         return runtimeStateFactory().getMaskConvergence();
     }
