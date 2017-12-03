@@ -23,7 +23,7 @@
         "autoRun": true
     },
     "appTheme": {
-        "logoUrl": "./static/logo.png",
+        "logoUrl": "./static/logo.svg",
         "homeUrl": "http://microsoft.github.io/pxt-sample/",
         "privacyUrl": "https://go.microsoft.com/fwlink/?LinkId=521839",
         "termsOfUseUrl": "https://go.microsoft.com/fwlink/?LinkID=206977",
