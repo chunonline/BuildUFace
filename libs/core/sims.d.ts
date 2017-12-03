@@ -1,53 +1,65 @@
 // Auto-generated from simulator. Do not edit.
-declare namespace gaming {
+declare namespace loops {
     /**
-     * Drop ball catcher
-     *
-     * @param speed
+     * Repeats the code forever in the background. On each iteration, allows other code to run.
+     * @param body the code to repeat
      */
-    //% weight=100
-    //% blockId=onballdrop block="on ball drop speed %speed"
-    //% shim=gaming::onBallDrop
-    function onBallDrop(speed: Speed, handler: () => void): void;
+    //% help=functions/forever weight=55 blockGap=8
+    //% blockId=device_forever block="forever"
+    //% shim=loops::forever
+    function forever(body: () => void): void;
 
     /**
-     * get ball x position
+     * Pause for the specified time in milliseconds
+     * @param ms how long to pause for, eg: 100, 200, 500, 1000, 2000
      */
-    //% weight=100
-    //% blockId=getBallXPos block="get ball horizontal position"
-    //% shim=gaming::getBallXPos
-    function getBallXPos(): number;
+    //% help=functions/pause weight=54
+    //% block="pause (ms) %pause" blockId=device_pause
+    //% shim=loops::pauseAsync promise
+    function pause(ms: number): void;
 
+}
+declare namespace console {
     /**
-     * get ball y position
-     */
-    //% weight=100
-    //% blockId=getBallYPos block="get ball vertical position"
-    //% shim=gaming::getBallYPos
-    function getBallYPos(): number;
-
-    /**
-     * check if ball hit mouth
-     */
-    //% weight=100
-    //% blockId=ifBallHitMouth block="check ball hit mouth"
-    //% shim=gaming::ifBallHitMouth
-    function ifBallHitMouth(): boolean;
-
-    /**
-     * check if ball hit nose
-     */
-    //% weight=100
-    //% blockId=ifBallHitNose block="check ball hit nose"
-    //% shim=gaming::ifBallHitNose
-    function ifBallHitNose(): boolean;
-
-    /**
-     * Drop ball
+     * Print out message
      */
     //%
-    //% shim=gaming::dropBall
-    function dropBall(): void;
+    //% shim=console::log
+    function log(msg: string): void;
+
+}
+declare namespace augmentedReality {
+    /**
+     * Draw face outline
+     */
+    //% weight=90
+    //% block="draw face outline" blockId="face_outline"
+    //% shim=augmentedReality::drawFaceOutlineAsync promise
+    function drawFaceOutline(): void;
+
+    /**
+     * Draw deformation
+     */
+    //% block="deform face %deform" blockId="face_deform"
+    //% weight=50
+    //% shim=augmentedReality::drawFaceDeformationAsync promise
+    function drawFaceDeformation(deform: faceDeform): void;
+
+    /**
+     * Add MASKS to faces
+     */
+    //% weight=90
+    //% block="draw mask %mask" blockId="face_mask"
+    //% shim=augmentedReality::drawMasksAsync promise
+    function drawMasks(mask: maskType): void;
+
+    /**
+     * Face substitution
+     */
+    //% weight=90
+    //% block="face substitution %face" blockId="face_sub"
+    //% shim=augmentedReality::faceSubstitutionLoopAsync promise
+    function faceSubstitutionLoop(face: faceSubType): void;
 
 }
 declare namespace detector {
@@ -111,7 +123,7 @@ declare namespace detector {
      * @param leftRight
      */
     //% weight=100
-    //% blockId=isFaceLeanLeft block="face lean %leftRight"
+    //% blockId=isFaceLeanLeft block="is face lean %leftRight"
     //% shim=detector::faceLean
     function faceLean(leftRight: LeftRight): boolean;
 
@@ -121,6 +133,7 @@ declare namespace detector {
      */
     //% weight=100
     //% blockId=getFaceHorizontalPosition block="get face horizontal position"
+    //% advanced=true
     //% shim=detector::getFaceXPosition
     function getFaceXPosition(): number;
 
@@ -130,6 +143,7 @@ declare namespace detector {
      */
     //% weight=100
     //% blockId=getFaceVerticalPosition block="get face vertical position"
+    //% advanced=true
     //% shim=detector::getFaceYPosition
     function getFaceYPosition(): number;
 
@@ -139,73 +153,64 @@ declare namespace detector {
      * This function indicates how well the face is being tracked.
      * The smaller the number, the better the tracking results.
      * */
-    //% block="Get Tracking Convergence" blockId="get_track_conv"
+    //% block="get tracking convergence" blockId="get_track_conv"
     //% weight=90
+    //% advanced=true
     //% shim=detector::getTrackingConvergence
     function getTrackingConvergence(): number;
 
 }
-declare namespace augmentedReality {
+declare namespace gaming {
     /**
-     * Draw face outline
+     * Drop ball catcher
+     *
+     * @param speed
      */
-    //% weight=90
-    //% block="draw face outline" blockId="face_outline"
-    //% shim=augmentedReality::drawFaceOutlineAsync promise
-    function drawFaceOutline(): void;
+    //% weight=100
+    //% blockId=onballdrop block="on ball drop speed %speed"
+    //% shim=gaming::onBallDrop
+    function onBallDrop(speed: Speed, handler: () => void): void;
 
     /**
-     * Draw deformation
+     * get ball x position
      */
-    //% block="deform face %deform" blockId="face_deform"
-    //% weight=50
-    //% shim=augmentedReality::drawFaceDeformationAsync promise
-    function drawFaceDeformation(deform: faceDeform): void;
+    //% weight=100
+    //% blockId=getBallXPos block="get ball horizontal position"
+    //% advanced=true
+    //% shim=gaming::getBallXPos
+    function getBallXPos(): number;
 
     /**
-     * Add MASKS to faces
+     * get ball y position
      */
-    //% weight=90
-    //% block="draw mask %mask" blockId="face_mask"
-    //% shim=augmentedReality::drawMasksAsync promise
-    function drawMasks(mask: maskType): void;
+    //% weight=100
+    //% blockId=getBallYPos block="get ball vertical position"
+    //% advanced=true
+    //% shim=gaming::getBallYPos
+    function getBallYPos(): number;
 
     /**
-     * Face substitution
+     * check if ball hit mouth
      */
-    //% weight=90
-    //% block="face substitution %face" blockId="face_sub"
-    //% shim=augmentedReality::faceSubstitutionLoopAsync promise
-    function faceSubstitutionLoop(face: faceSubType): void;
-
-}
-declare namespace loops {
-    /**
-     * Repeats the code forever in the background. On each iteration, allows other code to run.
-     * @param body the code to repeat
-     */
-    //% help=functions/forever weight=55 blockGap=8
-    //% blockId=device_forever block="forever"
-    //% shim=loops::forever
-    function forever(body: () => void): void;
+    //% weight=100
+    //% blockId=ifBallHitMouth block="is ball hitting mouth"
+    //% shim=gaming::ifBallHitMouth
+    function ifBallHitMouth(): boolean;
 
     /**
-     * Pause for the specified time in milliseconds
-     * @param ms how long to pause for, eg: 100, 200, 500, 1000, 2000
+     * check if ball hit nose
      */
-    //% help=functions/pause weight=54
-    //% block="pause (ms) %pause" blockId=device_pause
-    //% shim=loops::pauseAsync promise
-    function pause(ms: number): void;
+    //% weight=100
+    //% blockId=ifBallHitNose block="is ball hitting nose"
+    //% shim=gaming::ifBallHitNose
+    function ifBallHitNose(): boolean;
 
-}
-declare namespace console {
     /**
-     * Print out message
+     * Drop ball
      */
     //%
-    //% shim=console::log
-    function log(msg: string): void;
+    //% shim=gaming::dropBall
+    function dropBall(): void;
 
 }
 
