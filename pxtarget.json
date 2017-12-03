@@ -1,7 +1,7 @@
 {
-    "id": "sample",
-    "name": "sample",
-    "title": "MakeCode Editor Sample",
+    "id": "KAMEN",
+    "name": "KAMEN",
+    "title": "KAMEN",
     "corepkg": "core",
     "cloud": {
         "workspace": false,
@@ -29,6 +29,7 @@
         "termsOfUseUrl": "https://go.microsoft.com/fwlink/?LinkID=206977",
         "betaUrl": "https://makecode.com/",
         "homeScreenHero": "./static/hero.png",
+        "logo": "./img/logo-01.png",
         "docMenu": [
             {
                 "name": "About",
@@ -53,6 +54,6 @@
         },
         "simAnimationEnter": "fly right in",
         "simAnimationExit": "fly right out",
-        "disableBlockIcons": true
+        "disableBlockIcons": false
     }
 }
