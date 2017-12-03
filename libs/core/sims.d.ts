@@ -172,30 +172,6 @@ declare namespace gaming {
     function onBallDrop(speed: Speed, handler: () => void): void;
 
     /**
-     * drop balls
-     *
-     * @param number
-     */
-    //% weight=100
-    //% blockId=dropBall block="drop ball %number"
-    /**
-     * Drop ball
-     */
-    //%
-    //% shim=gaming::dropBall
-    function dropBall(number: number): void;
-
-    /**
-     * drop ball speed
-     *
-     * @param speed
-     */
-    //% weight=100
-    //% blockId=dropBallSpeed block="drop ball speed %speed"
-    //% shim=gaming::dropBallSpeed
-    function dropBallSpeed(speed: Speed): void;
-
-    /**
      * get ball x position
      */
     //% weight=100
@@ -229,13 +205,6 @@ declare namespace gaming {
     //% shim=gaming::ifBallHitNose
     function ifBallHitNose(): boolean;
 
-    /**
-     * drop balls
-     *
-     * @param number
-     */
-    //% weight=100
-    //% blockId=dropBall block="drop ball %number"
     /**
      * Drop ball
      */
