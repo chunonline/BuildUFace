@@ -4,6 +4,48 @@
 namespace pxsim.gaming {
 
     /**
+     * drop balls
+     *
+     * @param number
+     */
+    //% weight=100
+    //% blockId=dropBall block="drop ball %number"
+    export function dropBall(number:BallNumber) {
+        switch(number) {
+            case BallNumber.One:
+                runtimeStateFactory().numOfBalls = 1;
+                break;
+
+            case BallNumber.Two:
+                runtimeStateFactory().numOfBalls = number;
+                break;
+
+            case BallNumber.Three:
+                runtimeStateFactory().numOfBalls = number;
+                break;
+
+            case BallNumber.Four:
+                runtimeStateFactory().numOfBalls = number;
+                break;
+
+            case BallNumber.Five:
+                runtimeStateFactory().numOfBalls = number;
+                break;
+        }
+    }
+
+    /**
+     * drop ball speed
+     *
+     * @param speed
+     */
+    //% weight=100
+    //% blockId=dropBallSpeed block="drop ball speed %speed"
+    export function dropBallSpeed(speed:Speed) {
+        runtimeStateFactory().ballDropSpeed = Speed.Slow;
+    }
+
+    /**
      * Drop ball catcher
      *
      * @param speed
