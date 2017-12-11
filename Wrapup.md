@@ -14,7 +14,7 @@ We implemented two categories of features into our app (Figure 1). First is Augm
 Nonetheless, these are just decorations and are only part of the program that users can build. In order to enable users to add more logics into the program, we implemented a set of facial feature detections. One of them is to get the face status of users (i.e., analyse sentiment, gender and if their mouths are open/closed). The other one is a more advanced feature---get the spacial position of their faces relative to the screen coordinate space. We separate these two features and put them into different sub-blocks. For users who do not have that much knowledge in programming, they can just use the basic face status detection feature. Now with feature detection, the platform is more programmable.
 Last, we introduced a gaming function onto the web app, which is implemented with the SVG canvas on the video. In the game, a ball is dropping from the top of the simulator at random horizontal position, and users can check if the ball hit their noses or mouths. We hope this ball dropping game can add more interaction between users and the simulator, because users can not only add some effect to their faces, but also they can interact with their face using the webcam (e.g., chasing the ball using their noses or mouths). 
 
-![alt text](BuildUFace/features.jpg "Feature Demonstration")
+![alt text](https://github.com/JCSPEC/BuildUFace/blob/master/features.jpg "Feature Demonstration")
 Figure 1 Two categories of features: Augmented Reality and Gaming.
 
 ## Challenges and Lessons Learned 
