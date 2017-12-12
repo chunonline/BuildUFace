@@ -34,16 +34,5 @@ Last but not least, we were struggling to make the project more playable all the
 
 ## Notes for further development
 
-
-After you're done, simple run this command to publish the website:
-```
-balabala
-```
-
-If you can't see the change after deploying, try to clean the pxt first and rebuild:
-
-```
-pxt clean
-```
-
-
+* Better Documentation, especially for the part of Sementic UI.
+* Provide more information about PXT itself. Creating a tutorial to keep track of how to build PXT will greatly help developers get familiar with PXT more quickly.
