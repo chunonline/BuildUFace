@@ -45,11 +45,20 @@
 }];
     var filters = {
         "namespaces": {
-            "loops": 0
+            "events": 0,
+            "math": 2
+        },
+        "blocks": {
+            "dash_move_forward": 0,
+            "dash_turn": 2
+        },
+        "fns": {
+            "move": 0,
+            "turn": 2
         }
     }
     var lastSaved;
-    var filter = false;
+    var filter = true;
 
     function toggleFilters() {
         filter = !filter;
@@ -104,7 +113,8 @@
                 // no project
                 msg.projects = projects;
                 if (filter) msg.editor = {
-                    "filters": JSON.parse(JSON.stringify(filters))
+                    "filters": JSON.parse(JSON.stringify(filters)),
+                    "searchBar": false
                 }
                 editor.postMessage(msg, "*")
                 return;

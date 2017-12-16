@@ -7,7 +7,7 @@
     "workerjs": "/Microsoft_MakeCode/worker.js",
     "tdworkerjs": "/Microsoft_MakeCode/tdworker.js",
     "monacoworkerjs": "/Microsoft_MakeCode/monacoworker.js",
-    "pxtVersion": "2.0.31",
+    "pxtVersion": "2.3.38",
     "pxtRelId": "",
     "pxtCdnUrl": "/Microsoft_MakeCode/",
     "commitCdnUrl": "/Microsoft_MakeCode/",
