@@ -1,7 +1,5 @@
 {
   "id": "KAMEN",
-  "name": "KAMEN",
-  "title": "KAMEN",
   "corepkg": "core",
   "cloud": {
     "workspace": false,

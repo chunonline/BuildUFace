@@ -1,7 +1,5 @@
 var pxtTargetBundle = {
   "id": "KAMEN",
-  "name": "KAMEN",
-  "title": "KAMEN",
   "corepkg": "core",
   "cloud": {
     "workspace": false,
@@ -460,8 +458,6 @@ var pxtTargetBundle = {
     ],
     "embedUrl": "http://microsoft.github.io/pxt-sample/",
     "id": "KAMEN",
-    "title": "KAMEN",
-    "name": "KAMEN",
     "logoCDN": "@cdnUrl@/blob/c6124367da34e1da1a2296ccaf735b872d89984c/img/logo-01.png",
     "docsLogoCDN": "@cdnUrl@/blob/c6124367da34e1da1a2296ccaf735b872d89984c/img/logo-01.png",
     "portraitLogoCDN": "@cdnUrl@/blob/c6124367da34e1da1a2296ccaf735b872d89984c/img/logo-01.png",

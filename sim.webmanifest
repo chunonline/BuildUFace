@@ -1,8 +1,6 @@
 {
   "lang": "en",
   "dir": "ltr",
-  "name": "KAMEN",
-  "short_name": "KAMEN",
   "icons": [
     {
       "src": "/static/icons/android-chrome-36x36.png",
