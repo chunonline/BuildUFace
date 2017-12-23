@@ -5,3 +5,4 @@ projects/*
 node_modules/*
 libs/core/built/*
 libs/core/_locales/*
+gh-pages/*
