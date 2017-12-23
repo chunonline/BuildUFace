@@ -427,16 +427,7 @@
           "subitems": [],
           "path": "/raspberry-pi",
           "prevName": "Visual Studio Code support",
-          "prevPath": "/code",
-          "nextName": "Blocks Embed",
-          "nextPath": "/blocks-embed"
-        },
-        {
-          "name": "Blocks Embed",
-          "subitems": [],
-          "path": "/blocks-embed",
-          "prevName": "Coding on Raspberry Pi",
-          "prevPath": "/raspberry-pi"
+          "prevPath": "/code"
         }
       ],
       "prevName": "Streaming",

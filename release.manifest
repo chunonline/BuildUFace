@@ -47,17 +47,13 @@ CACHE:
 /Microsoft_MakeCode/vs/language/typescript/src/mode.js
 /Microsoft_MakeCode/vs/language/typescript/src/worker.js
 
-# charts
-/Microsoft_MakeCode/smoothie/smoothie_compressed.js
-/Microsoft_MakeCode/images/Bars_black.gif
-
 # ai
 https://az416426.vo.msecnd.net/scripts/a/ai.0.js
 
 /Microsoft_MakeCode/worker.js
 /Microsoft_MakeCode/monacoworker.js
 
-# ver Sat Dec 16 2017 03:32:24 GMT-0500 (EST)
+# ver Fri Dec 22 2017 23:17:40 GMT-0500 (EST)
 
 /Microsoft_MakeCode/target.js
   

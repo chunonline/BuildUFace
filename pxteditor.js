@@ -25,120 +25,96 @@ var pxt;
          * Some commands may be async, use the ``id`` field to correlate to the original request.
          */
         function bindEditorMessages(projectView) {
-            var allowEditorMessages = pxt.appTarget.appTheme.allowParentController && pxt.BrowserUtils.isIFrame();
-            var allowExtensionMessages = pxt.appTarget.appTheme.allowPackageExtensions;
-            var allowSimTelemetry = pxt.appTarget.appTheme.allowSimulatorTelemetry;
-            if (!allowEditorMessages && !allowExtensionMessages && !allowSimTelemetry)
+            if (!pxt.appTarget.appTheme.allowParentController || !pxt.BrowserUtils.isIFrame())
                 return;
             window.addEventListener("message", function (msg) {
                 var data = msg.data;
-                if (!data || !/^pxt(host|editor|pkgext|sim)$/.test(data.type))
+                if (!data || !/^pxt(host|editor)$/.test(data.type))
                     return false;
-                if (data.type === "pxtpkgext" && allowExtensionMessages) {
-                    // Messages sent to the editor iframe from a child iframe containing an extension
-                    projectView.handleExtensionRequest(data);
+                var p = Promise.resolve();
+                var resp = undefined;
+                if (data.type == "pxthost") {
+                    var req_1 = pendingRequests[data.id];
+                    if (!req_1) {
+                        pxt.debug("pxthost: unknown request " + data.id);
+                    }
+                    else {
+                        p = p.then(function () { return req_1.resolve(data); });
+                    }
                 }
-                else if (data.type === "pxtsim" && allowSimTelemetry) {
-                    var event_1 = data;
-                    if (event_1.action === "event") {
-                        if (event_1.category || event_1.message) {
-                            pxt.reportError(event_1.category, event_1.message, event_1.data);
+                else {
+                    var req = data;
+                    pxt.debug("pxteditor: " + req.action);
+                    switch (req.action.toLowerCase()) {
+                        case "switchjavascript":
+                            p = p.then(function () { return projectView.openJavaScript(); });
+                            break;
+                        case "switchblocks":
+                            p = p.then(function () { return projectView.openBlocks(); });
+                            break;
+                        case "startsimulator":
+                            p = p.then(function () { return projectView.startSimulator(); });
+                            break;
+                        case "restartsimulator":
+                            p = p.then(function () { return projectView.restartSimulator(); });
+                            break;
+                        case "hidesimulator":
+                            p = p.then(function () { return projectView.collapseSimulator(); });
+                            break;
+                        case "showsimulator":
+                            p = p.then(function () { return projectView.expandSimulator(); });
+                            break;
+                        case "closeflyout":
+                            p = p.then(function () { return projectView.closeFlyout(); });
+                            break;
+                        case "redo":
+                            p = p.then(function () {
+                                var editor = projectView.editor;
+                                if (editor && editor.hasRedo())
+                                    editor.redo();
+                            });
+                            break;
+                        case "undo":
+                            p = p.then(function () {
+                                var editor = projectView.editor;
+                                if (editor && editor.hasUndo())
+                                    editor.undo();
+                            });
+                            break;
+                        case "stopsimulator": {
+                            var stop_1 = data;
+                            p = p.then(function () { return projectView.stopSimulator(stop_1.unload); });
+                            break;
                         }
-                        else {
-                            pxt.tickEvent(event_1.tick, event_1.data);
+                        case "newproject": {
+                            var create_1 = data;
+                            p = p.then(function () { return projectView.newProject(create_1.options); });
+                            break;
+                        }
+                        case "importproject": {
+                            var load_1 = data;
+                            p = p.then(function () { return projectView.importProjectAsync(load_1.project, load_1.filters); });
+                            break;
+                        }
+                        case "proxytosim": {
+                            var simmsg_1 = data;
+                            p = p.then(function () { return projectView.proxySimulatorMessage(simmsg_1.content); });
+                            break;
+                        }
+                        case "renderblocks": {
+                            var rendermsg_1 = data;
+                            p = p.then(function () { return projectView.renderBlocksAsync(rendermsg_1); })
+                                .then(function (img) { resp = img; });
+                            break;
+                        }
+                        case "toggletrace": {
+                            var togglemsg_1 = data;
+                            p = p.then(function () { return projectView.toggleTrace(togglemsg_1.intervalSpeed); });
+                            break;
                         }
                     }
                 }
-                else if (allowEditorMessages) {
-                    // Messages sent to the editor from the parent frame
-                    var p = Promise.resolve();
-                    var resp_1 = undefined;
-                    if (data.type == "pxthost") {
-                        var req_1 = pendingRequests[data.id];
-                        if (!req_1) {
-                            pxt.debug("pxthost: unknown request " + data.id);
-                        }
-                        else {
-                            p = p.then(function () { return req_1.resolve(data); });
-                        }
-                    }
-                    else if (data.type == "pxteditor") {
-                        var req = data;
-                        pxt.debug("pxteditor: " + req.action);
-                        switch (req.action.toLowerCase()) {
-                            case "switchjavascript":
-                                p = p.then(function () { return projectView.openJavaScript(); });
-                                break;
-                            case "switchblocks":
-                                p = p.then(function () { return projectView.openBlocks(); });
-                                break;
-                            case "startsimulator":
-                                p = p.then(function () { return projectView.startSimulator(); });
-                                break;
-                            case "restartsimulator":
-                                p = p.then(function () { return projectView.restartSimulator(); });
-                                break;
-                            case "hidesimulator":
-                                p = p.then(function () { return projectView.collapseSimulator(); });
-                                break;
-                            case "showsimulator":
-                                p = p.then(function () { return projectView.expandSimulator(); });
-                                break;
-                            case "closeflyout":
-                                p = p.then(function () { return projectView.closeFlyout(); });
-                                break;
-                            case "redo":
-                                p = p.then(function () {
-                                    var editor = projectView.editor;
-                                    if (editor && editor.hasRedo())
-                                        editor.redo();
-                                });
-                                break;
-                            case "undo":
-                                p = p.then(function () {
-                                    var editor = projectView.editor;
-                                    if (editor && editor.hasUndo())
-                                        editor.undo();
-                                });
-                                break;
-                            case "stopsimulator": {
-                                var stop_1 = data;
-                                p = p.then(function () { return projectView.stopSimulator(stop_1.unload); });
-                                break;
-                            }
-                            case "newproject": {
-                                var create_1 = data;
-                                p = p.then(function () { return projectView.newProject(create_1.options); });
-                                break;
-                            }
-                            case "importproject": {
-                                var load_1 = data;
-                                p = p.then(function () { return projectView.importProjectAsync(load_1.project, {
-                                    filters: load_1.filters,
-                                    searchBar: load_1.searchBar
-                                }); });
-                                break;
-                            }
-                            case "proxytosim": {
-                                var simmsg_1 = data;
-                                p = p.then(function () { return projectView.proxySimulatorMessage(simmsg_1.content); });
-                                break;
-                            }
-                            case "renderblocks": {
-                                var rendermsg_1 = data;
-                                p = p.then(function () { return projectView.renderBlocksAsync(rendermsg_1); })
-                                    .then(function (img) { resp_1 = img; });
-                                break;
-                            }
-                            case "toggletrace": {
-                                var togglemsg_1 = data;
-                                p = p.then(function () { return projectView.toggleTrace(togglemsg_1.intervalSpeed); });
-                                break;
-                            }
-                        }
-                    }
-                    p.done(function () { return sendResponse(data, resp_1, true, undefined); }, function (err) { return sendResponse(data, resp_1, false, err); });
-                }
+                p.done(function () { return sendResponse(data, resp, true, undefined); }, function (err) { return sendResponse(data, resp, false, err); });
                 return true;
             }, false);
         }
@@ -219,18 +195,6 @@ var pxt;
             });
         }
         editor_1.postHostMessageAsync = postHostMessageAsync;
-    })(editor = pxt.editor || (pxt.editor = {}));
-})(pxt || (pxt = {}));
-var pxt;
-(function (pxt) {
-    var editor;
-    (function (editor) {
-        (function (PermissionResponses) {
-            PermissionResponses[PermissionResponses["Granted"] = 0] = "Granted";
-            PermissionResponses[PermissionResponses["Denied"] = 1] = "Denied";
-            PermissionResponses[PermissionResponses["NotAvailable"] = 2] = "NotAvailable";
-        })(editor.PermissionResponses || (editor.PermissionResponses = {}));
-        var PermissionResponses = editor.PermissionResponses;
     })(editor = pxt.editor || (pxt.editor = {}));
 })(pxt || (pxt = {}));
 var pxt;

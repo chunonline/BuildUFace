@@ -61,6 +61,13 @@ div.listing A:hover
   content: "\25CE";
 }
 
+.prodname {
+    font-weight: normal;
+    font-size: 1.8em;
+    margin-left: 0.5em;
+    color: #ff7d00;
+}
+
 #root .editor-image {
     margin: 2em auto;
     display: block;
@@ -113,6 +120,7 @@ code.lang-block::before,
 code.lang-blocks::before,
 code.lang-sig::before,
 code.lang-block::before,
+code.lang-shuffle::before,
 code.lang-sim::before,
 code.lang-cards::before,
 code.lang-namespaces::before,
@@ -127,6 +135,7 @@ code.lang-block,
 code.lang-blocks,
 code.lang-sig,
 code.lang-block,
+code.lang-shuffle,
 code.lang-sim,
 code.lang-cards,
 code.lang-namespaces,
@@ -183,16 +192,6 @@ svg {
 .mainbody {
     margin-top: 2em;
     padding-bottom: 3em;
-}
-
-#accessibleMenu .ui.item.link {
-    position: absolute;
-    height: 4em;
-    line-height: 4em;
-    font-size: 1em;
-    text-align: center;
-    color: #387894;
-    background: hsla(0,0%,100%,.9)!important;
 }
 
 /* Styling the table of contents much like the Semantic UI documentation site: http://semantic-ui.com/introduction/getting-started.html */
@@ -276,8 +275,8 @@ svg {
     bottom: 0;
     margin: 0;
     padding: 10px;
-    max-width: 5rem;
-    min-width: 5rem;
+    max-width: 150px;
+    min-width: 90px;
     display: flex;
     justify-content: center;
     align-content: center;
@@ -289,12 +288,6 @@ svg {
     -moz-transition: all 350ms ease;
     -o-transition: all 350ms ease;
     transition: all 350ms ease;
-}
-.navigation:hover {
-    text-decoration: none;
-}
-.navigation.icon {
-    width: 100%;
 }
 
 .navigation.navigation-next {
@@ -308,16 +301,8 @@ svg {
 .ui.menu.tocmenu {
     left: 0px;
     top: -5px;
-    height: 100%;
+    min-height: 1200px !important;
     overflow: visible !important
-}
-
-.ui.menu.tocmenu .menuContainer {
-    margin-bottom: 45px;
-}
-
-.cc-banner {
-    display: none;
 }
 
 @media only screen and (max-width: 1272px) {
@@ -417,9 +402,5 @@ print only stuff
         background: none !important;
         color: black !important;
         box-shadow: none !important;
-    }
-    /* images */
-    .ui.image {
-        max-width: 60%;
     }
 }

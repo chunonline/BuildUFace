@@ -3,71 +3,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-// Helpers designed to help to make a simulator accessible.
-var pxsim;
-(function (pxsim) {
-    var accessibility;
-    (function (accessibility) {
-        var liveRegion;
-        function makeFocusable(elem) {
-            elem.setAttribute("focusable", "true");
-            elem.setAttribute("tabindex", "0");
-        }
-        accessibility.makeFocusable = makeFocusable;
-        function enableKeyboardInteraction(elem, handlerKeyDown, handlerKeyUp) {
-            if (handlerKeyDown) {
-                elem.addEventListener('keydown', function (e) {
-                    var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
-                    if (charCode === 32 || charCode === 13) {
-                        handlerKeyDown();
-                    }
-                });
-            }
-            if (handlerKeyUp) {
-                elem.addEventListener('keyup', function (e) {
-                    var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
-                    if (charCode === 32 || charCode === 13) {
-                        handlerKeyUp();
-                    }
-                });
-            }
-        }
-        accessibility.enableKeyboardInteraction = enableKeyboardInteraction;
-        function setAria(elem, role, label) {
-            if (role && !elem.hasAttribute("role")) {
-                elem.setAttribute("role", role);
-            }
-            if (label && !elem.hasAttribute("aria-label")) {
-                elem.setAttribute("aria-label", label);
-            }
-        }
-        accessibility.setAria = setAria;
-        function setLiveContent(value) {
-            if (!liveRegion) {
-                var style = "position: absolute !important;" +
-                    "display: block;" +
-                    "visibility: visible;" +
-                    "overflow: hidden;" +
-                    "width: 1px;" +
-                    "height: 1px;" +
-                    "margin: -1px;" +
-                    "border: 0;" +
-                    "padding: 0;" +
-                    "clip: rect(0 0 0 0);";
-                liveRegion = document.createElement("div");
-                liveRegion.setAttribute("role", "status");
-                liveRegion.setAttribute("aria-live", "polite");
-                liveRegion.setAttribute("aria-hidden", "false");
-                liveRegion.setAttribute("style", style);
-                document.body.appendChild(liveRegion);
-            }
-            if (liveRegion.textContent !== value) {
-                liveRegion.textContent = value;
-            }
-        }
-        accessibility.setLiveContent = setLiveContent;
-    })(accessibility = pxsim.accessibility || (pxsim.accessibility = {}));
-})(pxsim || (pxsim = {}));
 var pxsim;
 (function (pxsim) {
     var GROUND_COLOR = "blue";
@@ -144,7 +79,7 @@ var pxsim;
     }
     function readPin(arg) {
         pxsim.U.assert(!!arg, "Invalid pin: " + arg);
-        var pin = /^(\w+)\..*((P|A|D)\d+)$/.exec(arg);
+        var pin = /^(\w+)\.((P|A|D)\d+)$/.exec(arg);
         return pin ? pin[2] : undefined;
     }
     pxsim.readPin = readPin;
@@ -1922,10 +1857,8 @@ var pxsim;
             stop();
             if (msg.mute)
                 mute(msg.mute);
-            if (msg.localizedStrings) {
-                pxsim.localization.setLocalizedStrings(msg.localizedStrings);
-            }
-            runtime = new pxsim.Runtime(msg);
+            runtime = new pxsim.Runtime(msg.code);
+            runtime.id = msg.id;
             runtime.board.initAsync(msg)
                 .done(function () {
                 runtime.run(function (v) {
@@ -1945,42 +1878,6 @@ var pxsim;
             runtime.board.receiveMessage(msg);
         }
     })(Embed = pxsim.Embed || (pxsim.Embed = {}));
-    /**
-     * Log an event to the parent editor (allowSimTelemetry must be enabled in target)
-     * @param id The id of the event
-     * @param data Any custom values associated with this event
-     */
-    function tickEvent(id, data) {
-        postMessageToEditor({
-            type: "pxtsim",
-            action: "event",
-            tick: id,
-            data: data
-        });
-    }
-    pxsim.tickEvent = tickEvent;
-    /**
-     * Log an error to the parent editor (allowSimTelemetry must be enabled in target)
-     * @param cat The category of the error
-     * @param msg The error message
-     * @param data Any custom values associated with this event
-     */
-    function reportError(cat, msg, data) {
-        postMessageToEditor({
-            type: "pxtsim",
-            action: "event",
-            tick: "error",
-            category: cat,
-            message: msg,
-            data: data
-        });
-    }
-    pxsim.reportError = reportError;
-    function postMessageToEditor(message) {
-        if (typeof window !== 'undefined' && window.parent && window.parent !== window) {
-            window.parent.postMessage(message, "*");
-        }
-    }
 })(pxsim || (pxsim = {}));
 pxsim.util.injectPolyphils();
 if (typeof window !== 'undefined') {
@@ -2459,17 +2356,10 @@ var pxsim;
             return panel;
         }
         function renderParts(options) {
-            if (options.configData)
-                pxsim.setConfigData(options.configData.cfg, options.configData.cfgKey);
-            var msg = {
-                type: "run",
-                code: "",
-                boardDefinition: options.boardDef,
-                partDefinitions: options.partDefinitions
-            };
-            pxsim.runtime = new pxsim.Runtime(msg);
+            var COMP_CODE = "";
+            pxsim.runtime = new pxsim.Runtime(COMP_CODE);
             pxsim.runtime.board = null;
-            pxsim.initCurrentRuntime(msg); // TODO it seems Runtime() ctor already calls this?
+            pxsim.initCurrentRuntime();
             var style = document.createElement("style");
             document.head.appendChild(style);
             style.textContent += STYLE;
@@ -2512,63 +2402,36 @@ var pxsim;
         }
     }
     pxsim.check = check;
+    var refObjId = 1;
+    var liveRefObjs = {};
+    var stringRefCounts = {};
+    var refCounting = true;
     var floatingPoint = false;
-    var cfgKey = {};
-    var cfg = {};
     function noRefCounting() {
-        if (pxsim.runtime)
-            pxsim.runtime.refCounting = false;
+        refCounting = false;
     }
     pxsim.noRefCounting = noRefCounting;
-    function getConfig(id) {
-        if (cfg.hasOwnProperty(id + ""))
-            return cfg[id + ""];
-        return null;
-    }
-    pxsim.getConfig = getConfig;
-    function getConfigKey(id) {
-        if (cfgKey.hasOwnProperty(id))
-            return cfgKey[id];
-        return null;
-    }
-    pxsim.getConfigKey = getConfigKey;
-    function getAllConfigKeys() {
-        return Object.keys(cfgKey);
-    }
-    pxsim.getAllConfigKeys = getAllConfigKeys;
-    function setConfig(id, val) {
-        cfg[id] = val;
-    }
-    pxsim.setConfig = setConfig;
-    function setConfigData(cfg_, cfgKey_) {
-        cfg = cfg_;
-        cfgKey = cfgKey_;
-    }
-    pxsim.setConfigData = setConfigData;
-    function getConfigData() {
-        return { cfg: cfg, cfgKey: cfgKey };
-    }
-    pxsim.getConfigData = getConfigData;
     function enableFloatingPoint() {
         floatingPoint = true;
     }
     pxsim.enableFloatingPoint = enableFloatingPoint;
     var RefObject = (function () {
         function RefObject() {
+            this.id = refObjId++;
             this.refcnt = 1;
-            if (pxsim.runtime)
-                this.id = pxsim.runtime.registerLiveObject(this);
-            else
-                this.id = 0;
+            liveRefObjs[this.id + ""] = this;
         }
         RefObject.prototype.destroy = function () { };
         RefObject.prototype.print = function () {
-            if (pxsim.runtime && pxsim.runtime.refCountingDebug)
-                console.log("RefObject id:" + this.id + " refs:" + this.refcnt);
+            console.log("RefObject id:" + this.id + " refs:" + this.refcnt);
         };
         return RefObject;
     }());
     pxsim.RefObject = RefObject;
+    function noLeakTracking(r) {
+        delete liveRefObjs[r.id + ""];
+    }
+    pxsim.noLeakTracking = noLeakTracking;
     var FnWrapper = (function () {
         function FnWrapper(func, caps, a0, a1, a2, cb) {
             this.func = func;
@@ -2600,8 +2463,7 @@ var pxsim;
             return !!this.vtable.refmask[idx];
         };
         RefRecord.prototype.print = function () {
-            if (pxsim.runtime && pxsim.runtime.refCountingDebug)
-                console.log("RefRecord id:" + this.id + " (" + this.vtable.name + ") len:" + this.fields.length);
+            console.log("RefInstance id:" + this.id + " (" + this.vtable.name + ") len:" + this.fields.length);
         };
         return RefRecord;
     }(RefObject));
@@ -2628,8 +2490,7 @@ var pxsim;
             this.func = null;
         };
         RefAction.prototype.print = function () {
-            if (pxsim.runtime && pxsim.runtime.refCountingDebug)
-                console.log("RefAction id:" + this.id + " refs:" + this.refcnt + " len:" + this.fields.length);
+            console.log("RefAction id:" + this.id + " refs:" + this.refcnt + " len:" + this.fields.length);
         };
         return RefAction;
     }(RefObject));
@@ -2679,7 +2540,7 @@ var pxsim;
             this.v = 0;
         }
         RefLocal.prototype.print = function () {
-            //console.log(`RefLocal id:${this.id} refs:${this.refcnt} v:${this.v}`)
+            console.log("RefLocal id:" + this.id + " refs:" + this.refcnt + " v:" + this.v);
         };
         return RefLocal;
     }(RefObject));
@@ -2694,8 +2555,7 @@ var pxsim;
             decr(this.v);
         };
         RefRefLocal.prototype.print = function () {
-            if (pxsim.runtime && pxsim.runtime.refCountingDebug)
-                console.log("RefRefLocal id:" + this.id + " refs:" + this.refcnt + " v:" + this.v);
+            console.log("RefRefLocal id:" + this.id + " refs:" + this.refcnt + " v:" + this.v);
         };
         return RefRefLocal;
     }(RefObject));
@@ -2725,8 +2585,7 @@ var pxsim;
             this.data = [];
         };
         RefMap.prototype.print = function () {
-            if (pxsim.runtime && pxsim.runtime.refCountingDebug)
-                console.log("RefMap id:" + this.id + " refs:" + this.refcnt + " size:" + this.data.length);
+            console.log("RefMap id:" + this.id + " refs:" + this.refcnt + " size:" + this.data.length);
         };
         return RefMap;
     }(RefObject));
@@ -2742,13 +2601,13 @@ var pxsim;
         return v;
     }
     function decr(v) {
-        if (!pxsim.runtime || !pxsim.runtime.refCounting)
+        if (!refCounting)
             return;
         if (v instanceof RefObject) {
             var o = v;
             check(o.refcnt > 0);
             if (--o.refcnt == 0) {
-                pxsim.runtime.unregisterLiveObject(o);
+                delete liveRefObjs[o.id + ""];
                 o.destroy();
             }
         }
@@ -2759,7 +2618,7 @@ var pxsim;
     }
     pxsim.initString = initString;
     function incr(v) {
-        if (!pxsim.runtime || !pxsim.runtime.refCounting)
+        if (!refCounting)
             return v;
         if (v instanceof RefObject) {
             var o = v;
@@ -2770,8 +2629,15 @@ var pxsim;
     }
     pxsim.incr = incr;
     function dumpLivePointers() {
-        if (pxsim.runtime)
-            pxsim.runtime.dumpLivePointers();
+        if (!refCounting)
+            return;
+        Object.keys(liveRefObjs).forEach(function (k) {
+            liveRefObjs[k].print();
+        });
+        Object.keys(stringRefCounts).forEach(function (k) {
+            var n = stringRefCounts[k];
+            console.log("Live String:", JSON.stringify(k), "refcnt=", n);
+        });
     }
     pxsim.dumpLivePointers = dumpLivePointers;
     var numops;
@@ -2835,13 +2701,6 @@ var pxsim;
             return 0;
         }
         pxtcore.afterProgramPage = afterProgramPage;
-        function getConfig(key, defl) {
-            var r = pxsim.getConfig(key);
-            if (r == null)
-                return defl;
-            return r;
-        }
-        pxtcore.getConfig = getConfig;
         // these shouldn't generally be called when compiled for simulator
         // provide implementation to silence warnings and as future-proofing
         function toInt(n) { return n >> 0; }
@@ -3057,6 +2916,14 @@ var pxsim;
             pxtrt.decr(map);
         }
         pxtrt.mapSetRef = mapSetRef;
+        function switch_eq(a, b) {
+            if (a == b) {
+                pxtrt.decr(b);
+                return true;
+            }
+            return false;
+        }
+        pxtrt.switch_eq = switch_eq;
     })(pxtrt = pxsim.pxtrt || (pxsim.pxtrt = {}));
     var pxtcore;
     (function (pxtcore) {
@@ -3071,14 +2938,6 @@ var pxsim;
             return r;
         }
         pxtcore.mkClassInstance = mkClassInstance;
-        function switch_eq(a, b) {
-            if (a == b) {
-                pxtcore.decr(b);
-                return true;
-            }
-            return false;
-        }
-        pxtcore.switch_eq = switch_eq;
     })(pxtcore = pxsim.pxtcore || (pxsim.pxtcore = {}));
     var thread;
     (function (thread) {
@@ -3184,7 +3043,7 @@ var pxsim;
             return undefinedIndex;
         };
         RefCollection.prototype.print = function () {
-            //console.log(`RefCollection id:${this.id} refs:${this.refcnt} len:${this.data.length} d0:${this.data[0]}`)
+            console.log("RefCollection id:" + this.id + " refs:" + this.refcnt + " len:" + this.data.length + " d0:" + this.data[0]);
         };
         return RefCollection;
     }(pxsim.RefObject));
@@ -3214,7 +3073,7 @@ var pxsim;
         function pop(c, x) {
             pxsim.pxtrt.nullCheck(c);
             var ret = c.pop();
-            // no decr() since we're returning it
+            pxsim.decr(ret);
             return ret;
         }
         Array_.pop = pop;
@@ -3229,7 +3088,7 @@ var pxsim;
             pxsim.pxtrt.nullCheck(c);
             if (!c.isValidIndex(x))
                 return;
-            // no decr() since we're returning it
+            pxsim.decr(c.getAt(x));
             return c.removeAt(x);
         }
         Array_.removeAt = removeAt;
@@ -3385,34 +3244,6 @@ var pxsim;
         function ignore(v) { return v; }
         thumb.ignore = ignore;
     })(thumb = pxsim.thumb || (pxsim.thumb = {}));
-    var avr;
-    (function (avr) {
-        function toInt(v) {
-            return (v << 16) >> 16;
-        }
-        function adds(x, y) { return toInt(x + y); }
-        avr.adds = adds;
-        function subs(x, y) { return toInt(x - y); }
-        avr.subs = subs;
-        function divs(x, y) { return toInt(Math.floor(x / y)); }
-        avr.divs = divs;
-        function muls(x, y) { return toInt(intMult(x, y)); }
-        avr.muls = muls;
-        function ands(x, y) { return toInt(x & y); }
-        avr.ands = ands;
-        function orrs(x, y) { return toInt(x | y); }
-        avr.orrs = orrs;
-        function eors(x, y) { return toInt(x ^ y); }
-        avr.eors = eors;
-        function lsls(x, y) { return toInt(x << y); }
-        avr.lsls = lsls;
-        function lsrs(x, y) { return (x & 0xffff) >>> y; }
-        avr.lsrs = lsrs;
-        function asrs(x, y) { return toInt(x >> y); }
-        avr.asrs = asrs;
-        function ignore(v) { return v; }
-        avr.ignore = ignore;
-    })(avr = pxsim.avr || (pxsim.avr = {}));
     var String_;
     (function (String_) {
         function mkEmpty() {
@@ -3662,16 +3493,6 @@ var pxsim;
             return new RefBuffer(buf.data.slice(offset, offset + length));
         }
         BufferMethods.slice = slice;
-        function toHex(buf) {
-            var hex = "0123456789abcdef";
-            var res;
-            for (var i = 0; i < buf.data.length; ++i) {
-                res[i << 1] = hex[buf.data[i] >> 4];
-                res[(i << 1) + 1] = hex[buf.data[i] & 0xf];
-            }
-            return res;
-        }
-        BufferMethods.toHex = toHex;
         function memmove(dst, dstOff, src, srcOff, len) {
             if (src.buffer === dst.buffer) {
                 memmove(dst, dstOff, src.slice(srcOff, srcOff + len), 0, len);
@@ -3750,21 +3571,359 @@ var pxsim;
         BufferMethods.write = write;
     })(BufferMethods = pxsim.BufferMethods || (pxsim.BufferMethods = {}));
 })(pxsim || (pxsim = {}));
-// Localization functions. Please port any modifications over to pxtlib/util.ts
 var pxsim;
 (function (pxsim) {
-    var localization;
-    (function (localization) {
-        var _localizeStrings = {};
-        function setLocalizedStrings(strs) {
-            _localizeStrings = strs || {};
+    var logs;
+    (function (logs) {
+        var TrendChartElement = (function () {
+            function TrendChartElement(log, className) {
+                this.log = log;
+                this.vpw = 80;
+                this.vph = 15;
+                this.log = log;
+                this.element = pxsim.svg.elt("svg");
+                pxsim.svg.hydrate(this.element, { class: className, viewBox: "0 0 " + this.vpw + " " + this.vph });
+                this.g = pxsim.svg.child(this.element, "g");
+                this.line = pxsim.svg.child(this.g, "polyline");
+            }
+            TrendChartElement.prototype.render = function () {
+                var _this = this;
+                var data = this.log.accvalues.slice(-25); // take last 10 entry
+                var margin = 2;
+                var times = data.map(function (d) { return d.t; });
+                var values = data.map(function (d) { return d.v; });
+                var maxt = Math.max.apply(null, times);
+                var mint = Math.min.apply(null, times);
+                var maxv = Math.max.apply(null, values);
+                var minv = Math.min.apply(null, values);
+                var h = (maxv - minv) || 10;
+                var w = (maxt - mint) || 10;
+                var points = data.map(function (d) { return ((d.t - mint) / w * _this.vpw + "," + (_this.vph - (d.v - minv) / h * (_this.vph - 2 * margin) - margin)); }).join(' ');
+                pxsim.svg.hydrate(this.line, { points: points });
+            };
+            return TrendChartElement;
+        }());
+        var LogViewElement = (function () {
+            function LogViewElement(props) {
+                var _this = this;
+                this.props = props;
+                this.shouldScroll = false;
+                this.entries = [];
+                this.serialBuffers = {};
+                this.dropSim = false; // drop simulator events
+                this.registerEvents();
+                this.registerChromeSerial();
+                this.element = document.createElement("div");
+                this.element.className = "ui segment hideempty logs";
+                if (this.props.onClick)
+                    this.element.onclick = function () { return _this.props.onClick(_this.rows()); };
+            }
+            LogViewElement.prototype.setLabel = function (text, theme) {
+                if (this.labelElement && this.labelElement.innerText == text)
+                    return;
+                if (this.labelElement) {
+                    if (this.labelElement.parentElement)
+                        this.labelElement.parentElement.removeChild(this.labelElement);
+                    this.labelElement = undefined;
+                }
+                if (text) {
+                    this.labelElement = document.createElement("a");
+                    this.labelElement.className = "ui " + theme + " top right attached mini label";
+                    this.labelElement.appendChild(document.createTextNode(text));
+                }
+            };
+            LogViewElement.prototype.hasTrends = function () {
+                return this.entries.some(function (entry) { return !!entry.chartElement; });
+            };
+            // creates a deep clone of the log entries
+            LogViewElement.prototype.rows = function () {
+                return this.entries.map(function (e) {
+                    return {
+                        id: e.id,
+                        theme: e.theme,
+                        variable: e.variable,
+                        accvalues: e.accvalues ? e.accvalues.slice(0) : undefined,
+                        time: e.time,
+                        value: e.value,
+                        source: e.source,
+                        count: e.count
+                    };
+                });
+            };
+            LogViewElement.prototype.streamPayload = function (startTime) {
+                // filter out data
+                var es = this.entries.filter(function (e) { return !!e.accvalues && e.time + e.accvalues[e.accvalues.length - 1].t >= startTime; });
+                if (es.length == 0)
+                    return undefined;
+                var fields = { "timestamp": 1, "partition": 1 };
+                var rows = [];
+                function entryVariable(e) {
+                    return /^\s*$/.test(e.variable) ? 'data' : e.variable;
+                }
+                // collect fields
+                es.forEach(function (e) {
+                    var n = entryVariable(e);
+                    if (!fields[n])
+                        fields[n] = 1;
+                });
+                // collapse data and fill values
+                var fs = Object.keys(fields);
+                es.forEach(function (e) {
+                    var n = entryVariable(e);
+                    var ei = fs.indexOf(n);
+                    e.accvalues
+                        .filter(function (v) { return (e.time + v.t) >= startTime; })
+                        .forEach(function (v) {
+                        var row = [e.time + v.t, 0];
+                        for (var i = 2; i < fs.length; ++i)
+                            row.push(i == ei ? v.v : null);
+                        rows.push(row);
+                    });
+                });
+                return { fields: fs, values: rows };
+            };
+            LogViewElement.prototype.registerChromeSerial = function () {
+                var _this = this;
+                var extensionId = this.props.chromeExtension;
+                if (!extensionId)
+                    return;
+                var buffers = {};
+                var chrome = window.chrome;
+                if (chrome && chrome.runtime) {
+                    console.debug("chrome: connecting to extension " + extensionId);
+                    var port = chrome.runtime.connect(extensionId, { name: "serial" });
+                    port.postMessage({
+                        type: "serial-config",
+                        useHF2: this.props.useHF2,
+                        vendorId: this.props.vendorId,
+                        productId: this.props.productId,
+                        nameFilter: this.props.nameFilter
+                    });
+                    port.onMessage.addListener(function (msg) {
+                        if (msg.type == "serial") {
+                            if (!_this.dropSim) {
+                                _this.clear();
+                                _this.dropSim = true;
+                            }
+                            var buf = (buffers[msg.id] || "") + msg.data;
+                            var i = buf.lastIndexOf("\n");
+                            if (i >= 0) {
+                                var msgb = buf.substring(0, i + 1);
+                                msgb.split('\n').filter(function (line) { return !!line; }).forEach(function (line) { return _this.appendEntry('microbit' + msg.id, line, 'black'); });
+                                buf = buf.slice(i + 1);
+                            }
+                            buffers[msg.id] = buf;
+                        }
+                    });
+                }
+            };
+            LogViewElement.prototype.registerEvents = function () {
+                var _this = this;
+                window.addEventListener('message', function (ev) {
+                    var msg = ev.data;
+                    switch (msg.type || '') {
+                        case 'serial':
+                            var smsg = msg;
+                            if (_this.dropSim && smsg.sim) {
+                                // drop simulated event since we are receiving real events
+                                return;
+                            }
+                            else if (!_this.dropSim && !smsg.sim) {
+                                // first non-simulator serial event, drop all previous events
+                                _this.clear();
+                                _this.dropSim = true;
+                            }
+                            var value = smsg.data || '';
+                            var source = smsg.id || '?';
+                            var theme = source.split('-')[0] || '';
+                            if (!/^[a-z]+$/.test(theme))
+                                theme = 'black';
+                            var buffer = _this.serialBuffers[source] || '';
+                            for (var i = 0; i < value.length; ++i) {
+                                switch (value.charCodeAt(i)) {
+                                    case 10:
+                                        _this.appendEntry(source, buffer, theme);
+                                        buffer = '';
+                                        break;
+                                    case 13:
+                                        break;
+                                    default:
+                                        buffer += value[i];
+                                        if (buffer.length > (_this.props.maxLineLength || 255)) {
+                                            _this.appendEntry(source, buffer, theme);
+                                            buffer = '';
+                                        }
+                                        break;
+                                }
+                            }
+                            _this.serialBuffers[source] = buffer;
+                            break;
+                    }
+                }, false);
+            };
+            LogViewElement.prototype.appendEntry = function (source, value, theme) {
+                var _this = this;
+                if (this.labelElement && !this.labelElement.parentElement)
+                    this.element.insertBefore(this.labelElement, this.element.firstElementChild);
+                var ens = this.entries;
+                while (ens.length > this.props.maxEntries) {
+                    var po = ens.shift();
+                    if (po.element && po.element.parentElement)
+                        po.element.parentElement.removeChild(po.element);
+                }
+                // find the entry with same source
+                var last = undefined;
+                var m = /^\s*(([^:]+):)?\s*(-?\d+)/i.exec(value);
+                var variable = m ? (m[2] || ' ') : undefined;
+                var nvalue = m ? parseInt(m[3]) : null;
+                for (var i = ens.length - 1; i >= 0; --i) {
+                    if (ens[i].source == source &&
+                        ((i == ens.length - 1 && ens[i].value == value) ||
+                            (variable && ens[i].variable == variable))) {
+                        last = ens[i];
+                        break;
+                    }
+                }
+                if (last) {
+                    last.value = value;
+                    if (last.accvalues) {
+                        last.accvalues.push({
+                            t: Date.now() - last.time,
+                            v: nvalue
+                        });
+                        if (last.accvalues.length > this.props.maxAccValues)
+                            last.accvalues.shift();
+                    }
+                    else if (!last.countElement) {
+                        last.countElement = document.createElement("span");
+                        last.countElement.className = 'ui log counter';
+                        last.element.insertBefore(last.countElement, last.element.firstChild);
+                    }
+                    last.count++;
+                    this.scheduleRender(last);
+                }
+                else {
+                    var e_1 = {
+                        id: LogViewElement.counter++,
+                        theme: theme,
+                        time: Date.now(),
+                        value: value,
+                        source: source,
+                        count: 1,
+                        dirty: true,
+                        variable: variable,
+                        accvalues: nvalue != null ? [{ t: 0, v: nvalue }] : undefined,
+                        element: document.createElement("div"),
+                        valueElement: document.createTextNode('')
+                    };
+                    e_1.element.className = "ui log " + e_1.theme;
+                    var raiseTrends = false;
+                    if (e_1.accvalues) {
+                        e_1.accvaluesElement = document.createElement('span');
+                        e_1.accvaluesElement.className = "ui log " + e_1.theme + " gauge";
+                        e_1.chartElement = new TrendChartElement(e_1, "ui trend " + e_1.theme);
+                        if (this.props.onTrendChartClick) {
+                            e_1.chartElement.element.onclick = function () { return _this.props.onTrendChartClick(e_1); };
+                            e_1.chartElement.element.className += " link";
+                        }
+                        e_1.element.appendChild(e_1.accvaluesElement);
+                        e_1.element.appendChild(e_1.chartElement.element);
+                        raiseTrends = true;
+                    }
+                    e_1.element.appendChild(e_1.valueElement);
+                    ens.push(e_1);
+                    this.element.appendChild(e_1.element);
+                    this.scheduleRender(e_1);
+                    if (raiseTrends && this.props.onTrendChartChanged)
+                        this.props.onTrendChartChanged();
+                }
+            };
+            LogViewElement.prototype.scheduleRender = function (e) {
+                var _this = this;
+                e.dirty = true;
+                if (!this.renderFiberId)
+                    this.renderFiberId = setTimeout(function () { return _this.render(); }, 50);
+            };
+            LogViewElement.prototype.clear = function () {
+                this.entries = [];
+                if (this.labelElement && this.labelElement.parentElement)
+                    this.labelElement.parentElement.removeChild(this.labelElement);
+                this.element.innerHTML = '';
+                this.serialBuffers = {};
+                this.dropSim = false;
+                if (this.props.onTrendChartChanged)
+                    this.props.onTrendChartChanged();
+            };
+            LogViewElement.prototype.render = function () {
+                this.entries.forEach(function (entry) {
+                    if (!entry.dirty)
+                        return;
+                    if (entry.countElement)
+                        entry.countElement.innerText = entry.count.toString();
+                    if (entry.accvaluesElement)
+                        entry.accvaluesElement.innerText = entry.value;
+                    if (entry.chartElement)
+                        entry.chartElement.render();
+                    entry.valueElement.textContent = entry.accvalues ? '' : entry.value;
+                    entry.dirty = false;
+                });
+                this.renderFiberId = 0;
+            };
+            LogViewElement.counter = 0;
+            return LogViewElement;
+        }());
+        logs.LogViewElement = LogViewElement;
+        function entriesToCSV(entries) {
+            // first log all data entries to CSV
+            var dataEntries = [];
+            var rows = entries.length;
+            entries.forEach(function (e) {
+                if (e.accvalues && e.accvalues.length > 0) {
+                    dataEntries.push(e);
+                    rows = Math.max(e.accvalues.length, rows);
+                }
+            });
+            var csv = '';
+            // name columns
+            csv += dataEntries.map(function (entry) { return (entry.theme + " time, " + entry.theme + " " + (entry.variable.trim() || "data")); })
+                .concat(['log time', 'log source', 'log message'])
+                .join(', ');
+            csv += '\n';
+            var _loop_2 = function(i) {
+                var cols = [];
+                dataEntries.forEach(function (entry) {
+                    var t0 = entry.accvalues[0].t;
+                    if (i < entry.accvalues.length) {
+                        cols.push(((entry.accvalues[i].t - t0) / 1000).toString());
+                        cols.push(entry.accvalues[i].v.toString());
+                    }
+                    else {
+                        cols.push(' ');
+                        cols.push(' ');
+                    }
+                });
+                if (i < entries.length) {
+                    var t0 = entries[0].time;
+                    cols.push(((entries[i].time - t0) / 1000).toString());
+                    cols.push(entries[i].source);
+                    cols.push(entries[i].value);
+                }
+                csv += cols.join(', ') + '\n';
+            };
+            for (var i = 0; i < rows; ++i) {
+                _loop_2(i);
+            }
+            return csv;
         }
-        localization.setLocalizedStrings = setLocalizedStrings;
-        function lf(s) {
-            return _localizeStrings[s] || s;
+        logs.entriesToCSV = entriesToCSV;
+        function entryToCSV(entry) {
+            var t0 = entry.accvalues.length > 0 ? entry.accvalues[0].t : 0;
+            var csv = (entry.theme + " time, " + (entry.variable.trim() || "data") + "\n")
+                + entry.accvalues.map(function (v) { return ((v.t - t0) / 1000) + ", " + v.v; }).join('\n');
+            return csv;
         }
-        localization.lf = lf;
-    })(localization = pxsim.localization || (pxsim.localization = {}));
+        logs.entryToCSV = entryToCSV;
+    })(logs = pxsim.logs || (pxsim.logs = {}));
 })(pxsim || (pxsim = {}));
 /// <reference path="../typings/globals/bluebird/index.d.ts"/>
 /// <reference path="../localtypings/pxtparts.d.ts"/>
@@ -3968,22 +4127,15 @@ var pxsim;
     pxsim.initCurrentRuntime = undefined;
     pxsim.handleCustomMessage = undefined;
     var Runtime = (function () {
-        function Runtime(msg) {
+        function Runtime(code) {
             var _this = this;
             this.numGlobals = 1000;
             this.dead = false;
             this.running = false;
             this.startTime = 0;
             this.globals = {};
-            this.refCountingDebug = false;
-            this.refCounting = true;
-            this.refObjId = 1;
-            this.liveRefObjs = {};
-            this.stringRefCounts = {};
             this.numDisplayUpdates = 0;
             U.assert(!!pxsim.initCurrentRuntime);
-            this.id = msg.id;
-            this.refCountingDebug = !!msg.refCountingDebug;
             var yieldMaxSteps = 100;
             // These variables are used by the generated code as well
             // ---
@@ -4137,10 +4289,10 @@ var pxsim;
                         __this.errorHandler(e);
                     else {
                         console.error("Simulator crashed, no error handler", e.stack);
-                        var msg_1 = pxsim.getBreakpointMsg(p, p.lastBrkId);
-                        msg_1.exceptionMessage = e.message;
-                        msg_1.exceptionStack = e.stack;
-                        Runtime.postMessage(msg_1);
+                        var msg = pxsim.getBreakpointMsg(p, p.lastBrkId);
+                        msg.exceptionMessage = e.message;
+                        msg.exceptionStack = e.stack;
+                        Runtime.postMessage(msg);
                         if (__this.postError)
                             __this.postError(e);
                     }
@@ -4230,7 +4382,7 @@ var pxsim;
                 };
             }
             // tslint:disable-next-line
-            eval(msg.code);
+            eval(code);
             this.run = function (cb) { return topCall(entryPoint, cb); };
             this.getResume = function () {
                 if (!currResume)
@@ -4249,18 +4401,8 @@ var pxsim;
                 _this.currFrame.overwrittenPC = true;
             };
             pxsim.runtime = this;
-            pxsim.initCurrentRuntime(msg);
+            pxsim.initCurrentRuntime();
         }
-        Runtime.prototype.registerLiveObject = function (object) {
-            var id = this.refObjId++;
-            if (this.refCounting)
-                this.liveRefObjs[id + ""] = object;
-            return id;
-        };
-        Runtime.prototype.unregisterLiveObject = function (object) {
-            U.assert(object.refcnt == 0, "ref count is not 0");
-            delete this.liveRefObjs[object.id + ""];
-        };
         Runtime.prototype.runningTime = function () {
             return U.now() - this.startTime;
         };
@@ -4316,19 +4458,6 @@ var pxsim;
                 if (this.stateChanged)
                     this.stateChanged();
             }
-        };
-        Runtime.prototype.dumpLivePointers = function () {
-            var _this = this;
-            if (!this.refCounting || !this.refCountingDebug)
-                return;
-            var liveObjectNames = Object.keys(this.liveRefObjs);
-            var stringRefCountNames = Object.keys(this.stringRefCounts);
-            console.log("Live objects: " + liveObjectNames.length + " objects, " + stringRefCountNames.length + " strings");
-            liveObjectNames.forEach(function (k) { return _this.liveRefObjs[k].print(); });
-            stringRefCountNames.forEach(function (k) {
-                var n = _this.stringRefCounts[k];
-                console.log("Live String:", JSON.stringify(k), "refcnt=", n);
-            });
         };
         return Runtime;
     }());
@@ -4446,7 +4575,8 @@ var pxsim;
                 var frames_2 = this.container.getElementsByTagName("iframe");
                 for (var i = 0; i < frames_2.length; ++i) {
                     var frame = frames_2[i];
-                    pxsim.U.addClass(frame, this.getStoppedClass());
+                    if (!/grayscale/.test(frame.className))
+                        pxsim.U.addClass(frame, "grayscale");
                 }
                 this.scheduleFrameCleanup();
             }
@@ -4531,9 +4661,7 @@ var pxsim;
                 partDefinitions: opts.partDefinitions,
                 mute: opts.mute,
                 highContrast: opts.highContrast,
-                cdnUrl: opts.cdnUrl,
-                localizedStrings: opts.localizedStrings,
-                refCountingDebug: opts.refCountingDebug
+                cdnUrl: opts.cdnUrl
             };
             this.applyAspectRatio();
             this.scheduleFrameCleanup();
@@ -4564,7 +4692,7 @@ var pxsim;
             msg.id = msg.options.theme + "-" + this.nextId();
             frame.dataset['runid'] = this.runId;
             frame.contentWindow.postMessage(msg, "*");
-            pxsim.U.removeClass(frame, this.getStoppedClass());
+            pxsim.U.removeClass(frame, "grayscale");
         };
         SimulatorDriver.prototype.removeEventListeners = function () {
             if (this.listener) {
@@ -4695,12 +4823,6 @@ var pxsim;
         };
         SimulatorDriver.prototype.nextId = function () {
             return this.nextFrameId++ + (Math.random() + '' + Math.random()).replace(/[^\d]/, '');
-        };
-        SimulatorDriver.prototype.getStoppedClass = function () {
-            if (this.options && this.options.stoppedClass) {
-                return this.options.stoppedClass;
-            }
-            return "grayscale";
         };
         return SimulatorDriver;
     }());
@@ -4905,34 +5027,17 @@ var pxsim;
         }
         AudioContextManager.tone = tone;
     })(AudioContextManager = pxsim.AudioContextManager || (pxsim.AudioContextManager = {}));
-    function isTouchEnabled() {
-        return typeof window !== "undefined" &&
-            ('ontouchstart' in window // works on most browsers
-                || (navigator && navigator.maxTouchPoints > 0)); // works on IE10/11 and Surface);
-    }
-    pxsim.isTouchEnabled = isTouchEnabled;
-    function hasPointerEvents() {
-        return typeof window != "undefined" && !!window.PointerEvent;
-    }
-    pxsim.hasPointerEvents = hasPointerEvents;
-    pxsim.pointerEvents = hasPointerEvents() ? {
+    pxsim.pointerEvents = typeof window != "undefined" && !!window.PointerEvent ? {
         up: "pointerup",
         down: "pointerdown",
         move: "pointermove",
         leave: "pointerleave"
-    } : isTouchEnabled() ?
-        {
-            up: "mouseup",
-            down: "touchstart",
-            move: "touchmove",
-            leave: "touchend"
-        } :
-        {
-            up: "mouseup",
-            down: "mousedown",
-            move: "mousemove",
-            leave: "mouseleave"
-        };
+    } : {
+        up: "mouseup",
+        down: "mousedown",
+        move: "mousemove",
+        leave: "mouseleave"
+    };
 })(pxsim || (pxsim = {}));
 var pxsim;
 (function (pxsim) {
@@ -5231,7 +5336,7 @@ var pxsim;
             }, false); });
         }
         svg_1.onClick = onClick;
-        function buttonEvents(el, move, start, stop, keydown) {
+        function buttonEvents(el, move, start, stop) {
             var captured = false;
             svg_1.touchEvents.mousedown.forEach(function (evname) { return el.addEventListener(evname, function (ev) {
                 captured = true;
@@ -5258,17 +5363,11 @@ var pxsim;
                 if (stop)
                     stop(ev);
             }, false); });
-            el.addEventListener('keydown', function (ev) {
-                captured = false;
-                if (keydown)
-                    keydown(ev);
-            });
         }
         svg_1.buttonEvents = buttonEvents;
-        function mkLinearGradient(id, horizontal) {
-            if (horizontal === void 0) { horizontal = false; }
+        function mkLinearGradient(id) {
             var gradient = svg.elt("linearGradient");
-            svg.hydrate(gradient, { id: id, x1: "0%", y1: "0%", x2: horizontal ? "100%" : "0%", y2: horizontal ? "0%" : "100%" });
+            svg.hydrate(gradient, { id: id, x1: "0%", y1: "0%", x2: "0%", y2: "100%" });
             var stop1 = svg.child(gradient, "stop", { offset: "0%" });
             var stop2 = svg.child(gradient, "stop", { offset: "100%" });
             var stop3 = svg.child(gradient, "stop", { offset: "100%" });
@@ -5276,9 +5375,8 @@ var pxsim;
             return gradient;
         }
         svg_1.mkLinearGradient = mkLinearGradient;
-        function linearGradient(defs, id, horizontal) {
-            if (horizontal === void 0) { horizontal = false; }
-            var lg = mkLinearGradient(id, horizontal);
+        function linearGradient(defs, id) {
+            var lg = mkLinearGradient(id);
             defs.appendChild(lg);
             return lg;
         }
@@ -5798,12 +5896,12 @@ var pxsim;
             };
             var rowGaps = 0;
             var rowIdxsWithGap = copyArr(opts.rowIdxsWithGap);
-            var _loop_2 = function(i) {
+            var _loop_3 = function(i) {
                 var colGaps = 0;
                 var colIdxsWithGap = copyArr(opts.colIdxsWithGap);
                 var cy = yOff + i * opts.pinDist + rowGaps * opts.pinDist;
                 var rowIdx = i + rowIdxOffset;
-                var _loop_3 = function(j) {
+                var _loop_4 = function(j) {
                     var cx = xOff + j * opts.pinDist + colGaps * opts.pinDist;
                     var colIdx = j + colIdxOffset;
                     var addEl = function (pin) {
@@ -5824,13 +5922,13 @@ var pxsim;
                     colGaps += removeAll(colIdxsWithGap, colIdx);
                 };
                 for (var j = 0; j < opts.colCount; j++) {
-                    _loop_3(j);
+                    _loop_4(j);
                 }
                 //row gaps
                 rowGaps += removeAll(rowIdxsWithGap, rowIdx);
             };
             for (var i = 0; i < opts.rowCount; i++) {
-                _loop_2(i);
+                _loop_3(i);
             }
             return { g: grid, allPins: allPins };
         }
@@ -6386,7 +6484,7 @@ var pxsim;
                 //TODO: handle wireframe mode
                 this.id = nextBoardId++;
                 var visDef = props.visualDef;
-                var imgHref = props.wireframe && visDef.outlineImage ? visDef.outlineImage : visDef.image;
+                var imgHref = props.wireframe ? visDef.outlineImage : visDef.image;
                 var boardImgAndSize = visuals.mkImageSVG({
                     image: imgHref,
                     width: visDef.width,
@@ -6598,12 +6696,10 @@ var pxsim;
 (function (pxsim) {
     var visuals;
     (function (visuals) {
-        function createMicroServoElement() {
-            return pxsim.svg.parseString("\n        <svg xmlns=\"http://www.w3.org/2000/svg\" id=\"svg2\" width=\"112.188\" height=\"299.674\">\n          <g id=\"layer1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" transform=\"scale(0.8)\">\n            <path id=\"path8212\" fill=\"#0061ff\" stroke-width=\"6.6\" d=\"M.378 44.61v255.064h112.188V44.61H.378z\"/>\n            <path id=\"crankbase\" fill=\"#00f\" stroke-width=\"6.6\" d=\"M56.57 88.047C25.328 88.047 0 113.373 0 144.615c.02 22.352 11.807 42.596 32.238 51.66.03 3.318.095 5.24.088 7.938 0 13.947 11.307 25.254 25.254 25.254 13.947 0 25.254-11.307 25.254-25.254-.006-2.986-.415-5.442-.32-8.746 19.487-9.45 30.606-29.195 30.625-50.852 0-31.24-25.33-56.568-56.57-56.568z\"/>\n            <path id=\"lowertip\" fill=\"#00a2ff\" stroke-width=\"2\" d=\"M.476 260.78v38.894h53.82v-10.486a6.82 6.566 0 0 1-4.545-6.182 6.82 6.566 0 0 1 6.82-6.566 6.82 6.566 0 0 1 6.82 6.566 6.82 6.566 0 0 1-4.545 6.182v10.486h53.82V260.78H.475z\"/>\n            <path id=\"uppertip\" fill=\"#00a2ff\" stroke-width=\"2\" d=\"M112.566 83.503V44.61h-53.82v10.487a6.82 6.566 0 0 1 4.544 6.18 6.82 6.566 0 0 1-6.818 6.568 6.82 6.566 0 0 1-6.82-6.567 6.82 6.566 0 0 1 4.546-6.18V44.61H.378v38.893h112.188z\"/>\n            <path id=\"VCC\" fill=\"red\" stroke-width=\"2\" d=\"M53.72 21.93h5.504v22.627H53.72z\"/>\n            <path id=\"LOGIC\" fill=\"#fc0\" stroke-width=\"2\" d=\"M47.3 21.93h5.503v22.627H47.3z\"/>\n            <path id=\"GND\" fill=\"#a02c2c\" stroke-width=\"2\" d=\"M60.14 21.93h5.505v22.627H60.14z\"/>\n            <path id=\"connector\" stroke-width=\"2\" d=\"M45.064 0a1.488 1.488 0 0 0-1.488 1.488v24.5a1.488 1.488 0 0 0 1.488 1.487h22.71a1.488 1.488 0 0 0 1.49-1.488v-24.5A1.488 1.488 0 0 0 67.774 0h-22.71z\"/>\n            <g id=\"crank\" transform=\"translate(0 -752.688)\">\n              <path id=\"arm\" fill=\"#ececec\" stroke=\"#000\" stroke-width=\"1.372\" d=\"M47.767 880.88c-4.447 1.162-8.412 8.278-8.412 18.492s3.77 18.312 8.412 18.494c8.024.314 78.496 5.06 78.51-16.952.012-22.013-74.377-21.117-78.51-20.035z\"/>\n              <circle id=\"path8216\" cx=\"56.661\" cy=\"899.475\" r=\"8.972\" fill=\"gray\" stroke-width=\"2\"/>\n            </g>\n          </g>\n        </svg>\n                    ").firstElementChild;
-        }
         function mkMicroServoPart(xy) {
             if (xy === void 0) { xy = [0, 0]; }
-            return { el: createMicroServoElement(), x: xy[0], y: xy[1], w: 112.188, h: 299.674 };
+            // TODO
+            return { el: null, y: 0, x: 0, w: 0, h: 0 };
         }
         visuals.mkMicroServoPart = mkMicroServoPart;
         var MicroServoView = (function () {
@@ -6624,7 +6720,7 @@ var pxsim;
                 this.updateState();
             };
             MicroServoView.prototype.initDom = function () {
-                this.element = createMicroServoElement();
+                this.element = pxsim.svg.parseString("\n<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"svg2\" width=\"112.188\" height=\"299.674\">\n  <g id=\"layer1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" transform=\"scale(0.8)\">\n    <path id=\"path8212\" fill=\"#0061ff\" stroke-width=\"6.6\" d=\"M.378 44.61v255.064h112.188V44.61H.378z\"/>\n    <path id=\"crankbase\" fill=\"#00f\" stroke-width=\"6.6\" d=\"M56.57 88.047C25.328 88.047 0 113.373 0 144.615c.02 22.352 11.807 42.596 32.238 51.66.03 3.318.095 5.24.088 7.938 0 13.947 11.307 25.254 25.254 25.254 13.947 0 25.254-11.307 25.254-25.254-.006-2.986-.415-5.442-.32-8.746 19.487-9.45 30.606-29.195 30.625-50.852 0-31.24-25.33-56.568-56.57-56.568z\"/>\n    <path id=\"lowertip\" fill=\"#00a2ff\" stroke-width=\"2\" d=\"M.476 260.78v38.894h53.82v-10.486a6.82 6.566 0 0 1-4.545-6.182 6.82 6.566 0 0 1 6.82-6.566 6.82 6.566 0 0 1 6.82 6.566 6.82 6.566 0 0 1-4.545 6.182v10.486h53.82V260.78H.475z\"/>\n    <path id=\"uppertip\" fill=\"#00a2ff\" stroke-width=\"2\" d=\"M112.566 83.503V44.61h-53.82v10.487a6.82 6.566 0 0 1 4.544 6.18 6.82 6.566 0 0 1-6.818 6.568 6.82 6.566 0 0 1-6.82-6.567 6.82 6.566 0 0 1 4.546-6.18V44.61H.378v38.893h112.188z\"/>\n    <path id=\"VCC\" fill=\"red\" stroke-width=\"2\" d=\"M53.72 21.93h5.504v22.627H53.72z\"/>\n    <path id=\"LOGIC\" fill=\"#fc0\" stroke-width=\"2\" d=\"M47.3 21.93h5.503v22.627H47.3z\"/>\n    <path id=\"GND\" fill=\"#a02c2c\" stroke-width=\"2\" d=\"M60.14 21.93h5.505v22.627H60.14z\"/>\n    <path id=\"connector\" stroke-width=\"2\" d=\"M45.064 0a1.488 1.488 0 0 0-1.488 1.488v24.5a1.488 1.488 0 0 0 1.488 1.487h22.71a1.488 1.488 0 0 0 1.49-1.488v-24.5A1.488 1.488 0 0 0 67.774 0h-22.71z\"/>\n    <g id=\"crank\" transform=\"translate(0 -752.688)\">\n      <path id=\"arm\" fill=\"#ececec\" stroke=\"#000\" stroke-width=\"1.372\" d=\"M47.767 880.88c-4.447 1.162-8.412 8.278-8.412 18.492s3.77 18.312 8.412 18.494c8.024.314 78.496 5.06 78.51-16.952.012-22.013-74.377-21.117-78.51-20.035z\"/>\n      <circle id=\"path8216\" cx=\"56.661\" cy=\"899.475\" r=\"8.972\" fill=\"gray\" stroke-width=\"2\"/>\n    </g>\n  </g>\n</svg>\n            ").firstElementChild;
                 this.crankEl = this.element.querySelector("#crank");
                 this.crankTransform = this.crankEl.getAttribute("transform");
             };
@@ -6633,7 +6729,7 @@ var pxsim;
                 visuals.translateEl(this.element, [x, y]);
             };
             MicroServoView.prototype.updateState = function () {
-                this.targetAngle = 180.0 - this.state.getPin(this.pin).servoAngle;
+                this.targetAngle = this.state.getPin(this.pin).servoAngle;
                 if (this.targetAngle != this.currentAngle) {
                     var now = pxsim.U.now();
                     var cx = 56.661;

@@ -85,7 +85,7 @@
     "workerjs": "/Microsoft_MakeCode/worker.js",
     "tdworkerjs": "/Microsoft_MakeCode/tdworker.js",
     "monacoworkerjs": "/Microsoft_MakeCode/monacoworker.js",
-    "pxtVersion": "2.3.38",
+    "pxtVersion": "2.0.31",
     "pxtRelId": "",
     "pxtCdnUrl": "/Microsoft_MakeCode/",
     "commitCdnUrl": "/Microsoft_MakeCode/",
@@ -117,16 +117,9 @@
 
         if (!id && !code && !debugSim) {
             console.error("missing id or code");
-            loading.textContent = 'Oops, wrong arguments...';
+            loading.innerText = 'Oops, wrong arguments...';
             return;
         }
-
-        function initAppCache() {
-            window.applicationCache.addEventListener('updateready', () => {
-                window.location.reload();
-            });
-        }
-        initAppCache();
 
         ksRunnerReady(function() {
             var theme = pxt.appTarget.appTheme;

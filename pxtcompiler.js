@@ -211,7 +211,7 @@ var ts;
                     });
                     this.addEnc("$r3", "R0-16-31", function (v) { return _this.inminmax(16, 31, v, (v - 16) << 4); });
                     this.addEnc("$r4", "R0-7", function (v) { return _this.inrange(7, v, v << 4); });
-                    this.addEnc("$r6", "R0-31", function (v) { return _this.inrange(31, v, (v << 4) | (v & 15) | ((v & 16) << 5)); });
+                    this.addEnc("$r6", "R0-31", function (v) { return _this.inrange(31, v, v << 5 | v); });
                     this.addEnc("$r7", "R0-31", function (v) { return _this.inrange(31, v, v << 3); });
                     this.addEnc("$r8", "Reven", function (v) { return v & 0x1 ? null : (v >> 1) << 4; });
                     this.addEnc("$r9", "Reven", function (v) { return v & 0x1 ? null : (v >> 1); });
@@ -455,7 +455,7 @@ var ts;
                     /*
                     let ld = this.encoders["$ld"]
                     let lnop = ln.getOp()
-        
+    
                     // replace 32-bit with 16-bit when branch distance is within bounds
                     if ((lnop == "call" || lnop == "jmp") && ln.numArgs[0] != null) {
                         let offset = ln.numArgs[0] - (this.file.baseOffset + ln.location + 2) >> 1
@@ -466,9 +466,6 @@ var ts;
                         }
                     }
                     */
-                };
-                AVRProcessor.prototype.toFnPtr = function (v, baseOff) {
-                    return v >> 1;
                 };
                 AVRProcessor.prototype.testAssembler = function () {
                     pxtc.assembler.expect(this, "2411       eor	r1, r1 \n" +
@@ -498,26 +495,6 @@ var ts;
     var pxtc;
     (function (pxtc) {
         pxtc.decodeBase64 = function (s) { return atob(s); };
-        function asmStringLiteral(s) {
-            var r = "\"";
-            for (var i = 0; i < s.length; ++i) {
-                // TODO generate warning when seeing high character ?
-                var c = s.charCodeAt(i) & 0xff;
-                var cc = String.fromCharCode(c);
-                if (cc == "\\" || cc == "\"")
-                    r += "\\" + cc;
-                else if (cc == "\n")
-                    r += "\\n";
-                else if (c <= 0xf)
-                    r += "\\x0" + c.toString(16);
-                else if (c < 32 || c > 127)
-                    r += "\\x" + c.toString(16);
-                else
-                    r += cc;
-            }
-            return r + "\"";
-        }
-        pxtc.asmStringLiteral = asmStringLiteral;
         // this class defines the interface between the IR
         // and a particular assembler (Thumb, AVR). Thus,
         // the registers mentioned below are VIRTUAL registers
@@ -537,57 +514,42 @@ var ts;
         var AssemblerSnippets = (function () {
             function AssemblerSnippets() {
             }
-            AssemblerSnippets.prototype.hasCommonalize = function () { return false; };
-            AssemblerSnippets.prototype.nop = function () { return "TBD(nop)"; };
-            AssemblerSnippets.prototype.reg_gets_imm = function (reg, imm) { return "TBD(reg_gets_imm)"; };
+            AssemblerSnippets.prototype.nop = function () { return "TBD "; };
+            AssemblerSnippets.prototype.reg_gets_imm = function (reg, imm) { return "TBD"; };
             // Registers are stored on the stack in numerical order 
-            AssemblerSnippets.prototype.proc_setup = function (numlocals, main) { return "TBD(proc_setup)"; };
-            AssemblerSnippets.prototype.push_fixed = function (reg) { return "TBD(push_fixed)"; };
-            AssemblerSnippets.prototype.push_local = function (reg) { return "TBD(push_local)"; };
-            AssemblerSnippets.prototype.push_locals = function (n) { return "TBD(push_locals)"; };
-            AssemblerSnippets.prototype.pop_fixed = function (reg) { return "TBD(pop_fixed)"; };
-            AssemblerSnippets.prototype.pop_locals = function (n) { return "TBD(pop_locals)"; };
-            AssemblerSnippets.prototype.proc_return = function () { return "TBD(proc_return)"; };
-            AssemblerSnippets.prototype.debugger_stmt = function (lbl) { return ""; };
-            AssemblerSnippets.prototype.debugger_bkpt = function (lbl) { return ""; };
-            AssemblerSnippets.prototype.debugger_proc = function (lbl) { return ""; };
-            AssemblerSnippets.prototype.unconditional_branch = function (lbl) { return "TBD(unconditional_branch)"; };
-            AssemblerSnippets.prototype.beq = function (lbl) { return "TBD(beq)"; };
-            AssemblerSnippets.prototype.bne = function (lbl) { return "TBD(bne)"; };
-            AssemblerSnippets.prototype.cmp = function (reg1, reg) { return "TBD(cmp)"; };
-            AssemblerSnippets.prototype.cmp_zero = function (reg1) { return "TBD(cmp_zero)"; };
+            AssemblerSnippets.prototype.proc_setup = function (main) { return "TBD"; };
+            AssemblerSnippets.prototype.push_fixed = function (reg) { return "TBD"; };
+            AssemblerSnippets.prototype.push_local = function (reg) { return "TBD"; };
+            AssemblerSnippets.prototype.push_locals = function (n) { return "TBD"; };
+            AssemblerSnippets.prototype.proc_setup_end = function () { return ""; };
+            AssemblerSnippets.prototype.pop_fixed = function (reg) { return "TBD"; };
+            AssemblerSnippets.prototype.pop_locals = function (n) { return "TBD"; };
+            AssemblerSnippets.prototype.proc_return = function () { return "TBD"; };
+            AssemblerSnippets.prototype.debugger_stmt = function (lbl) { return "TBD"; };
+            AssemblerSnippets.prototype.debugger_bkpt = function (lbl) { return "TBD"; };
+            AssemblerSnippets.prototype.debugger_proc = function (lbl) { return "TBD"; };
+            AssemblerSnippets.prototype.unconditional_branch = function (lbl) { return "TBD"; };
+            AssemblerSnippets.prototype.beq = function (lbl) { return "TBD"; };
+            AssemblerSnippets.prototype.bne = function (lbl) { return "TBD"; };
+            AssemblerSnippets.prototype.cmp = function (reg1, reg) { return "TBD"; };
+            AssemblerSnippets.prototype.cmp_zero = function (reg1) { return "TBD"; };
             AssemblerSnippets.prototype.arithmetic = function () { return ""; };
             // load_reg_src_off is load/store indirect
             // word? - does offset represent an index that must be multiplied by word size?
             // inf?  - control over size of referenced data
             // str?  - true=Store/false=Load
             // src - can range over
-            AssemblerSnippets.prototype.load_reg_src_off = function (reg, src, off, word, store, inf) {
-                return "TBD(load_reg_src_off)";
-            };
-            AssemblerSnippets.prototype.rt_call = function (name, r0, r1) { return "TBD(rt_call)"; };
-            AssemblerSnippets.prototype.call_lbl = function (lbl) { return "TBD(call_lbl)"; };
-            AssemblerSnippets.prototype.call_reg = function (reg) { return "TBD(call_reg)"; };
-            AssemblerSnippets.prototype.vcall = function (mapMethod, isSet, vtableShift) {
-                return "TBD(vcall)";
-            };
-            AssemblerSnippets.prototype.prologue_vtable = function (arg_index, vtableShift) {
-                return "TBD(prologue_vtable";
-            };
-            AssemblerSnippets.prototype.helper_prologue = function () { return "TBD(lambda_prologue)"; };
-            AssemblerSnippets.prototype.helper_epilogue = function () { return "TBD(lambda_epilogue)"; };
-            AssemblerSnippets.prototype.load_ptr = function (lbl, reg) { return "TBD(load_ptr)"; };
-            AssemblerSnippets.prototype.load_ptr_full = function (lbl, reg) { return "TBD(load_ptr_full)"; };
-            AssemblerSnippets.prototype.emit_int = function (v, reg) { return "TBD(emit_int)"; };
-            AssemblerSnippets.prototype.string_literal = function (lbl, s) {
-                return "\n.balign 4\n" + lbl + "meta: .short 0xffff, " + (pxtc.target.taggedInts ? pxt.REF_TAG_STRING + "," : "") + " " + s.length + "\n" + lbl + ": .string " + asmStringLiteral(s) + "\n";
-            };
-            AssemblerSnippets.prototype.hex_literal = function (lbl, data) {
-                return "\n.balign 4\n" + lbl + ": .short 0xffff, " + (pxtc.target.taggedInts ? pxt.REF_TAG_BUFFER + "," : "") + " " + (data.length >> 1) + "\n        .hex " + data + (data.length % 4 == 0 ? "" : "00") + "\n";
-            };
-            AssemblerSnippets.prototype.method_call = function (procid, topExpr) {
-                return "";
-            };
+            AssemblerSnippets.prototype.load_reg_src_off = function (reg, src, off, word, store, inf) { return "TBD"; };
+            AssemblerSnippets.prototype.rt_call = function (name, r0, r1) { return "TBD"; };
+            AssemblerSnippets.prototype.call_lbl = function (lbl) { return "TBD"; };
+            AssemblerSnippets.prototype.call_reg = function (reg) { return "TBD"; };
+            AssemblerSnippets.prototype.vcall = function (mapMethod, isSet, vtableShift) { return "TBD"; };
+            AssemblerSnippets.prototype.prologue_vtable = function (arg_index, vtableShift) { return "TBD"; };
+            AssemblerSnippets.prototype.lambda_prologue = function () { return "TBD"; };
+            AssemblerSnippets.prototype.lambda_epilogue = function () { return "TBD"; };
+            AssemblerSnippets.prototype.load_ptr = function (lbl, reg) { return "TBD"; };
+            AssemblerSnippets.prototype.load_ptr_full = function (lbl, reg) { return "TBD"; };
+            AssemblerSnippets.prototype.emit_int = function (v, reg) { return "TBD"; };
             return AssemblerSnippets;
         }());
         pxtc.AssemblerSnippets = AssemblerSnippets;
@@ -685,9 +647,16 @@ var ts;
                     this.write(this.t.debugger_proc(bkptLabel));
                 }
                 this.baseStackSize = 1; // push {lr}
+                this.write(this.t.proc_setup(true));
+                // initialize the locals
                 var numlocals = this.proc.locals.length;
-                this.write(this.t.proc_setup(numlocals));
-                this.baseStackSize += numlocals;
+                if (numlocals > 0)
+                    this.write(this.t.reg_gets_imm("r0", 0));
+                this.proc.locals.forEach(function (l) {
+                    _this.write(_this.t.push_local("r0") + " ;loc");
+                    _this.baseStackSize++;
+                });
+                this.write(this.t.proc_setup_end());
                 this.write("@stackmark locals");
                 this.write(locLabel + ":");
                 //console.log(proc.toString())
@@ -781,8 +750,7 @@ var ts;
                     else {
                         this.emitExpr(jmp.expr);
                         // TODO: remove ARM-specific code
-                        if (jmp.expr.exprKind == pxtc.ir.EK.RuntimeCall &&
-                            (jmp.expr.data === "thumb::subs" || pxtc.U.startsWith(jmp.expr.data, "_cmp_"))) {
+                        if (jmp.expr.exprKind == pxtc.ir.EK.RuntimeCall && jmp.expr.data === "thumb::subs") {
                         }
                         else {
                             this.write(this.t.cmp_zero("r0"));
@@ -846,8 +814,7 @@ var ts;
                             this.clearStack();
                         }
                         else {
-                            var idx0 = idx.toString() + ":" + this.exprStack.length;
-                            this.write(this.t.load_reg_src_off(reg, "sp", idx0, true) + (" ; tmpref @" + (this.exprStack.length - idx)));
+                            this.write(this.t.load_reg_src_off(reg, "sp", idx.toString(), true) + (" ; tmpref @" + (this.exprStack.length - idx)));
                         }
                         break;
                     case pxtc.ir.EK.CellRef:
@@ -1018,12 +985,7 @@ var ts;
                 var procid = topExpr.data;
                 var procIdx = -1;
                 if (procid.virtualIndex != null || procid.ifaceIndex != null) {
-                    var custom = this.t.method_call(procid, topExpr);
-                    if (custom) {
-                        this.write(custom);
-                        this.write(lbl + ":");
-                    }
-                    else if (procid.mapMethod) {
+                    if (procid.mapMethod) {
                         var isSet = /Set/.test(procid.mapMethod);
                         pxtc.assert(isSet == (topExpr.args.length == 2));
                         pxtc.assert(!isSet == (topExpr.args.length == 1));
@@ -1106,7 +1068,7 @@ var ts;
                 }
                 else if (cell.isarg) {
                     var idx = this.proc.args.length - cell.index - 1;
-                    return ["sp", "args@" + idx.toString() + ":" + this.baseStackSize, false];
+                    return ["sp", "args@" + idx.toString(), false];
                 }
                 else {
                     return ["sp", "locals@" + cell.index, false];
@@ -1117,25 +1079,17 @@ var ts;
                 var node = this.proc.action;
                 this.write("");
                 this.write(".section code");
-                if (pxtc.isAVR()) {
-                    this.write(this.proc.label() + "_Lit:");
-                }
-                else {
-                    if (isMain)
-                        this.write(this.t.unconditional_branch(".themain"));
-                    this.write(".balign 4");
-                    this.write(this.proc.label() + "_Lit:");
-                    this.write(".short 0xffff, " + pxt.REF_TAG_ACTION + "   ; action literal");
-                    if (isMain)
-                        this.write(".themain:");
-                }
+                if (isMain)
+                    this.write(this.t.unconditional_branch(".themain"));
+                this.write(".balign 4");
+                this.write(this.proc.label() + "_Lit:");
+                this.write(".short 0xffff, " + pxt.REF_TAG_ACTION + "   ; action literal");
                 this.write("@stackmark litfunc");
+                if (isMain)
+                    this.write(".themain:");
                 var parms = this.proc.args.map(function (a) { return a.def; });
-                this.write(this.t.proc_setup(0, true));
-                if (this.t.hasCommonalize())
-                    this.write(this.t.push_fixed(["r5", "r6", "r7"]));
-                else
-                    this.write(this.t.push_fixed(["r5", "r6"]));
+                this.write(this.t.proc_setup());
+                this.write(this.t.push_fixed(["r5", "r6", "r7"]));
                 this.baseStackSize = 4; // above
                 var numpop = parms.length;
                 var alignment = this.stackAlignmentNeeded(parms.length);
@@ -1148,7 +1102,8 @@ var ts;
                         pxtc.U.userError(pxtc.U.lf("only up to three parameters supported in lambdas"));
                     _this.write(_this.t.push_local("r" + (i + 1)));
                 });
-                var asm = this.t.helper_prologue();
+                this.write(this.t.proc_setup_end());
+                var asm = this.t.lambda_prologue();
                 this.proc.args.forEach(function (p, i) {
                     if (p.isRef()) {
                         var _a = _this.cellref(p), reg = _a[0], off = _a[1], idx = _a[2];
@@ -1156,15 +1111,12 @@ var ts;
                         asm += _this.t.call_lbl("pxt::incr") + "\n";
                     }
                 });
-                asm += this.t.helper_epilogue();
+                asm += this.t.lambda_epilogue();
                 this.emitHelper(asm); // using shared helper saves about 3% of binary size
                 this.write(this.t.call_lbl(this.proc.label()));
                 if (numpop)
                     this.write(this.t.pop_locals(numpop));
-                if (this.t.hasCommonalize())
-                    this.write(this.t.pop_fixed(["r6", "r5", "r7"]));
-                else
-                    this.write(this.t.pop_fixed(["r6", "r5"]));
+                this.write(this.t.pop_fixed(["r6", "r5", "r7"]));
                 this.write(this.t.proc_return());
                 this.write("@stackempty litfunc");
             };
@@ -1260,15 +1212,15 @@ var ts;
                     "r1": "r22",
                     "r2": "r20",
                     "r3": "r18",
-                    "r5": "r4",
-                    "r6": "r2"
+                    "r5": "r26",
+                    "r6": "r2" // Z - we really mean r2 YES, because r30 is used as Z
                 };
                 this.rmap_hi = {
                     "r0": "r25",
                     "r1": "r23",
                     "r2": "r21",
                     "r3": "r19",
-                    "r5": "r5",
+                    "r5": "r27",
                     "r6": "r3"
                 };
                 this.inst_lo = {
@@ -1300,56 +1252,37 @@ var ts;
                 var _this = this;
                 var res = "";
                 regs.forEach(function (r) {
-                    res = res + ("\npush " + _this.rmap_hi[r] + "\npush " + _this.rmap_lo[r]);
+                    res = res + ("\npush " + _this.rmap_lo[r] + "\npush " + _this.rmap_hi[r]);
                 });
-                res += "\n    @dummystack " + regs.length;
+                res += "\n    @dummystack " + regs.length + "\n    in r28, 0x3d\n    in r29, 0x3e";
                 return res;
             };
             AVRSnippets.prototype.pop_fixed = function (regs) {
                 var _this = this;
                 var res = "";
                 regs.forEach(function (r) {
-                    res = res + ("\npop " + _this.rmap_lo[r] + "\npop " + _this.rmap_hi[r]);
+                    res = res + ("\npop " + _this.rmap_hi[r] + "\npop " + _this.rmap_lo[r]);
                 });
-                res += "\n    @dummystack -" + regs.length;
+                res += "\n    in r28, 0x3d\n    in r29, 0x3e\n    @dummystack -" + regs.length;
                 return res;
             };
-            AVRSnippets.prototype.proc_setup = function (numlocals, main) {
-                var r = main ? "clr r1" : "";
-                r += "\n    push r29\n    push r28";
-                for (var i = 0; i < numlocals; ++i)
-                    r += "\n    push r1\n    push r1";
-                // setup frame pointer        
-                r += "\n    @dummystack " + (numlocals + 1) + "\n    in r28, 0x3d\n    in r29, 0x3e\n    subi r28, #5\n    sbci r29, #0";
-                return r;
+            AVRSnippets.prototype.proc_setup = function (main) {
+                var set_r1_zero = main ? "eor r1, r1" : "";
+                // push the frame pointer
+                return "\n    " + set_r1_zero + "\n    push r28\n    push r29\n    @dummystack 1\n    in r28, 0x3d\n    in r29, 0x3e";
             };
             AVRSnippets.prototype.proc_return = function () {
                 // pop frame pointer and return
-                return "\n    pop r28\n    pop r29\n    @dummystack -1\n    ret";
+                return "\n    pop r29\n    pop r28\n    in r28, 0x3d\n    in r29, 0x3e\n    @dummystack -1\n    ret";
             };
             AVRSnippets.prototype.debugger_hook = function (lbl) { return "eor r1, r1"; };
             AVRSnippets.prototype.debugger_bkpt = function (lbl) { return "eor r1, r1"; };
             AVRSnippets.prototype.breakpoint = function () { return "eor r1, r1"; };
             AVRSnippets.prototype.push_local = function (reg) {
-                return "\n    push " + this.rmap_hi[reg] + "\n    push " + this.rmap_lo[reg] + "\n    @dummystack 1";
-            };
-            AVRSnippets.prototype.push_locals = function (n) {
-                return "no stack alignment on AVR";
+                return "\n    push " + this.rmap_lo[reg] + "\n    push " + this.rmap_hi[reg] + "\n    @dummystack 1\n    in r28, 0x3d\n    in r29, 0x3e";
             };
             AVRSnippets.prototype.pop_locals = function (n) {
-                if (n * 2 <= 5) {
-                    return pxtc.Util.range(n * 2).map(function (k) { return "pop r0"; }).join("\n    ") + ("\n    @dummystack -" + n);
-                }
-                var n0 = n;
-                var r = "\n    in\tr30, 0x3d\n    in\tr31, 0x3e\n";
-                while (n > 0) {
-                    // adiw maxes out at #63
-                    var k = Math.min(n, 31);
-                    r += "    adiw\tr30, #2*" + k + "\n";
-                    n -= k;
-                }
-                r += "\n    out\t0x3d, r30\n    out\t0x3e, r31\n    @dummystack -" + n0;
-                return r;
+                return "\n    in\tr28, 0x3d\n    in\tr29, 0x3e\n    adiw\tr28, #2*" + n + "\n    out\t0x3d, r28\n    out\t0x3e, r29\n    @dummystack -" + n;
             };
             AVRSnippets.prototype.unconditional_branch = function (lbl) { return "jmp " + lbl; };
             AVRSnippets.prototype.beq = function (lbl) { return "breq " + lbl; };
@@ -1362,54 +1295,35 @@ var ts;
                 return "\n    cp " + reg1_lo + ", " + reg2_lo + "\n    cpc " + reg1_hi + ", " + reg2_hi;
             };
             AVRSnippets.prototype.cmp_zero = function (reg) {
-                return "\n    cp " + this.rmap_lo[reg] + ", r1\n    cpc " + this.rmap_hi[reg] + ", r1";
+                var reg_lo = this.rmap_lo[reg];
+                return "\n    cp " + reg_lo + ", r1";
             };
             // load_reg_src_off is load/store indirect
             // word? - does offset represent an index that must be multiplied by word size?
             // inf?  - control over size of referenced data
             // str?  - true=Store/false=Load
             AVRSnippets.prototype.load_reg_src_off = function (reg, src, off, word, store, inf) {
+                pxtc.assert(src != "r1");
                 var tgt_reg = "";
                 var prelude = "";
                 var _this = this;
-                function maybe_spill_it(new_off) {
-                    pxtc.assert(!isNaN(new_off));
-                    if (0 <= new_off && new_off <= 62) {
-                        off = new_off.toString();
+                function spill_it(new_off) {
+                    prelude += "\n    " + _this.reg_gets_imm("r1", new_off) + "\n    ";
+                    if (tgt_reg == "Y") {
+                        prelude += "\n    movw r30, r28\n";
                     }
-                    else {
-                        if (tgt_reg == "Y") {
-                            prelude += "\n    movw r30, r28\n";
-                        }
-                        prelude += "\n    ; += " + new_off;
-                        // we don't have a scratch register to store the constant...
-                        while (new_off > 0) {
-                            var k = Math.min(new_off, 63);
-                            prelude += "\n    adiw r30, #" + k;
-                            new_off -= k;
-                        }
-                        off = "0";
-                        tgt_reg = "Z";
-                    }
-                }
-                var mm = /^(\d+):(\d+)/.exec(off);
-                if (mm) {
-                    var ridx = parseInt(mm[1]);
-                    var height = parseInt(mm[2]);
-                    var idx = height - ridx;
-                    if (idx <= 3) {
-                        off = "locals@-" + idx;
-                        word = false;
-                    }
+                    prelude += "\n    add r30, " + _this.rmap_lo["r1"] + "\n    adc r31, " + _this.rmap_hi["r1"];
+                    off = "0";
+                    tgt_reg = "Z";
                 }
                 // different possibilities for src: r0, r5, sp, r6
-                // any indirection we want to do using Y+C, Z+C (recall Y=FP)
+                // any indirection we want to do using Y+C, Z+C (recall Y=sp, r6 -> Z)
                 if (src != "sp") {
                     prelude = "\n    movw r30, " + this.rmap_lo[src];
                     tgt_reg = "Z";
                 }
                 else {
-                    tgt_reg = "Y"; // Y -> FP = r29
+                    tgt_reg = "Y"; // sp -> FP = r29
                 }
                 // different possibilities for off
                 if (word || off[0] == "#") {
@@ -1422,57 +1336,38 @@ var ts;
                         // word false means we have #integer
                         new_off = parseInt(off.slice(1));
                     }
-                    pxtc.assert(!isNaN(new_off), "off=" + off + "/" + word);
-                    if (src == "sp") {
-                        new_off += 1; // SP points 1 word ahead
-                        prelude += "\n    in  r30, 0x3d\n    in  r31, 0x3e";
-                        tgt_reg = "Z";
+                    if (0 <= new_off && new_off <= 63) {
+                        off = new_off.toString();
                     }
-                    maybe_spill_it(new_off);
+                    else {
+                        spill_it(new_off);
+                    }
                 }
                 else if (off[0] == "r") {
                     if (tgt_reg == "Y") {
-                        prelude += "\n    movw r30, r28";
+                        prelude += "\n    movw r30, r28\n";
                     }
                     prelude += "\n    add r30, " + this.rmap_lo[off] + "\n    adc r31, " + this.rmap_hi[off];
                     off = "0";
                 }
                 else {
-                    pxtc.assert(tgt_reg == "Y");
-                    var new_off = -100000;
-                    var m = /^args@(\d+):(\d+)$/.exec(off);
-                    if (m) {
-                        var argIdx = parseInt(m[1]);
-                        var baseStack = parseInt(m[2]) + 1; // we have one more word on top of what ARM has
-                        new_off = 2 * (argIdx + baseStack);
-                    }
-                    m = /^locals@([\-\d]+)$/.exec(off);
-                    if (m) {
-                        var localIdx = parseInt(m[1]);
-                        new_off = 2 * localIdx;
-                    }
-                    prelude += "\n; " + off;
-                    new_off += 6; // FP points 3 words ahead of locals
-                    pxtc.assert(new_off >= 0);
-                    maybe_spill_it(new_off);
                 }
-                if (inf && inf.size == 1) {
-                    if (store) {
-                        return "\n    " + prelude + "\n    std " + tgt_reg + ", " + off + ", " + this.rmap_lo[reg];
-                    }
-                    else {
-                        if (inf.needsSignExt)
-                            return "\n    " + prelude + "\n    ldd " + this.rmap_lo[reg] + ", " + tgt_reg + ", " + off + "\n    clr " + this.rmap_hi[reg] + "\n    sbrc " + this.rmap_lo[reg] + ", 7\n    com " + this.rmap_hi[reg];
-                        else
-                            return "\n    " + prelude + "\n    ldd " + this.rmap_lo[reg] + ", " + tgt_reg + ", " + off + "\n    clr " + this.rmap_hi[reg] + "\n    ";
-                    }
-                }
-                if (store) {
-                    return "\n    " + prelude + "\n    std " + tgt_reg + ", " + off + ", " + this.rmap_lo[reg] + "\n    std " + tgt_reg + ", " + off + "+1, " + this.rmap_hi[reg];
+                var _a = ["TBD", "TBD"], off_lo = _a[0], off_hi = _a[1];
+                if (off.indexOf("@") == -1) {
+                    // in AVR, SP/FP points to next available slot, so need to bump 
+                    _b = (tgt_reg == "Y") ? [(parseInt(off) + 2).toString(), (parseInt(off) + 1).toString()] : [off, off + "|1"], off_lo = _b[0], off_hi = _b[1];
                 }
                 else {
-                    return "\n    " + prelude + "\n    ldd " + this.rmap_lo[reg] + ", " + tgt_reg + ", " + off + "\n    ldd " + this.rmap_hi[reg] + ", " + tgt_reg + ", " + off + "+1";
+                    // locals@offset and args@offset used in stack context, so also need to handle
+                    _c = [off, off + "-1"], off_lo = _c[0], off_hi = _c[1];
                 }
+                if (store) {
+                    return "\n    " + prelude + "\n    std " + tgt_reg + ", " + off_lo + ", " + this.rmap_lo[reg] + "\n    std " + tgt_reg + ", " + off_hi + ", " + this.rmap_hi[reg];
+                }
+                else {
+                    return "\n    " + prelude + "\n    ldd " + this.rmap_lo[reg] + ", " + tgt_reg + ", " + off_lo + "\n    ldd " + this.rmap_hi[reg] + ", " + tgt_reg + ", " + off_hi;
+                }
+                var _b, _c;
             };
             AVRSnippets.prototype.rt_call = function (name, r0, r1) {
                 pxtc.assert(r0 == "r0" && r1 == "r1");
@@ -1490,32 +1385,11 @@ var ts;
             // no virtuals for now
             AVRSnippets.prototype.vcall = function (mapMethod, isSet, vtableShift) { pxtc.assert(false); return ""; };
             AVRSnippets.prototype.prologue_vtable = function (arg_index, vtableShift) { pxtc.assert(false); return ""; };
-            AVRSnippets.prototype.method_call = function (procid, topExpr) {
-                var res = this.load_reg_src_off("r0", "sp", "#" + 2 * (topExpr.args.length - 1)) + "\n";
-                var isIface = false;
-                var methodIdx = 0;
-                if (procid.mapMethod) {
-                    var isSet = /Set/.test(procid.mapMethod);
-                    isIface = true;
-                    methodIdx = isSet ? procid.ifaceIndex : procid.mapIdx;
-                }
-                else {
-                    methodIdx = procid.virtualIndex + 2;
-                    if (procid.ifaceIndex != null) {
-                        isIface = true;
-                        methodIdx = procid.ifaceIndex;
-                    }
-                }
-                res += this.emit_int(methodIdx, "r1") + "\n";
-                res += this.call_lbl("pxtrt::fetchMethod" + (isIface ? "Iface" : "")) + "\n";
-                res += this.call_reg("r0") + "\n";
-                return res;
+            AVRSnippets.prototype.lambda_prologue = function () {
+                return "\n    @stackmark args\n    " + this.proc_setup() + "\n    movw r26, r24";
             };
-            AVRSnippets.prototype.helper_prologue = function () {
-                return "\n    @stackmark args\n    movw r4, r24"; // store captured vars pointer
-            };
-            AVRSnippets.prototype.helper_epilogue = function () {
-                return "\n    call pxtrt::getGlobalsPtr\n    movw r2, r24\n    ret\n    @stackempty args";
+            AVRSnippets.prototype.lambda_epilogue = function () {
+                return "\n    call pxtrt::getGlobalsPtr\n    movw r2, r24\n    " + this.proc_return() + "\n    @stackempty args";
             };
             AVRSnippets.prototype.load_ptr = function (lbl, reg) {
                 pxtc.assert(!!lbl);
@@ -1524,436 +1398,9 @@ var ts;
             AVRSnippets.prototype.emit_int = function (v, reg) {
                 return this.reg_gets_imm(reg, v);
             };
-            AVRSnippets.prototype.string_literal = function (lbl, s) {
-                return "\n.balign 2\n" + lbl + "meta: .short " + s.length + "\n" + lbl + ": .string " + pxtc.asmStringLiteral(s) + "\n";
-            };
-            AVRSnippets.prototype.hex_literal = function (lbl, data) {
-                return "\n.balign 2\n" + lbl + ": .short " + (data.length >> 1) + "\n        .hex " + data + (data.length % 4 == 0 ? "" : "00") + "\n";
-            };
             return AVRSnippets;
         }(pxtc.AssemblerSnippets));
         pxtc.AVRSnippets = AVRSnippets;
-    })(pxtc = ts.pxtc || (ts.pxtc = {}));
-})(ts || (ts = {}));
-var ts;
-(function (ts) {
-    var pxtc;
-    (function (pxtc) {
-        // TODO consider that taggedInts is going to be false!
-        var csOpMap = {
-            "numops::toBoolDecr": "numops::toBool",
-            "pxtrt::ldfldRef": "pxtrt::ldfld",
-            "pxtrt::stfldRef": "pxtrt::stfld",
-            "pxtrt::ldlocRef": "pxtrt::ldloc",
-            "pxtrt::stlocRef": "pxtrt::stloc",
-            "pxtrt::mklocRef": "pxtrt::mkloc",
-            "pxtrt::mapSetRef": "pxtrt::mapSet",
-            "pxtrt::mapGetRef": "pxtrt::mapGet",
-        };
-        function shimToCs(shimName) {
-            shimName = shimName.replace(/::/g, ".");
-            //if (shimName.slice(0, 4) == "pxt.")
-            //    shimName = "pxtcore." + shimName.slice(4)
-            return "PXT." + shimName;
-        }
-        function qs(s) {
-            return JSON.stringify(s);
-        }
-        function vtableToCS(info) {
-            var s = ("static readonly VTable " + info.id + "_VT = new VTable(" + qs(pxtc.getName(info.decl)) + ", ") +
-                ("  " + info.refmask.length + ", new FnPtr[] {\n");
-            for (var _i = 0, _a = info.vtable; _i < _a.length; _i++) {
-                var m = _a[_i];
-                s += "    " + m.label() + ",\n";
-            }
-            s += "  },\n";
-            s += "  new FnPtr[] {\n";
-            var i = 0;
-            for (var _b = 0, _c = info.itable; _b < _c.length; _b++) {
-                var m = _c[_b];
-                s += "    " + (m ? m.label() : "null") + ",  // " + (info.itableInfo[i] || ".") + "\n";
-                i++;
-            }
-            s += "});\n";
-            return s;
-        }
-        function csEmit(bin, opts) {
-            var jssource = opts.hexinfo.hex[0];
-            jssource += "\n// User code starts\n\n#pragma warning disable CS0164, CS1998, CS0219, CS0414, CS0162\n\nnamespace PXT {\npublic static class UserCode {\n";
-            bin.globals.forEach(function (g) {
-                jssource += "static object " + ("g_" + g.uniqueName()) + ";\n";
-            });
-            bin.procs.forEach(function (p) {
-                jssource += "\n" + irToCS(bin, p) + "\n";
-            });
-            bin.usedClassInfos.forEach(function (info) {
-                jssource += vtableToCS(info);
-            });
-            //if (bin.res.breakpoints)
-            //    jssource += `\nsetupDebugger(${bin.res.breakpoints.length})\n`
-            pxtc.U.iterMap(bin.hexlits, function (k, v) {
-                jssource += "static readonly Buffer " + v + " = PXT.BufferMethods.createBufferFromHex(\"" + k + "\");\n";
-            });
-            jssource += "\n} } // end UserCode\n";
-            bin.writeFile(pxtc.BINARY_CS, jssource);
-        }
-        pxtc.csEmit = csEmit;
-        function irToCS(bin, proc) {
-            var resText = "";
-            var writeRaw = function (s) { resText += s + "\n"; };
-            var write = function (s) { resText += "    " + s + "\n"; };
-            var EK = pxtc.ir.EK;
-            var maxStack = 0;
-            var ctxTp = proc.label() + "_CTX";
-            //console.log(proc.toString())
-            proc.resolve();
-            //console.log("OPT", proc.toString())
-            if (bin.procs[0] == proc) {
-                writeRaw("\n\npublic static void Main() { " + proc.label() + "(new CTX(0), null).GetAwaiter().GetResult(); }\n");
-            }
-            var storeArgs = proc.args.map(function (l, i) {
-                return ("    " + locref(l) + " = " + i + " >= args.Length ? TValue.Undefined : args[" + i + "];\n");
-            })
-                .join("");
-            writeRaw("\nstatic Action<Task, object> " + proc.label() + "_delegate;\nstatic Task " + proc.label() + "(CTX parent, object[] args) {\n    var s = new " + ctxTp + "(parent);\n    if (" + proc.label() + "_delegate == null) {\n        " + proc.label() + "_delegate = " + proc.label() + "_task;\n    }\n" + storeArgs + "\n    " + proc.label() + "_task(null, s);\n    return s.completion.Task;\n}\n\nstatic void " + proc.label() + "_task(Task prevTask, object s_) {\n    var s = (" + ctxTp + ")s_;\n    var r0 = TValue.Undefined;\n    var step = s.pc;\n    s.pc = -1;\n\n    while (true) {\n    switch (step) {\n    case 0:\n");
-            var exprStack = [];
-            var currCallArgsIdx = 0;
-            var maxCallArgsIdx = -1;
-            var lblIdx = 0;
-            var asyncContinuations = [];
-            for (var _i = 0, _a = proc.body; _i < _a.length; _i++) {
-                var s = _a[_i];
-                if (s.stmtKind == pxtc.ir.SK.Label)
-                    s.lblId = ++lblIdx;
-            }
-            for (var _b = 0, _c = proc.body; _b < _c.length; _b++) {
-                var s = _c[_b];
-                switch (s.stmtKind) {
-                    case pxtc.ir.SK.Expr:
-                        emitExpr(s.expr);
-                        break;
-                    case pxtc.ir.SK.StackEmpty:
-                        for (var _d = 0, exprStack_1 = exprStack; _d < exprStack_1.length; _d++) {
-                            var e = exprStack_1[_d];
-                            if (e.totalUses !== e.currUses)
-                                pxtc.oops();
-                        }
-                        exprStack = [];
-                        break;
-                    case pxtc.ir.SK.Jmp:
-                        emitJmp(s);
-                        break;
-                    case pxtc.ir.SK.Label:
-                        write("goto case " + s.lblId + ";");
-                        writeRaw("case " + s.lblId + ":");
-                        break;
-                    case pxtc.ir.SK.Breakpoint:
-                        emitBreakpoint(s);
-                        break;
-                    default: pxtc.oops();
-                }
-            }
-            write("s.Leave(r0);");
-            write("return;");
-            writeRaw("  default: PXT.Util.check(false, \"invalid pc: \" + step); return;\n} } }");
-            var info = pxtc.nodeLocationInfo(proc.action);
-            info.functionName = proc.getName();
-            writeRaw("// " + proc.label() + ".info = " + JSON.stringify(info));
-            writeRaw("\nclass " + ctxTp + " : CTX {\n    public " + ctxTp + "(CTX parent) : base(parent) {}");
-            for (var _e = 0, _f = proc.locals.concat(proc.args); _e < _f.length; _e++) {
-                var o = _f[_e];
-                write("public object " + o.uniqueName() + ";");
-            }
-            for (var i = 0; i < maxStack; ++i)
-                write("public object tmp_" + i + ";");
-            for (var i = 0; i < maxCallArgsIdx; ++i)
-                write("public object[] callArgs_" + i + ";");
-            writeRaw("}\n");
-            return resText;
-            function emitBreakpoint(s) {
-                var id = s.breakpointInfo.id;
-                var lbl;
-                write("s.lastBrkId = " + id + ";");
-                if (bin.options.trace) {
-                    lbl = ++lblIdx;
-                    write("s.Trace(" + id + ", " + lbl + ", " + proc.label() + "_info);");
-                }
-                else {
-                    if (!bin.options.breakpoints)
-                        return;
-                    lbl = ++lblIdx;
-                    var brkCall = "s.Breakpoint(" + lbl + ", " + id + ", r0);";
-                    if (s.breakpointInfo.isDebuggerStmt)
-                        write(brkCall);
-                    else
-                        write("if ((breakAlways && s.IsBreakFrame()) || breakpoints[" + id + "]) " + brkCall);
-                }
-                writeRaw("case " + lbl + ": // BRK");
-            }
-            function locref(cell) {
-                if (cell.isGlobal())
-                    return "g_" + cell.uniqueName();
-                else if (cell.iscap)
-                    return "s.mycaps[" + cell.index + "]";
-                return "s." + cell.uniqueName();
-            }
-            function emitJmp(jmp) {
-                var trg = "goto case " + jmp.lbl.lblId + ";";
-                if (jmp.jmpMode == pxtc.ir.JmpMode.Always) {
-                    if (jmp.expr)
-                        emitExpr(jmp.expr);
-                    write(trg);
-                }
-                else if (jmp.jmpMode == pxtc.ir.JmpMode.IfJmpValEq) {
-                    write("if (r0.Eq(" + emitExprInto(jmp.expr) + ")) " + trg);
-                }
-                else {
-                    emitExpr(jmp.expr);
-                    if (jmp.jmpMode == pxtc.ir.JmpMode.IfNotZero) {
-                        write("if (numops.toBool(r0)) " + trg);
-                    }
-                    else {
-                        write("if (!numops.toBool(r0)) " + trg);
-                    }
-                }
-            }
-            function withRef(name, isRef) {
-                return name + (isRef ? "Ref" : "");
-            }
-            function emitExprInto(e) {
-                switch (e.exprKind) {
-                    case EK.NumberLiteral:
-                        if (e.data === true)
-                            return "TValue.True";
-                        else if (e.data === false)
-                            return "TValue.False";
-                        else if (e.data === null)
-                            return "TValue.Null";
-                        else if (e.data === undefined)
-                            return "TValue.Undefined";
-                        else if (typeof e.data == "number")
-                            return "(double)(" + e.data + ")";
-                        else
-                            throw pxtc.oops("invalid data: " + typeof e.data);
-                    case EK.PointerLiteral:
-                        return e.jsInfo;
-                    case EK.SharedRef:
-                        var arg = e.args[0];
-                        pxtc.U.assert(!!arg.currUses); // not first use
-                        pxtc.U.assert(arg.currUses < arg.totalUses);
-                        arg.currUses++;
-                        var idx = exprStack.indexOf(arg);
-                        pxtc.U.assert(idx >= 0);
-                        return "s.tmp_" + idx;
-                    case EK.CellRef:
-                        var cell = e.data;
-                        return locref(cell);
-                    default: throw pxtc.oops();
-                }
-            }
-            // result in R0
-            function emitExpr(e) {
-                //console.log(`EMITEXPR ${e.sharingInfo()} E: ${e.toString()}`)
-                switch (e.exprKind) {
-                    case EK.JmpValue:
-                        write("// jmp value (already in r0)");
-                        break;
-                    case EK.Nop:
-                        write("// nop");
-                        break;
-                    case EK.Incr:
-                    case EK.Decr:
-                        emitExpr(e.args[0]);
-                        break;
-                    case EK.FieldAccess:
-                        var info_1 = e.data;
-                        if (info_1.shimName) {
-                            emitExpr(e.args[0]);
-                            write("r0 = r0" + info_1.shimName + ";");
-                            return;
-                        }
-                        // it does the decr itself, no mask
-                        return emitExpr(pxtc.ir.rtcall(withRef("pxtrt::ldfld", info_1.isRef), [e.args[0], pxtc.ir.numlit(info_1.idx)]));
-                    case EK.Store:
-                        return emitStore(e.args[0], e.args[1]);
-                    case EK.RuntimeCall:
-                        return emitRtCall(e);
-                    case EK.ProcCall:
-                        return emitProcCall(e);
-                    case EK.SharedDef:
-                        return emitSharedDef(e);
-                    case EK.Sequence:
-                        return e.args.forEach(emitExpr);
-                    default:
-                        write("r0 = " + emitExprInto(e) + ";");
-                }
-            }
-            function emitSharedDef(e) {
-                var arg = e.args[0];
-                pxtc.U.assert(arg.totalUses >= 1);
-                pxtc.U.assert(arg.currUses === 0);
-                arg.currUses = 1;
-                if (arg.totalUses == 1)
-                    return emitExpr(arg);
-                else {
-                    emitExpr(arg);
-                    var idx = exprStack.length;
-                    exprStack.push(arg);
-                    maxStack = Math.max(maxStack, exprStack.length);
-                    write("s.tmp_" + idx + " = r0;");
-                }
-            }
-            function emitRtCall(topExpr) {
-                var info = pxtc.ir.flattenArgs(topExpr);
-                info.precomp.forEach(emitExpr);
-                var name = topExpr.data;
-                name = pxtc.U.lookup(csOpMap, name) || name;
-                var args = info.flattened.map(emitExprInto);
-                if (name == "langsupp::ignore")
-                    return;
-                var isAsync = topExpr.callingConvention != pxtc.ir.CallingConvention.Plain;
-                var inf = pxtc.hex.lookupFunc(name);
-                var fmt = inf ? inf.argsFmt : "";
-                if (!inf)
-                    pxt.log("warning, missing //%: " + name);
-                var retTp = "object";
-                var addCTX = false;
-                if (fmt) {
-                    var fmts_1 = fmt.split(';').filter(function (s) { return !!s; });
-                    if (fmts_1[0] == "async") {
-                        isAsync = true;
-                        fmts_1.shift();
-                    }
-                    retTp = fmts_1.shift();
-                    if (fmts_1[0] == "CTX") {
-                        addCTX = true;
-                        fmts_1.shift();
-                    }
-                    args = args.map(function (a, i) {
-                        var f = fmts_1[i];
-                        if (f[0] == '#') {
-                            f = f.slice(1);
-                            var d = info.flattened[i].data;
-                            if (info.flattened[i].exprKind == EK.NumberLiteral &&
-                                typeof d == "number") {
-                                if (f == "double" || f == "float")
-                                    return d.toString();
-                                if ((d | 0) == d) {
-                                    if (f == "int" || (f == "uint" && d >= 0))
-                                        return d.toString();
-                                }
-                            }
-                            a = "numops.toDouble(" + a + ")";
-                        }
-                        if (f != "object") {
-                            a = "((" + f + ")(" + a + "))";
-                        }
-                        return a;
-                    });
-                }
-                if (addCTX)
-                    args.unshift("s");
-                //pxt.debug("name: " + name + " fmt: " + fmt)
-                var text = "";
-                if (name[0] == ".")
-                    text = "" + args[0] + name + "(" + args.slice(1).join(", ") + ")";
-                else if (pxtc.U.startsWith(name, "new "))
-                    text = "new " + shimToCs(name.slice(4)) + "(" + args.join(", ") + ")";
-                else
-                    text = shimToCs(name) + "(" + args.join(", ") + ")";
-                if (isAsync) {
-                    var loc = ++lblIdx;
-                    asyncContinuations.push(loc);
-                    write("s.pc = " + loc + ";");
-                    write(text + ".ContinueWith(" + proc.label() + "_delegate, (object)s);");
-                    write("return;");
-                    writeRaw("  case " + loc + ":\n");
-                    if (retTp == "void")
-                        text = "/* void */";
-                    else
-                        text = "((Task<" + retTp + ">)prevTask).Result";
-                }
-                if (retTp[0] == '#')
-                    text = "(double)(" + text + ")";
-                if (retTp == "void")
-                    write(text + ";");
-                else
-                    write("r0 = " + text + ";");
-            }
-            function emitProcCall(topExpr) {
-                var calledProcId = topExpr.data;
-                var calledProc = calledProcId.proc;
-                var lblId = ++lblIdx;
-                var argsArray = "s.callArgs_" + currCallArgsIdx;
-                write(argsArray + " = new object[" + topExpr.args.length + "];");
-                if (++currCallArgsIdx > maxCallArgsIdx)
-                    maxCallArgsIdx = currCallArgsIdx;
-                //console.log("PROCCALL", topExpr.toString())
-                topExpr.args.forEach(function (a, i) {
-                    emitExpr(a);
-                    write(argsArray + "[" + i + "] = r0;");
-                });
-                write("s.pc = " + lblId + ";");
-                var callIt = "(s, " + argsArray + ").ContinueWith(" + proc.label() + "_delegate, s)";
-                if (calledProcId.ifaceIndex != null) {
-                    if (calledProcId.mapMethod) {
-                        write("if (" + argsArray + "[0] is PXT.RefMap) {");
-                        var args = topExpr.args.map(function (a, i) { return (argsArray + "[" + i + "]"); });
-                        args[0] = "(PXT.RefMap)" + args[0];
-                        args.splice(1, 0, calledProcId.mapIdx.toString());
-                        write("  s.retval = " + shimToCs(calledProcId.mapMethod).replace("Ref", "") + "(" + args.join(", ") + ");");
-                        write("  goto case " + lblId + ";");
-                        write("} else {");
-                    }
-                    write("PXT.pxtrt.getVT(" + argsArray + "[0]).iface[" + calledProcId.ifaceIndex + "]" + callIt + ";");
-                    if (calledProcId.mapMethod) {
-                        write("}");
-                    }
-                }
-                else if (calledProcId.virtualIndex != null) {
-                    pxtc.assert(calledProcId.virtualIndex >= 0);
-                    write("PXT.pxtrt.getVT(" + argsArray + "[0]).methods[" + calledProcId.virtualIndex + "]" + callIt + ";");
-                }
-                else {
-                    write("" + calledProc.label() + callIt + ";");
-                }
-                write("return;");
-                writeRaw("  case " + lblId + ":");
-                write("r0 = s.retval;");
-                currCallArgsIdx--;
-            }
-            function bitSizeConverter(b) {
-                switch (b) {
-                    case 0 /* None */: return "";
-                    case 1 /* Int8 */: return "PXT.pxtrt.toInt8";
-                    case 3 /* Int16 */: return "PXT.pxtrt.toInt16";
-                    case 5 /* Int32 */: return "PXT.pxtrt.toInt32";
-                    case 2 /* UInt8 */: return "PXT.pxtrt.toUInt8";
-                    case 4 /* UInt16 */: return "PXT.pxtrt.toUInt16";
-                    case 6 /* UInt32 */: return "PXT.pxtrt.toUInt32";
-                    default: throw pxtc.oops();
-                }
-            }
-            function emitStore(trg, src) {
-                switch (trg.exprKind) {
-                    case EK.CellRef:
-                        var cell = trg.data;
-                        emitExpr(src);
-                        var conv = bitSizeConverter(cell.bitSize);
-                        if (conv)
-                            write(locref(cell) + " = " + conv + "(PXT.numops.toDouble(r0));");
-                        else
-                            write(locref(cell) + " = r0;");
-                        break;
-                    case EK.FieldAccess:
-                        var info_2 = trg.data;
-                        // it does the decr itself, no mask
-                        emitExpr(pxtc.ir.rtcall(withRef("pxtrt::stfld", info_2.isRef), [trg.args[0], pxtc.ir.numlit(info_2.idx), src]));
-                        break;
-                    default: pxtc.oops();
-                }
-            }
-        }
     })(pxtc = ts.pxtc || (ts.pxtc = {}));
 })(ts || (ts = {}));
 var ts;
@@ -1996,8 +1443,6 @@ var ts;
             shimName = shimName.replace(/::/g, ".");
             if (shimName.slice(0, 4) == "pxt.")
                 shimName = "pxtcore." + shimName.slice(4);
-            if (pxtc.target.shortPointers)
-                shimName = shimName.replace(/^thumb\./, "avr.");
             return "pxsim." + shimName;
         }
         pxtc.shimToJs = shimToJs;
@@ -2028,16 +1473,6 @@ var ts;
                 jssource += "pxsim.noRefCounting();\n";
             if (bin.target.floatingPoint)
                 jssource += "pxsim.enableFloatingPoint();\n";
-            var cfg = {};
-            var cfgKey = {};
-            for (var _i = 0, _a = bin.res.configData || []; _i < _a.length; _i++) {
-                var ce = _a[_i];
-                cfg[ce.key + ""] = ce.value;
-                cfgKey[ce.name] = ce.key;
-            }
-            jssource += "pxsim.setConfigData(" +
-                JSON.stringify(cfg, null, 1) + ", " +
-                JSON.stringify(cfgKey, null, 1) + ");\n";
             bin.procs.forEach(function (p) {
                 jssource += "\n" + irToJS(bin, p) + "\n";
             });
@@ -2088,8 +1523,8 @@ var ts;
                         emitExpr(s.expr);
                         break;
                     case pxtc.ir.SK.StackEmpty:
-                        for (var _d = 0, exprStack_2 = exprStack; _d < exprStack_2.length; _d++) {
-                            var e = exprStack_2[_d];
+                        for (var _d = 0, exprStack_1 = exprStack; _d < exprStack_1.length; _d++) {
+                            var e = exprStack_1[_d];
                             if (e.totalUses !== e.currUses)
                                 pxtc.oops();
                         }
@@ -2218,15 +1653,15 @@ var ts;
                             write("pxtrt.decr(r0);");
                         break;
                     case EK.FieldAccess:
-                        var info_3 = e.data;
-                        if (info_3.shimName) {
+                        var info_1 = e.data;
+                        if (info_1.shimName) {
                             pxtc.assert(!refCounting);
                             emitExpr(e.args[0]);
-                            write("r0 = r0" + info_3.shimName + ";");
+                            write("r0 = r0" + info_1.shimName + ";");
                             return;
                         }
                         // it does the decr itself, no mask
-                        return emitExpr(pxtc.ir.rtcall(withRef("pxtrt::ldfld", info_3.isRef), [e.args[0], pxtc.ir.numlit(info_3.idx)]));
+                        return emitExpr(pxtc.ir.rtcall(withRef("pxtrt::ldfld", info_1.isRef), [e.args[0], pxtc.ir.numlit(info_1.idx)]));
                     case EK.Store:
                         return emitStore(e.args[0], e.args[1]);
                     case EK.RuntimeCall:
@@ -2350,9 +1785,9 @@ var ts;
                         write(locref(cell) + " = " + bitSizeConverter(cell.bitSize) + "(r0);");
                         break;
                     case EK.FieldAccess:
-                        var info_4 = trg.data;
+                        var info_2 = trg.data;
                         // it does the decr itself, no mask
-                        emitExpr(pxtc.ir.rtcall(withRef("pxtrt::stfld", info_4.isRef), [trg.args[0], pxtc.ir.numlit(info_4.idx), src]));
+                        emitExpr(pxtc.ir.rtcall(withRef("pxtrt::stfld", info_2.isRef), [trg.args[0], pxtc.ir.numlit(info_2.idx), src]));
                         break;
                     default: pxtc.oops();
                 }
@@ -2366,16 +1801,6 @@ var ts;
 (function (ts) {
     var pxtc;
     (function (pxtc) {
-        pxtc.thumbCmpMap = {
-            "numops::lt": "_cmp_lt",
-            "numops::gt": "_cmp_gt",
-            "numops::le": "_cmp_le",
-            "numops::ge": "_cmp_ge",
-            "numops::eq": "_cmp_eq",
-            "numops::eqq": "_cmp_eqq",
-            "numops::neq": "_cmp_neq",
-            "numops::neqq": "_cmp_neqq",
-        };
         var inlineArithmetic = {
             "numops::adds": "_numops_adds",
             "numops::subs": "_numops_subs",
@@ -2383,8 +1808,6 @@ var ts;
             "numops::ands": "_numops_ands",
             "pxt::toInt": "_numops_toInt",
             "pxt::fromInt": "_numops_fromInt",
-            "pxt::incr": "_pxt_incr",
-            "pxt::decr": "_pxt_decr",
         };
         // snippets for ARM Thumb assembly
         var ThumbSnippets = (function (_super) {
@@ -2392,7 +1815,6 @@ var ts;
             function ThumbSnippets() {
                 _super.apply(this, arguments);
             }
-            ThumbSnippets.prototype.hasCommonalize = function () { return !!pxtc.target.commonalize; };
             ThumbSnippets.prototype.stackAligned = function () {
                 return pxtc.target.stackAlign && pxtc.target.stackAlign > 1;
             };
@@ -2414,15 +1836,7 @@ var ts;
             };
             ThumbSnippets.prototype.push_fixed = function (regs) { return "push {" + regs.join(", ") + "}"; };
             ThumbSnippets.prototype.pop_fixed = function (regs) { return "pop {" + regs.join(", ") + "}"; };
-            ThumbSnippets.prototype.proc_setup = function (numlocals, main) {
-                var r = "push {lr}\n";
-                if (numlocals > 0) {
-                    r += "    movs r0, #0\n";
-                    for (var i = 0; i < numlocals; ++i)
-                        r += "    push {r0} ;loc\n";
-                }
-                return r;
-            };
+            ThumbSnippets.prototype.proc_setup = function (main) { return "push {lr}"; };
             ThumbSnippets.prototype.proc_return = function () { return "pop {pc}"; };
             ThumbSnippets.prototype.debugger_stmt = function (lbl) {
                 return "\n    @stackempty locals\n    ldr r0, [r6, #0] ; debugger\n    subs r0, r0, #4  ; debugger\n" + lbl + ":\n    ldr r0, [r0, #0] ; debugger\n";
@@ -2442,7 +1856,6 @@ var ts;
             ThumbSnippets.prototype.cmp = function (reg1, reg2) { return "cmp " + reg1 + ", " + reg2; };
             ThumbSnippets.prototype.cmp_zero = function (reg1) { return "cmp " + reg1 + ", #0"; };
             ThumbSnippets.prototype.load_reg_src_off = function (reg, src, off, word, store, inf) {
-                off = off.replace(/:\d+$/, "");
                 if (word) {
                     off = "#4*" + off;
                 }
@@ -2485,10 +1898,10 @@ var ts;
             ThumbSnippets.prototype.prologue_vtable = function (arg_top_index, vtableShift) {
                 return "\n    ldr r0, [sp, #4*" + arg_top_index + "]  ; ld-this\n    ldrh r0, [r0, #2] ; ld-vtable\n    lsls r0, r0, #" + vtableShift + "\n    ";
             };
-            ThumbSnippets.prototype.helper_prologue = function () {
+            ThumbSnippets.prototype.lambda_prologue = function () {
                 return "\n    @stackmark args\n    " + this.pushLR() + "\n    mov r5, r0\n";
             };
-            ThumbSnippets.prototype.helper_epilogue = function () {
+            ThumbSnippets.prototype.lambda_epilogue = function () {
                 return "\n    bl pxtrt::getGlobalsPtr\n    mov r6, r0\n    " + this.popPC() + "\n    @stackempty args\n";
             };
             ThumbSnippets.prototype.load_ptr_full = function (lbl, reg) {
@@ -2516,19 +1929,9 @@ var ts;
                             r += "    adds r0, r0, #1\n";
                         r += "    blx lr\n";
                     }
-                    r += "\n.boxed:\n    push {r4, lr}\n    push {r0, r1}\n    bl numops::" + op + "\n    movs r4, r0\n    pop {r0}\n    bl _pxt_decr\n    pop {r0}\n    bl _pxt_decr\n    movs r0, r4\n    pop {r4, pc}\n";
+                    r += "\n.boxed:\n    " + this.pushLR() + "\n    bl numops::" + op + "\n    " + this.popPC() + "\n";
                 }
                 r += "\n@scope _numops_toInt\n_numops_toInt:\n    asrs r0, r0, #1\n    bcc .over\n    blx lr\n.over:\n    " + this.pushLR() + "\n    lsls r0, r0, #1\n    bl pxt::toInt\n    " + this.popPC() + "\n\n_numops_fromInt:\n    lsls r2, r0, #1\n    asrs r1, r2, #1\n    cmp r0, r1\n    bne .over2\n    adds r0, r2, #1\n    blx lr\n.over2:\n    " + this.pushLR() + "\n    bl pxt::fromInt\n    " + this.popPC() + "\n";
-                for (var _b = 0, _c = ["incr", "decr"]; _b < _c.length; _b++) {
-                    var op = _c[_b];
-                    r += "\n_pxt_" + op + ":\n    @scope _pxt_" + op + "\n    lsls r3, r0, #30\n    beq .t0\n    bx lr\n.t0:\n    cmp r0, #0\n    beq .skip\n    " + this.pushLR() + "\n    bl pxt::" + op + "\n    " + this.popPC() + "\n.skip:\n    bx lr\n";
-                }
-                for (var _d = 0, _e = Object.keys(pxtc.thumbCmpMap); _d < _e.length; _d++) {
-                    var op = _e[_d];
-                    op = op.replace(/.*::/, "");
-                    // this make sure to set the Z flag correctly
-                    r += "\n_cmp_" + op + ":\n    @scope _cmp_" + op + "\n    lsls r2, r0, #31\n    beq .boxed\n    lsls r2, r1, #31\n    beq .boxed\n    subs r0, r1\n    b" + op.replace("qq", "q").replace("neq", "ne") + " .true\n.false:\n    movs r0, #0\n    bx lr\n.true:\n    movs r0, #1\n    bx lr\n.boxed:\n    push {r4, lr}\n    push {r0, r1}\n    bl numops::" + op + "\n    bl numops::toBoolDecr\n    movs r4, r0\n    pop {r0}\n    bl _pxt_decr\n    pop {r0}\n    bl _pxt_decr\n    movs r0, r4\n    pop {r4, pc}\n";
-                }
                 return r;
             };
             ThumbSnippets.prototype.emit_int = function (v, reg) {
@@ -2608,395 +2011,9 @@ var ts;
 (function (ts) {
     var pxtc;
     (function (pxtc) {
-        var vmSpecOpcodes = {
-            "Number_::eq": "eq",
-            "Number_::adds": "add",
-            "Number_::subs": "sub",
-        };
-        var vmCallMap = {};
-        function shimToVM(shimName) {
-            return shimName;
-        }
-        function qs(s) {
-            return JSON.stringify(s);
-        }
-        function vtableToVM(info) {
-            return pxtc.vtableToAsm(info);
-        }
-        function vmEmit(bin, opts) {
-            var vmsource = "; VM start\n" + pxtc.hex.hexPrelude() + "        \n    .hex 708E3B92C615A841C49866C975EE5197 ; magic number\n    .hex " + pxtc.hex.hexTemplateHash() + " ; hex template hash\n    .hex 0000000000000000 ; @SRCHASH@\n    .short " + bin.globalsWords + "   ; num. globals\n    .short 0 ; patched with number of words resulting from assembly\n    .word 0 ; reserved\n    .word 0 ; reserved\n    .word 0 ; reserved\n";
-            var snip = new pxtc.AVRSnippets();
-            bin.procs.forEach(function (p) {
-                vmsource += "\n" + irToVM(bin, p) + "\n";
-            });
-            bin.usedClassInfos.forEach(function (info) {
-                vmsource += vtableToVM(info);
-            });
-            pxtc.U.iterMap(bin.hexlits, function (k, v) {
-                vmsource += snip.hex_literal(v, k);
-            });
-            pxtc.U.iterMap(bin.strings, function (k, v) {
-                vmsource += snip.string_literal(v, k);
-            });
-            vmsource += "\n; The end.\n";
-            bin.writeFile(pxtc.BINARY_ASM, vmsource);
-            var res = pxtc.assemble(opts.target, bin, vmsource);
-            if (res.src)
-                bin.writeFile(pxtc.BINARY_ASM, res.src);
-            /*
-            let pc = res.thumbFile.peepCounts
-            let keys = Object.keys(pc)
-            keys.sort((a, b) => pc[b] - pc[a])
-            for (let k of keys.slice(0, 50)) {
-                console.log(`${k}  ${pc[k]}`)
-            }
-            */
-            if (res.buf) {
-                var newBuf = [];
-                for (var i = 0; i < res.buf.length; i += 2)
-                    newBuf.push(res.buf[i] | (res.buf[i + 1] << 8));
-                var myhex = btoa(pxtc.hex.patchHex(bin, newBuf, false, true)[0]);
-                bin.writeFile(pxt.outputName(pxtc.target), myhex);
-            }
-        }
-        pxtc.vmEmit = vmEmit;
-        function irToVM(bin, proc) {
-            var resText = "";
-            var writeRaw = function (s) { resText += s + "\n"; };
-            var write = function (s) { resText += "    " + s + "\n"; };
-            var EK = pxtc.ir.EK;
-            var wordSize = 2;
-            var alltmps = [];
-            var currTmps = [];
-            var final = false;
-            var numBrk = 0;
-            var numLoc = 0;
-            //console.log(proc.toString())
-            proc.resolve();
-            // console.log("OPT", proc.toString())
-            emitAll();
-            bin.numStmts = numBrk;
-            resText = "";
-            for (var _i = 0, alltmps_1 = alltmps; _i < alltmps_1.length; _i++) {
-                var t = alltmps_1[_i];
-                t.currUses = 0;
-            }
-            final = true;
-            emitAll();
-            return resText;
-            function emitAll() {
-                writeRaw(";\n; Proc: " + proc.getName() + "\n;");
-                write(".section code");
-                if (bin.procs[0] == proc) {
-                    writeRaw("; main");
-                }
-                writeRaw(proc.label() + ":");
-                writeRaw(proc.label() + "_Lit:");
-                numLoc = proc.locals.length + currTmps.length;
-                if (numLoc == 0)
-                    write("locals0");
-                else
-                    write("locals " + numLoc * wordSize + " ; incl. " + currTmps.length + " tmps");
-                for (var _i = 0, _a = proc.body; _i < _a.length; _i++) {
-                    var s = _a[_i];
-                    switch (s.stmtKind) {
-                        case pxtc.ir.SK.Expr:
-                            emitExpr(s.expr);
-                            break;
-                        case pxtc.ir.SK.StackEmpty:
-                            clearStack();
-                            for (var _b = 0, currTmps_1 = currTmps; _b < currTmps_1.length; _b++) {
-                                var e = currTmps_1[_b];
-                                if (e) {
-                                    pxtc.oops("uses: " + e.currUses + "/" + e.totalUses + " " + e.toString());
-                                }
-                            }
-                            break;
-                        case pxtc.ir.SK.Jmp:
-                            emitJmp(s);
-                            break;
-                        case pxtc.ir.SK.Label:
-                            writeRaw(s.lblName + ":");
-                            break;
-                        case pxtc.ir.SK.Breakpoint:
-                            numBrk++;
-                            break;
-                        default: pxtc.oops();
-                    }
-                }
-                var retArg = (numLoc * wordSize) | (proc.args.length << 8);
-                write("ret 0x" + retArg.toString(16));
-            }
-            function emitJmp(jmp) {
-                var trg = jmp.lbl.lblName;
-                if (jmp.jmpMode == pxtc.ir.JmpMode.Always) {
-                    if (jmp.expr)
-                        emitExpr(jmp.expr);
-                    write("jmp " + trg);
-                }
-                else if (jmp.jmpMode == pxtc.ir.JmpMode.IfLambda) {
-                    if (jmp.expr)
-                        emitExpr(jmp.expr);
-                    write("retlmb " + numLoc * wordSize);
-                }
-                else if (jmp.jmpMode == pxtc.ir.JmpMode.IfJmpValEq) {
-                    write("push");
-                    emitExpr(jmp.expr);
-                    write("eq");
-                    write("jmpnz " + trg);
-                }
-                else {
-                    emitExpr(jmp.expr);
-                    if (jmp.jmpMode == pxtc.ir.JmpMode.IfNotZero) {
-                        write("jmpnz " + trg);
-                    }
-                    else if (jmp.jmpMode == pxtc.ir.JmpMode.IfZero) {
-                        write("jmpz " + trg);
-                    }
-                    else {
-                        pxtc.oops();
-                    }
-                }
-            }
-            function withRef(name, isRef) {
-                return name + (isRef ? "Ref" : "");
-            }
-            function cellref(cell) {
-                if (cell.isGlobal())
-                    return ("glb " + cell.index);
-                else if (cell.iscap)
-                    return ("cap " + (cell.index * wordSize));
-                else if (cell.isarg) {
-                    var idx = proc.args.length - cell.index - 1;
-                    pxtc.assert(idx >= 0, "arg#" + idx);
-                    return ("tmp " + (numLoc + 2 + idx) * wordSize);
-                }
-                else {
-                    var idx = cell.index + currTmps.length;
-                    //console.log(proc.locals.length, currTmps.length, cell.index)
-                    pxtc.assert(!final || idx < numLoc, "cell#" + idx);
-                    pxtc.assert(idx >= 0, "cell#" + idx);
-                    return ("tmp " + idx * wordSize);
-                }
-            }
-            function emitExprInto(e) {
-                switch (e.exprKind) {
-                    case EK.NumberLiteral:
-                        if (e.data === 0)
-                            write("ldzero");
-                        else if (e.data === 1)
-                            write("ldone");
-                        else
-                            write("ldconst " + (e.data & 0xffff));
-                        return;
-                    case EK.PointerLiteral:
-                        write("ldconst " + e.data);
-                        return;
-                    case EK.SharedRef:
-                        var arg = e.args[0];
-                        pxtc.U.assert(!!arg.currUses); // not first use
-                        pxtc.U.assert(arg.currUses < arg.totalUses);
-                        arg.currUses++;
-                        var idx = currTmps.indexOf(arg);
-                        if (idx < 0) {
-                            console.log(currTmps, arg);
-                            pxtc.assert(false);
-                        }
-                        write("ldtmp " + idx * wordSize);
-                        clearStack();
-                        return;
-                    case EK.CellRef:
-                        write("ld" + cellref(e.data));
-                        var cell = e.data;
-                        if (cell.isGlobal()) {
-                            if (cell.bitSize == 1 /* Int8 */) {
-                                write("sgnext");
-                            }
-                            else if (cell.bitSize == 2 /* UInt8 */) {
-                                write("clrhi");
-                            }
-                        }
-                        return;
-                    default: throw pxtc.oops();
-                }
-            }
-            // result in R0
-            function emitExpr(e) {
-                //console.log(`EMITEXPR ${e.sharingInfo()} E: ${e.toString()}`)
-                switch (e.exprKind) {
-                    case EK.JmpValue:
-                        write("; jmp value (already in r0)");
-                        break;
-                    case EK.Nop:
-                        write("; nop");
-                        break;
-                    case EK.Incr:
-                        emitExpr(e.args[0]);
-                        write("incr");
-                        break;
-                    case EK.Decr:
-                        emitExpr(e.args[0]);
-                        write("decr");
-                        break;
-                    case EK.FieldAccess:
-                        var info = e.data;
-                        // it does the decr itself, no mask
-                        return emitExpr(pxtc.ir.rtcall(withRef("pxtrt::ldfld", info.isRef), [e.args[0], pxtc.ir.numlit(info.idx)]));
-                    case EK.Store:
-                        return emitStore(e.args[0], e.args[1]);
-                    case EK.RuntimeCall:
-                        return emitRtCall(e);
-                    case EK.ProcCall:
-                        return emitProcCall(e);
-                    case EK.SharedDef:
-                        return emitSharedDef(e);
-                    case EK.Sequence:
-                        return e.args.forEach(emitExpr);
-                    default:
-                        return emitExprInto(e);
-                }
-            }
-            function emitSharedDef(e) {
-                var arg = e.args[0];
-                pxtc.U.assert(arg.totalUses >= 1);
-                pxtc.U.assert(arg.currUses === 0);
-                arg.currUses = 1;
-                alltmps.push(arg);
-                if (arg.totalUses == 1)
-                    return emitExpr(arg);
-                else {
-                    emitExpr(arg);
-                    var idx = -1;
-                    for (var i = 0; i < currTmps.length; ++i)
-                        if (currTmps[i] == null) {
-                            idx = i;
-                            break;
-                        }
-                    if (idx < 0) {
-                        if (final) {
-                            console.log(arg, currTmps);
-                            pxtc.assert(false, "missed tmp");
-                        }
-                        idx = currTmps.length;
-                        currTmps.push(arg);
-                    }
-                    else {
-                        currTmps[idx] = arg;
-                    }
-                    write("sttmp " + idx * wordSize);
-                }
-            }
-            function emitRtCall(topExpr) {
-                var name = topExpr.data;
-                var m = /^(.*)\^(\d+)$/.exec(name);
-                var mask = 0;
-                if (m) {
-                    name = m[1];
-                    mask = parseInt(m[2]);
-                }
-                name = pxtc.U.lookup(vmCallMap, name) || name;
-                pxtc.assert(mask <= 0xf);
-                var info = pxtc.ir.flattenArgs(topExpr);
-                pxtc.assert(info.precomp.length == 0);
-                //info.precomp.forEach(emitExpr)
-                clearStack();
-                if (name == "pxt::stringLiteral" &&
-                    info.flattened.length == 1 &&
-                    info.flattened[0].exprKind == EK.PointerLiteral) {
-                    write("stringlit " + info.flattened[0].data);
-                    return;
-                }
-                pxtc.assert(info.flattened.length <= 4);
-                var maskStr = "0x" + (mask + info.flattened.length * 16).toString(16);
-                name = name.replace(/^thumb::/, "Number_::");
-                var spec = pxtc.U.lookup(vmSpecOpcodes, name);
-                if (mask)
-                    spec = null;
-                for (var i = 0; i < info.flattened.length; ++i) {
-                    emitExpr(info.flattened[i]);
-                    if (i < info.flattened.length - 1)
-                        write("push");
-                }
-                //let inf = hex.lookupFunc(name)
-                if (spec)
-                    write(spec);
-                else
-                    write("call " + maskStr + ", " + name);
-            }
-            function clearStack() {
-                for (var i = 0; i < currTmps.length; ++i) {
-                    var e = currTmps[i];
-                    if (e && e.currUses == e.totalUses) {
-                        if (!final)
-                            alltmps.push(e);
-                        currTmps[i] = null;
-                    }
-                }
-            }
-            function emitProcCall(topExpr) {
-                var calledProcId = topExpr.data;
-                var calledProc = calledProcId.proc;
-                for (var _i = 0, _a = topExpr.args; _i < _a.length; _i++) {
-                    var e = _a[_i];
-                    emitExpr(e);
-                    write("push");
-                }
-                var methIdx = -1;
-                var fetchAddr = "";
-                if (calledProcId.ifaceIndex != null) {
-                    methIdx = calledProcId.ifaceIndex;
-                    fetchAddr = "pxtrt::fetchMethodIface";
-                }
-                else if (calledProcId.virtualIndex != null) {
-                    methIdx = calledProcId.virtualIndex + 2;
-                    fetchAddr = "pxtrt::fetchMethod";
-                }
-                if (fetchAddr) {
-                    write("ldstack " + (topExpr.args.length * wordSize - 1));
-                    write("push");
-                    write("ldconst " + methIdx);
-                    write("call 0x20, " + fetchAddr);
-                    write("callind");
-                }
-                else {
-                    write("callproc " + calledProc.label());
-                }
-            }
-            function emitStore(trg, src) {
-                switch (trg.exprKind) {
-                    case EK.CellRef:
-                        emitExpr(src);
-                        var cell = trg.data;
-                        var instr = "st" + cellref(cell);
-                        if (cell.isGlobal() &&
-                            (cell.bitSize == 1 /* Int8 */ || cell.bitSize == 2 /* UInt8 */)) {
-                            instr = instr.replace("stglb", "stglb1");
-                        }
-                        write(instr);
-                        break;
-                    case EK.FieldAccess:
-                        var info = trg.data;
-                        // it does the decr itself, no mask
-                        emitExpr(pxtc.ir.rtcall(withRef("pxtrt::stfld", info.isRef), [trg.args[0], pxtc.ir.numlit(info.idx), src]));
-                        break;
-                    default: pxtc.oops();
-                }
-            }
-        }
-    })(pxtc = ts.pxtc || (ts.pxtc = {}));
-})(ts || (ts = {}));
-var ts;
-(function (ts) {
-    var pxtc;
-    (function (pxtc) {
         var decompiler;
         (function (decompiler) {
-            decompiler.FILE_TOO_LARGE_CODE = 9266;
             var SK = ts.SyntaxKind;
-            /**
-             * Max number of blocks before we bail out of decompilation
-             */
-            var MAX_BLOCKS = 1000;
             var lowerCaseAlphabetStartCode = 97;
             var lowerCaseAlphabetEndCode = 122;
             var validStringRegex = /^[^\f\n\r\t\v\u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]*$/;
@@ -3174,58 +2191,24 @@ var ts;
                 }
             }
             decompiler.buildRenameMap = buildRenameMap;
-            var ReferenceType;
-            (function (ReferenceType) {
-                // Variable is never referenced
-                ReferenceType[ReferenceType["None"] = 0] = "None";
-                // Variable is only referenced in "non-grey" blocks
-                ReferenceType[ReferenceType["InBlocksOnly"] = 1] = "InBlocksOnly";
-                // Variable is referenced at least once inside "grey" blocks
-                ReferenceType[ReferenceType["InTextBlocks"] = 2] = "InTextBlocks";
-            })(ReferenceType || (ReferenceType = {}));
             function decompileToBlocks(blocksInfo, file, options, renameMap) {
-                var emittedBlocks = 0;
                 var stmts = file.statements;
                 var result = {
                     blocksInfo: blocksInfo,
                     outfiles: {}, diagnostics: [], success: true, times: {}
                 };
-                var env = {
-                    blocks: blocksInfo,
-                    declaredFunctions: {}
-                };
                 var fileText = file.getFullText();
                 var output = "";
                 var varUsages = {};
                 var autoDeclarations = [];
+                var declaredFunctions = {};
                 ts.forEachChild(file, function (topLevelNode) {
-                    if (topLevelNode.kind === SK.FunctionDeclaration && !checkStatement(topLevelNode, env, false, true)) {
-                        env.declaredFunctions[getVariableName(topLevelNode.name)] = true;
+                    if (topLevelNode.kind === SK.FunctionDeclaration && !checkStatement(topLevelNode, blocksInfo, false, true)) {
+                        declaredFunctions[getVariableName(topLevelNode.name)] = true;
                     }
                 });
-                var n;
-                try {
-                    n = codeBlock(stmts, undefined, true);
-                }
-                catch (e) {
-                    if (e.programTooLarge) {
-                        result.success = false;
-                        result.diagnostics = pxtc.patchUpDiagnostics([{
-                                file: file,
-                                start: file.getFullStart(),
-                                length: file.getFullWidth(),
-                                messageText: e.message,
-                                category: ts.DiagnosticCategory.Error,
-                                code: decompiler.FILE_TOO_LARGE_CODE
-                            }]);
-                    }
-                    else {
-                        throw e;
-                    }
-                }
-                if (n) {
-                    emitStatementNode(n);
-                }
+                var n = codeBlock(stmts, undefined, true);
+                emitStatementNode(n);
                 result.outfiles[file.fileName.replace(/(\.blocks)?\.\w*$/i, '') + '.blocks'] = "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n" + output + "</xml>";
                 return result;
                 function write(s, suffix) {
@@ -3245,35 +2228,6 @@ var ts;
                     pxt.debug("decompilation error: " + messageText);
                     pxtc.U.pushRange(result.diagnostics, diags);
                     result.success = false;
-                }
-                function countBlock() {
-                    emittedBlocks++;
-                    if (emittedBlocks > MAX_BLOCKS) {
-                        var e = new Error(pxtc.Util.lf("Could not decompile because the script is too large"));
-                        e.programTooLarge = true;
-                        throw e;
-                    }
-                }
-                function mkStmt(type) {
-                    countBlock();
-                    return {
-                        kind: "statement",
-                        type: type
-                    };
-                }
-                function mkExpr(type) {
-                    countBlock();
-                    return {
-                        kind: "expr",
-                        type: type
-                    };
-                }
-                function mkValue(name, value, shadowType) {
-                    if (shadowType && value.kind === "expr" && value.type !== shadowType) {
-                        // Count the shadow block that will be emitted
-                        countBlock();
-                    }
-                    return { kind: "value", name: name, value: value, shadowType: shadowType };
                 }
                 function isEventExpression(expr) {
                     if (expr.expression.kind == SK.CallExpression) {
@@ -3419,7 +2373,7 @@ var ts;
                     write("</block>");
                 }
                 function getOutputBlock(n) {
-                    if (checkExpression(n, env)) {
+                    if (checkExpression(n, blocksInfo)) {
                         return getTypeScriptExpressionBlock(n);
                     }
                     else {
@@ -3475,8 +2429,7 @@ var ts;
                     return text;
                 }
                 function getTypeScriptExpressionBlock(n) {
-                    var text = applyRenamesInRange(n.getFullText(), n.getFullStart(), n.getEnd()).trim();
-                    trackVariableUsagesInText(n);
+                    var text = applyRenamesInRange(n.getFullText(), n.getFullStart(), n.getEnd());
                     return getFieldBlock(pxtc.TS_OUTPUT_TYPE, "EXPRESSION", text);
                 }
                 function getBinaryExpression(n) {
@@ -3486,19 +2439,25 @@ var ts;
                     if (isTextJoin(n)) {
                         var args = [];
                         collectTextJoinArgs(n, args);
-                        var result_1 = mkExpr("text_join");
-                        result_1.mutation = {
-                            "items": args.length.toString()
+                        var result_1 = {
+                            kind: "expr",
+                            type: "text_join",
+                            mutation: {
+                                "items": args.length.toString()
+                            },
+                            inputs: []
                         };
-                        result_1.inputs = [];
                         for (var i = 0; i < args.length; i++) {
                             result_1.inputs.push(getValue("ADD" + i, args[i], stringType));
                         }
                         return result_1;
                     }
-                    var result = mkExpr(npp.type);
-                    result.fields = [];
-                    result.inputs = [];
+                    var result = {
+                        kind: "expr",
+                        type: npp.type,
+                        fields: [],
+                        inputs: []
+                    };
                     if (npp.op) {
                         result.fields.push(getField("OP", npp.op));
                     }
@@ -3540,11 +2499,11 @@ var ts;
                     else {
                         value = getOutputBlock(contents);
                     }
-                    return mkValue(name, value, shadowType);
+                    return { kind: "value", name: name, value: value, shadowType: shadowType };
                 }
                 function getIdentifier(identifier) {
                     var name = getVariableName(identifier);
-                    trackVariableUsage(name, ReferenceType.InBlocksOnly);
+                    varUsages[name] = true;
                     return getFieldBlock("variables_get", "VAR", name);
                 }
                 function getNumericLiteral(value) {
@@ -3557,10 +2516,12 @@ var ts;
                     return getFieldBlock("logic_boolean", "BOOL", value ? "TRUE" : "FALSE");
                 }
                 function getFieldBlock(type, fieldName, value, isShadow) {
-                    var r = mkExpr(type);
-                    r.fields = [getField(fieldName, value)];
-                    r.isShadow = isShadow;
-                    return r;
+                    return {
+                        kind: "expr",
+                        type: type,
+                        fields: [getField(fieldName, value)],
+                        isShadow: isShadow
+                    };
                 }
                 function getField(name, value) {
                     return {
@@ -3571,18 +2532,22 @@ var ts;
                 }
                 // TODO: Add a real negation block
                 function negateNumericNode(node) {
-                    var r = mkExpr("math_arithmetic");
-                    r.inputs = [
-                        getValue("A", 0, numberType),
-                        getValue("B", node, numberType)
-                    ];
-                    r.fields = [getField("OP", "MINUS")];
-                    return r;
+                    return {
+                        kind: "expr",
+                        type: "math_arithmetic",
+                        inputs: [
+                            getValue("A", 0, numberType),
+                            getValue("B", node, numberType)
+                        ],
+                        fields: [
+                            getField("OP", "MINUS")
+                        ]
+                    };
                 }
                 function getPrefixUnaryExpression(node) {
                     switch (node.operator) {
                         case SK.ExclamationToken:
-                            var r = mkExpr("logic_negate");
+                            var r = { kind: "expr", type: "logic_negate" };
                             r.inputs = [getValue("BOOL", node.operand, booleanType)];
                             return r;
                         case SK.PlusToken:
@@ -3606,10 +2571,12 @@ var ts;
                         error(n);
                         return;
                     }
-                    if (callInfo.attrs.blockId === "lists_length" || callInfo.attrs.blockId === "text_length") {
-                        var r = mkExpr(pxtc.U.htmlEscape(callInfo.attrs.blockId));
-                        r.inputs = [getValue("VALUE", n.expression)];
-                        return r;
+                    if (callInfo.attrs.blockId === "lists_length") {
+                        return {
+                            kind: "expr",
+                            type: pxtc.U.htmlEscape(callInfo.attrs.blockId),
+                            inputs: [getValue("VALUE", n.expression)]
+                        };
                     }
                     var value = pxtc.U.htmlEscape(callInfo.attrs.blockId || callInfo.qName);
                     var parent = getParent(n)[0];
@@ -3620,13 +2587,15 @@ var ts;
                         }
                         var idfn = blocksInfo.apis.byQName[callInfo.attrs.blockIdentity];
                         var f = /%([a-zA-Z0-9_]+)/.exec(idfn.attributes.block);
-                        var r = mkExpr(pxtc.U.htmlEscape(idfn.attributes.blockId));
-                        r.fields = [{
-                                kind: "field",
-                                name: pxtc.U.htmlEscape(f[1]),
-                                value: value
-                            }];
-                        return r;
+                        return {
+                            kind: "expr",
+                            type: pxtc.U.htmlEscape(idfn.attributes.blockId),
+                            fields: [{
+                                    kind: "field",
+                                    name: pxtc.U.htmlEscape(f[1]),
+                                    value: value
+                                }]
+                        };
                     }
                     else {
                         return {
@@ -3636,24 +2605,28 @@ var ts;
                     }
                 }
                 function getArrayLiteralExpression(n) {
-                    var r = mkExpr("lists_create_with");
-                    r.inputs = n.elements.map(function (e, i) { return getValue("ADD" + i, e); });
-                    r.mutation = {
-                        "items": n.elements.length.toString()
+                    return {
+                        kind: "expr",
+                        type: "lists_create_with",
+                        inputs: n.elements.map(function (e, i) { return getValue("ADD" + i, e); }),
+                        mutation: {
+                            "items": n.elements.length.toString()
+                        }
                     };
-                    return r;
                 }
                 function getElementAccessExpression(n) {
-                    var r = mkExpr("lists_index_get");
-                    r.inputs = [getValue("LIST", n.expression), getValue("INDEX", n.argumentExpression, numberType)];
-                    return r;
+                    return {
+                        kind: "expr",
+                        type: "lists_index_get",
+                        inputs: [getValue("LIST", n.expression), getValue("INDEX", n.argumentExpression, numberType)]
+                    };
                 }
                 function getStatementBlock(n, next, parent, asExpression, topLevel) {
                     if (asExpression === void 0) { asExpression = false; }
                     if (topLevel === void 0) { topLevel = false; }
                     var node = n;
                     var stmt;
-                    if (checkStatement(node, env, asExpression, topLevel)) {
+                    if (checkStatement(node, blocksInfo, asExpression, topLevel)) {
                         stmt = getTypeScriptStatementBlock(node);
                     }
                     else {
@@ -3736,26 +2709,22 @@ var ts;
                         return undefined;
                     }
                 }
-                function getTypeScriptStatementBlock(node, prefix) {
-                    var r = mkStmt(pxtc.TS_STATEMENT_TYPE);
-                    r.mutation = {};
-                    trackVariableUsagesInText(node);
+                function getTypeScriptStatementBlock(node) {
+                    var r = {
+                        kind: "statement",
+                        type: pxtc.TS_STATEMENT_TYPE,
+                        mutation: {}
+                    };
                     var text = node.getText();
                     var start = node.getStart();
                     var end = node.getEnd();
                     text = applyRenamesInRange(text, start, end);
-                    if (prefix) {
-                        text = prefix + text;
-                    }
                     var declaredVariables = [];
                     if (node.kind === SK.VariableStatement) {
                         for (var _i = 0, _a = node.declarationList.declarations; _i < _a.length; _i++) {
                             var declaration = _a[_i];
                             declaredVariables.push(getVariableName(declaration.name));
                         }
-                    }
-                    else if (node.kind === SK.VariableDeclaration) {
-                        declaredVariables.push(getVariableName(node.name));
                     }
                     if (declaredVariables.length) {
                         r.mutation["declaredvars"] = declaredVariables.join(",");
@@ -3773,8 +2742,11 @@ var ts;
                         error(node);
                         return;
                     }
-                    var res = mkStmt(info.attrs.blockId);
-                    res.fields = [];
+                    var res = {
+                        kind: "statement",
+                        type: info.attrs.blockId,
+                        fields: []
+                    };
                     var leds = (arg.text || '').replace(/\s+/g, '');
                     var nc = info.attrs.imageLiteral * 5;
                     if (nc * 5 != leds.length) {
@@ -3801,31 +2773,42 @@ var ts;
                         case SK.PlusEqualsToken:
                             return getVariableSetOrChangeBlock(n.left, n.right, true);
                         case SK.MinusEqualsToken:
-                            var r = mkStmt("variables_change");
-                            countBlock();
-                            r.inputs = [mkValue("VALUE", negateNumericNode(n.right), numberType)];
-                            r.fields = [getField("VAR", getVariableName(n.left))];
-                            return r;
+                            return {
+                                kind: "statement",
+                                type: "variables_change",
+                                inputs: [{
+                                        kind: "value",
+                                        name: "VALUE",
+                                        value: negateNumericNode(n.right),
+                                        shadowType: numberType
+                                    }],
+                                fields: [getField("VAR", getVariableName(n.left))]
+                            };
                         default:
                             error(n, pxtc.Util.lf("Unsupported operator token in statement {0}", SK[n.operatorToken.kind]));
                             return;
                     }
                 }
                 function getWhileStatement(n) {
-                    var r = mkStmt("device_while");
-                    r.inputs = [getValue("COND", n.expression, booleanType)];
-                    r.handlers = [{ name: "DO", statement: getStatementBlock(n.statement) }];
-                    return r;
+                    return {
+                        kind: "statement",
+                        type: "device_while",
+                        inputs: [getValue("COND", n.expression, booleanType)],
+                        handlers: [{ name: "DO", statement: getStatementBlock(n.statement) }]
+                    };
                 }
                 function getIfStatement(n) {
                     var flatif = flattenIfStatement(n);
-                    var r = mkStmt("controls_if");
-                    r.mutation = {
-                        "elseif": (flatif.ifStatements.length - 1).toString(),
-                        "else": flatif.elseStatement ? "1" : "0"
+                    var r = {
+                        kind: "statement",
+                        type: "controls_if",
+                        mutation: {
+                            "elseif": (flatif.ifStatements.length - 1).toString(),
+                            "else": flatif.elseStatement ? "1" : "0"
+                        },
+                        inputs: [],
+                        handlers: []
                     };
-                    r.inputs = [];
-                    r.handlers = [];
                     flatif.ifStatements.forEach(function (stmt, i) {
                         r.inputs.push(getValue("IF" + i, stmt.expression, booleanType));
                         r.handlers.push({ name: "DO" + i, statement: getStatementBlock(stmt.thenStatement) });
@@ -3842,25 +2825,37 @@ var ts;
                     var renamed = getVariableName(initializer.declarations[0].name);
                     var r;
                     if (condition.operatorToken.kind === SK.LessThanToken && !checkForVariableUsages(n.statement)) {
-                        r = mkStmt("controls_repeat_ext");
-                        r.fields = [];
-                        r.inputs = [getValue("TIMES", condition.right, numberType)];
-                        r.handlers = [];
+                        r = {
+                            kind: "statement",
+                            type: "controls_repeat_ext",
+                            fields: [],
+                            inputs: [getValue("TIMES", condition.right, numberType)],
+                            handlers: []
+                        };
                     }
                     else {
-                        r = mkStmt("controls_simple_for");
-                        r.fields = [getField("VAR", renamed)];
-                        r.inputs = [];
-                        r.handlers = [];
+                        r = {
+                            kind: "statement",
+                            type: "controls_simple_for",
+                            fields: [getField("VAR", renamed)],
+                            inputs: [],
+                            handlers: []
+                        };
                         if (condition.operatorToken.kind === SK.LessThanToken) {
-                            var ex = mkExpr("math_arithmetic");
-                            ex.fields = [getField("OP", "MINUS")];
-                            ex.inputs = [
-                                getValue("A", condition.right, numberType),
-                                getValue("B", 1, numberType)
-                            ];
-                            countBlock();
-                            r.inputs.push(mkValue("TO", ex, numberType));
+                            r.inputs.push({
+                                kind: "value",
+                                name: "TO",
+                                shadowType: numberType,
+                                value: {
+                                    kind: "expr",
+                                    type: "math_arithmetic",
+                                    fields: [getField("OP", "MINUS")],
+                                    inputs: [
+                                        getValue("A", condition.right, numberType),
+                                        getValue("B", 1, numberType)
+                                    ]
+                                }
+                            });
                         }
                         else if (condition.operatorToken.kind === SK.LessThanEqualsToken) {
                             r.inputs.push(getValue("TO", condition.right, numberType));
@@ -3879,31 +2874,37 @@ var ts;
                     var initializer = n.initializer;
                     var indexVar = initializer.declarations[0].name.text;
                     var renamed = getVariableName(initializer.declarations[0].name);
-                    var r = mkStmt("controls_for_of");
-                    r.inputs = [getValue("LIST", n.expression)];
-                    r.fields = [getField("VAR", renamed)];
-                    r.handlers = [{ name: "DO", statement: getStatementBlock(n.statement) }];
-                    return r;
+                    return {
+                        kind: "statement",
+                        type: "controls_for_of",
+                        inputs: [getValue("LIST", n.expression)],
+                        fields: [getField("VAR", renamed)],
+                        handlers: [{ name: "DO", statement: getStatementBlock(n.statement) }]
+                    };
                 }
                 function getVariableSetOrChangeBlock(name, value, changed, overrideName) {
                     if (changed === void 0) { changed = false; }
                     if (overrideName === void 0) { overrideName = false; }
                     var renamed = getVariableName(name);
-                    trackVariableUsage(renamed, ReferenceType.InBlocksOnly);
+                    varUsages[renamed] = true;
                     // We always do a number shadow even if the variable is not of type number
-                    var r = mkStmt(changed ? "variables_change" : "variables_set");
-                    r.inputs = [getValue("VALUE", value, numberType)];
-                    r.fields = [getField("VAR", renamed)];
-                    return r;
+                    return {
+                        kind: "statement",
+                        type: changed ? "variables_change" : "variables_set",
+                        inputs: [getValue("VALUE", value, numberType)],
+                        fields: [getField("VAR", renamed)]
+                    };
                 }
                 function getArraySetBlock(left, right) {
-                    var r = mkStmt("lists_index_set");
-                    r.inputs = [
-                        getValue("LIST", left.expression),
-                        getValue("INDEX", left.argumentExpression, numberType),
-                        getValue("VALUE", right)
-                    ];
-                    return r;
+                    return {
+                        kind: "statement",
+                        type: "lists_index_set",
+                        inputs: [
+                            getValue("LIST", left.expression),
+                            getValue("INDEX", left.argumentExpression, numberType),
+                            getValue("VALUE", right)
+                        ]
+                    };
                 }
                 function getVariableDeclarationStatement(n) {
                     if (addVariableDeclaration(n)) {
@@ -3922,10 +2923,12 @@ var ts;
                 function getFunctionDeclaration(n) {
                     var name = getVariableName(n.name);
                     var statements = getStatementBlock(n.body);
-                    var r = mkStmt("procedures_defnoreturn");
-                    r.fields = [getField("NAME", name)];
-                    r.handlers = [{ name: "STACK", statement: statements }];
-                    return r;
+                    return {
+                        kind: "statement",
+                        type: "procedures_defnoreturn",
+                        fields: [getField("NAME", name)],
+                        handlers: [{ name: "STACK", statement: statements }]
+                    };
                 }
                 function getCallStatement(node, asExpression) {
                     var info = node.callInfo;
@@ -3933,10 +2936,12 @@ var ts;
                         var builtin = builtinBlocks[info.qName];
                         if (!builtin) {
                             var name_2 = getVariableName(node.expression);
-                            if (env.declaredFunctions[name_2]) {
-                                var r_1 = mkStmt("procedures_callnoreturn");
-                                r_1.mutation = { "name": name_2 };
-                                return r_1;
+                            if (declaredFunctions[name_2]) {
+                                return {
+                                    kind: "statement",
+                                    type: "procedures_callnoreturn",
+                                    mutation: { "name": name_2 }
+                                };
                             }
                             else {
                                 return getTypeScriptStatementBlock(node);
@@ -3983,27 +2988,6 @@ var ts;
                                 if (m) {
                                     r.mutation = m;
                                 }
-                                else {
-                                    var arrow = e;
-                                    if (arrow.parameters.length) {
-                                        if (info.attrs.optionalVariableArgs) {
-                                            r.mutation = {
-                                                "numargs": arrow.parameters.length.toString()
-                                            };
-                                            arrow.parameters.forEach(function (parameter, i) {
-                                                r.mutation["arg" + i] = parameter.name.text;
-                                            });
-                                        }
-                                        else {
-                                            var sym = blocksInfo.blocksById[info.attrs.blockId];
-                                            var paramDesc_1 = sym.parameters[i];
-                                            arrow.parameters.forEach(function (parameter, i) {
-                                                var arg = paramDesc_1.handlerParameters[i];
-                                                (r.fields || (r.fields = [])).push(getField("HANDLER_" + arg.name, parameter.name.text));
-                                            });
-                                        }
-                                    }
-                                }
                                 (r.handlers || (r.handlers = [])).push({ name: "HANDLER", statement: getStatementBlock(e) });
                                 break;
                             case SK.PropertyAccessExpression:
@@ -4019,10 +3003,12 @@ var ts;
                                         (r.fields || (r.fields = [])).push(getField(aName, expr.value));
                                     }
                                     else {
-                                        if (paramInfo[i].type && expr.type !== paramInfo[i].type) {
-                                            countBlock();
-                                        }
-                                        (r.inputs || (r.inputs = [])).push(mkValue(aName, expr, paramInfo[i].type));
+                                        (r.inputs || (r.inputs = [])).push({
+                                            kind: "value",
+                                            name: aName,
+                                            value: expr,
+                                            shadowType: paramInfo[i].type
+                                        });
                                     }
                                 }
                                 break;
@@ -4031,22 +3017,31 @@ var ts;
                                 var vName = pxtc.U.htmlEscape(paramInfo[i].name);
                                 var defaultV = true;
                                 if (info.qName == "Math.random") {
-                                    v = mkValue(vName, getMathRandomArgumentExpresion(e), numberType);
+                                    v = {
+                                        kind: "value",
+                                        name: vName,
+                                        value: getMathRandomArgumentExpresion(e),
+                                        shadowType: numberType
+                                    };
                                     defaultV = false;
                                 }
                                 else if (isLiteralNode(e)) {
                                     var param = paramInfo[i];
-                                    var fieldText = param.paramFieldEditor == 'text' ? e.text : e.getText();
                                     if (param.decompileLiterals) {
-                                        var fieldBlock = getFieldBlock(param.type, param.fieldName, fieldText, true);
+                                        var fieldBlock = getFieldBlock(param.type, param.fieldName, e.getText(), true);
                                         if (param.paramShadowOptions) {
                                             fieldBlock.mutation = { "customfield": pxtc.Util.htmlEscape(JSON.stringify(param.paramShadowOptions)) };
                                         }
-                                        v = mkValue(vName, fieldBlock, param.type);
+                                        v = {
+                                            kind: "value",
+                                            name: vName,
+                                            value: fieldBlock,
+                                            shadowType: param.type
+                                        };
                                         defaultV = false;
                                     }
                                     else if (param.paramFieldEditorOptions && param.paramFieldEditorOptions['onParentBlock']) {
-                                        (r.fields || (r.fields = [])).push(getField(vName, fieldText));
+                                        (r.fields || (r.fields = [])).push(getField(vName, e.getText()));
                                         return;
                                     }
                                 }
@@ -4084,7 +3079,6 @@ var ts;
                         case SK.BinaryExpression:
                             var op = e;
                             if (op.operatorToken.kind == SK.PlusToken && op.right.text == "1") {
-                                countBlock();
                                 return getOutputBlock(op.left);
                             }
                         default:
@@ -4093,6 +3087,10 @@ var ts;
                     }
                 }
                 function getArrowFunctionStatement(n, next) {
+                    if (n.parameters.length > 0 && !(n.parameters.length === 1 && n.parameters[0].name.kind === SK.ObjectBindingPattern)) {
+                        error(n);
+                        return;
+                    }
                     return getStatementBlock(n.body, next);
                 }
                 function flattenIfStatement(n) {
@@ -4118,7 +3116,7 @@ var ts;
                     statements.reverse().forEach(function (statement) {
                         if ((statement.kind === SK.FunctionDeclaration ||
                             (statement.kind == SK.ExpressionStatement && isEventExpression(statement))) &&
-                            !checkStatement(statement, env, false, topLevel)) {
+                            !checkStatement(statement, blocksInfo, false, topLevel)) {
                             eventStatements.unshift(statement);
                         }
                         else {
@@ -4135,30 +3133,22 @@ var ts;
                             var current_1 = stmt;
                             autoDeclarations.forEach(function (_a) {
                                 var name = _a[0], node = _a[1];
-                                if (varUsages[name] === ReferenceType.InBlocksOnly) {
+                                if (varUsages[name]) {
                                     return;
                                 }
-                                var e = node.initializer;
-                                var v;
-                                if (varUsages[name] === ReferenceType.InTextBlocks) {
-                                    // If a variable is referenced inside a "grey" block, we need
-                                    // to be conservative because our type inference might not work
-                                    // on the round trip
-                                    v = getTypeScriptStatementBlock(node, "let ");
-                                }
-                                else {
-                                    v = getVariableSetOrChangeBlock(node.name, node.initializer, false, true);
-                                }
+                                var v = getVariableSetOrChangeBlock(node.name, node.initializer, false, true);
                                 v.next = current_1;
                                 current_1 = v;
                             });
                             if (current_1) {
-                                var r = mkStmt(ts.pxtc.ON_START_TYPE);
-                                r.handlers = [{
-                                        name: "HANDLER",
-                                        statement: current_1
-                                    }];
-                                return r;
+                                return {
+                                    kind: "statement",
+                                    type: ts.pxtc.ON_START_TYPE,
+                                    handlers: [{
+                                            name: "HANDLER",
+                                            statement: current_1
+                                        }]
+                                };
                             }
                             else {
                                 maybeEmitEmptyOnStart();
@@ -4175,19 +3165,6 @@ var ts;
                     if (options.alwaysEmitOnStart) {
                         write("<block type=\"" + ts.pxtc.ON_START_TYPE + "\"></block>");
                     }
-                }
-                function trackVariableUsage(name, type) {
-                    if (varUsages[name] !== ReferenceType.InTextBlocks) {
-                        varUsages[name] = type;
-                    }
-                }
-                function trackVariableUsagesInText(node) {
-                    ts.forEachChild(node, function (n) {
-                        if (n.kind === SK.Identifier) {
-                            trackVariableUsage(getVariableName(n), ReferenceType.InTextBlocks);
-                        }
-                        trackVariableUsagesInText(n);
-                    });
                 }
                 /**
                  * Takes a series of comment ranges and converts them into string suitable for a
@@ -4257,7 +3234,7 @@ var ts;
                 }
             }
             decompiler.decompileToBlocks = decompileToBlocks;
-            function checkStatement(node, env, asExpression, topLevel) {
+            function checkStatement(node, blocksInfo, asExpression, topLevel) {
                 if (asExpression === void 0) { asExpression = false; }
                 if (topLevel === void 0) { topLevel = false; }
                 switch (node.kind) {
@@ -4266,13 +3243,13 @@ var ts;
                     case SK.Block:
                         return undefined;
                     case SK.ExpressionStatement:
-                        return checkStatement(node.expression, env, asExpression, topLevel);
+                        return checkStatement(node.expression, blocksInfo, asExpression, topLevel);
                     case SK.VariableStatement:
-                        return checkVariableStatement(node, env);
+                        return checkVariableStatement(node, blocksInfo);
                     case SK.CallExpression:
-                        return checkCall(node, env, asExpression, topLevel);
+                        return checkCall(node, blocksInfo, asExpression, topLevel);
                     case SK.VariableDeclaration:
-                        return checkVariableDeclaration(node, env);
+                        return checkVariableDeclaration(node, blocksInfo);
                     case SK.PostfixUnaryExpression:
                     case SK.PrefixUnaryExpression:
                         return checkIncrementorExpression(node);
@@ -4280,7 +3257,7 @@ var ts;
                     case SK.ArrowFunction:
                         return checkArrowFunction(node);
                     case SK.BinaryExpression:
-                        return checkBinaryExpression(node, env);
+                        return checkBinaryExpression(node, blocksInfo);
                     case SK.ForStatement:
                         return checkForStatement(node);
                     case SK.ForOfStatement:
@@ -4339,7 +3316,7 @@ var ts;
                     // VariableDeclarationList in ForOfStatements are guranteed to have one declaration
                     return undefined;
                 }
-                function checkBinaryExpression(n, env) {
+                function checkBinaryExpression(n, blocksInfo) {
                     if (n.left.kind !== SK.Identifier && n.left.kind !== SK.ElementAccessExpression) {
                         return pxtc.Util.lf("Only variable names may be assigned to");
                     }
@@ -4351,7 +3328,7 @@ var ts;
                     else {
                         switch (n.operatorToken.kind) {
                             case SK.EqualsToken:
-                                return checkExpression(n.right, env);
+                                return checkExpression(n.right, blocksInfo);
                             case SK.PlusEqualsToken:
                             case SK.MinusEqualsToken:
                                 return undefined;
@@ -4362,20 +3339,7 @@ var ts;
                     return undefined;
                 }
                 function checkArrowFunction(n) {
-                    var fail = false;
-                    if (n.parameters.length) {
-                        var parent_1 = getParent(n)[0];
-                        if (parent_1 && parent_1.callInfo) {
-                            var callInfo = parent_1.callInfo;
-                            if (callInfo.attrs.mutate === "objectdestructuring") {
-                                fail = n.parameters[0].name.kind !== SK.ObjectBindingPattern;
-                            }
-                            else {
-                                fail = n.parameters.some(function (param) { return param.name.kind !== SK.Identifier; });
-                            }
-                        }
-                    }
-                    if (fail) {
+                    if (n.parameters.length > 0 && !(n.parameters.length === 1 && n.parameters[0].name.kind === SK.ObjectBindingPattern)) {
                         return pxtc.Util.lf("Unsupported parameters in error function");
                     }
                     return undefined;
@@ -4389,7 +3353,7 @@ var ts;
                     }
                     return undefined;
                 }
-                function checkVariableDeclaration(n, env) {
+                function checkVariableDeclaration(n, blocksInfo) {
                     var check;
                     if (n.name.kind !== SK.Identifier) {
                         check = pxtc.Util.lf("Variable declarations may not use binding patterns");
@@ -4398,21 +3362,21 @@ var ts;
                         check = pxtc.Util.lf("Variable declarations must have an initializer");
                     }
                     else if (!isAutoDeclaration(n)) {
-                        check = checkExpression(n.initializer, env);
+                        check = checkExpression(n.initializer, blocksInfo);
                     }
                     return check;
                 }
-                function checkVariableStatement(n, env) {
+                function checkVariableStatement(n, blocksInfo) {
                     for (var _i = 0, _a = n.declarationList.declarations; _i < _a.length; _i++) {
                         var declaration = _a[_i];
-                        var res = checkVariableDeclaration(declaration, env);
+                        var res = checkVariableDeclaration(declaration, blocksInfo);
                         if (res) {
                             return res;
                         }
                     }
                     return undefined;
                 }
-                function checkCall(n, env, asExpression, topLevel) {
+                function checkCall(n, blocksInfo, asExpression, topLevel) {
                     if (asExpression === void 0) { asExpression = false; }
                     if (topLevel === void 0) { topLevel = false; }
                     var info = n.callInfo;
@@ -4430,19 +3394,14 @@ var ts;
                         var builtin = builtinBlocks[info.qName];
                         if (!builtin) {
                             if (n.arguments.length === 0 && n.expression.kind === SK.Identifier) {
-                                if (!env.declaredFunctions[n.expression.text]) {
-                                    return pxtc.Util.lf("Call statements must have a valid declared function");
-                                }
-                                else {
-                                    return undefined;
-                                }
+                                return undefined; // Could be user defined function
                             }
                             return pxtc.Util.lf("Function call not supported in the blocks");
                         }
                         info.attrs.block = builtin.block;
                         info.attrs.blockId = builtin.blockId;
                     }
-                    var params = getParameterInfo(info, env.blocks);
+                    var params = getParameterInfo(info, blocksInfo);
                     var argumentDifference = info.args.length - params.length;
                     if (info.attrs.imageLiteral) {
                         if (argumentDifference > 1) {
@@ -4464,7 +3423,7 @@ var ts;
                             return pxtc.Util.lf("Function call has more arguments than are supported by its block");
                         }
                     }
-                    var api = env.blocks.apis.byQName[info.qName];
+                    var api = blocksInfo.apis.byQName[info.qName];
                     if (api && api.parameters && api.parameters.length) {
                         var fail_1;
                         var instance_1 = api.kind == pxtc.SymbolKind.Method || api.kind == pxtc.SymbolKind.Property;
@@ -4490,32 +3449,13 @@ var ts;
                                     fail_1 = pxtc.Util.lf("Field editor does not support literal arguments");
                                 }
                             }
-                            else if (e.kind === SK.ArrowFunction) {
+                            else if (e.kind === SK.ArrowFunction && info.attrs.mutate === "objectdestructuring") {
                                 var ar = e;
                                 if (ar.parameters.length) {
-                                    if (info.attrs.mutate === "objectdestructuring") {
-                                        var param = unwrapNode(ar.parameters[0]);
-                                        if (param.kind === SK.Parameter && param.name.kind !== SK.ObjectBindingPattern) {
-                                            fail_1 = pxtc.Util.lf("Object destructuring mutation callbacks can only have destructuring patters as arguments");
-                                        }
+                                    var param = unwrapNode(ar.parameters[0]);
+                                    if (param.kind === SK.Parameter && param.name.kind !== SK.ObjectBindingPattern) {
+                                        fail_1 = pxtc.Util.lf("Object destructuring mutation callbacks can only have destructuring patters as arguments");
                                     }
-                                    else {
-                                        ar.parameters.forEach(function (param) {
-                                            if (param.name.kind !== SK.Identifier) {
-                                                fail_1 = pxtc.Util.lf("Only identifiers allowed as function arguments");
-                                            }
-                                        });
-                                    }
-                                }
-                            }
-                            else if (env.blocks.apis.byQName[paramInfo.type]) {
-                                var typeInfo = env.blocks.apis.byQName[paramInfo.type];
-                                if (typeInfo.attributes.fixedInstances) {
-                                    var callInfo = e.callInfo;
-                                    if (callInfo && callInfo.attrs.fixedInstance) {
-                                        return undefined;
-                                    }
-                                    fail_1 = pxtc.Util.lf("Arguments of a fixed instance type must be a reference to a fixed instance declaration");
                                 }
                             }
                         });
@@ -4524,7 +3464,7 @@ var ts;
                         }
                     }
                     if (api) {
-                        var ns = env.blocks.apis.byQName[api.namespace];
+                        var ns = blocksInfo.apis.byQName[api.namespace];
                         if (ns && ns.attributes.fixedInstances && info.args.length) {
                             var callInfo = info.args[0].callInfo;
                             if (!callInfo || !callInfo.attrs.fixedInstance) {
@@ -4583,7 +3523,7 @@ var ts;
             }
             function isAutoDeclaration(decl) {
                 if (decl.initializer) {
-                    if (decl.initializer.kind === ts.SyntaxKind.NullKeyword || decl.initializer.kind === ts.SyntaxKind.FalseKeyword || isDefaultArray(decl.initializer)) {
+                    if (decl.initializer.kind === ts.SyntaxKind.NullKeyword || decl.initializer.kind === ts.SyntaxKind.FalseKeyword) {
                         return true;
                     }
                     else if (ts.isStringOrNumericLiteral(decl.initializer.kind)) {
@@ -4597,9 +3537,6 @@ var ts;
                     }
                 }
                 return false;
-            }
-            function isDefaultArray(e) {
-                return e.kind === SK.ArrayLiteralExpression && e.elements.length === 0;
             }
             function getCallInfo(checker, node, apiInfo) {
                 var symb = checker.getSymbolAtLocation(node);
@@ -4640,7 +3577,7 @@ var ts;
                     return true;
                 }
             }
-            function checkExpression(n, env) {
+            function checkExpression(n, blocksInfo) {
                 switch (n.kind) {
                     case SK.NumericLiteral:
                     case SK.TrueKeyword:
@@ -4650,7 +3587,7 @@ var ts;
                     case SK.ElementAccessExpression:
                         return undefined;
                     case SK.ParenthesizedExpression:
-                        return checkExpression(n.expression, env);
+                        return checkExpression(n.expression, blocksInfo);
                     case SK.StringLiteral:
                     case SK.FirstTemplateToken:
                     case SK.NoSubstitutionTemplateLiteral:
@@ -4667,7 +3604,7 @@ var ts;
                     case SK.PropertyAccessExpression:
                         return checkPropertyAccessExpression(n);
                     case SK.CallExpression:
-                        return checkStatement(n, env, true);
+                        return checkStatement(n, blocksInfo, true);
                 }
                 return pxtc.Util.lf("Unsupported syntax kind for output expression block: {0}", SK[n.kind]);
                 function checkStringLiteral(n) {
@@ -4677,16 +3614,16 @@ var ts;
                 function checkPropertyAccessExpression(n) {
                     var callInfo = n.callInfo;
                     if (callInfo) {
-                        if (callInfo.attrs.blockIdentity || callInfo.attrs.blockId === "lists_length" || callInfo.attrs.blockId === "text_length") {
+                        if (callInfo.attrs.blockIdentity || callInfo.attrs.blockId === "lists_length") {
                             return undefined;
                         }
                         else if (callInfo.decl.kind === SK.EnumMember) {
-                            var _a = getParent(n), parent_2 = _a[0], child_1 = _a[1];
+                            var _a = getParent(n), parent_1 = _a[0], child_1 = _a[1];
                             var fail_2 = true;
-                            if (parent_2) {
-                                var parentInfo = parent_2.callInfo;
+                            if (parent_1) {
+                                var parentInfo = parent_1.callInfo;
                                 if (parentInfo && parentInfo.args) {
-                                    var api_1 = env.blocks.apis.byQName[parentInfo.qName];
+                                    var api_1 = blocksInfo.apis.byQName[parentInfo.qName];
                                     var instance_2 = api_1.kind == pxtc.SymbolKind.Method || api_1.kind == pxtc.SymbolKind.Property;
                                     if (api_1) {
                                         parentInfo.args.forEach(function (arg, i) {
@@ -4707,15 +3644,10 @@ var ts;
                                 return undefined;
                             }
                         }
-                        else if (callInfo.attrs.fixedInstance && n.parent) {
-                            // Check if this is a fixedInstance with a method being called on it
-                            if (n.parent.parent && n.parent.kind === SK.PropertyAccessExpression && n.parent.parent.kind === SK.CallExpression) {
-                                var call = n.parent.parent;
-                                if (call.expression === n.parent) {
-                                    return undefined;
-                                }
-                            }
-                            else if (n.parent.kind === SK.CallExpression && n.parent.expression !== n) {
+                        else if (callInfo.attrs.fixedInstance && n.parent && n.parent.parent &&
+                            n.parent.kind === SK.PropertyAccessExpression && n.parent.parent.kind === SK.CallExpression) {
+                            var call = n.parent.parent;
+                            if (call.expression === n.parent) {
                                 return undefined;
                             }
                         }
@@ -4987,9 +3919,6 @@ var ts;
                     // this will emit as PC-relative LDR or ADDS
                     this.addInst("ldlit   $r5, $i32", 0x4800, 0xf800);
                 }
-                ThumbProcessor.prototype.toFnPtr = function (v, baseOff) {
-                    return (v + baseOff) | 1;
-                };
                 ThumbProcessor.prototype.wordSize = function () {
                     return 4;
                 };
@@ -5022,8 +3951,6 @@ var ts;
                     };
                 };
                 ThumbProcessor.prototype.commonalize = function (file) {
-                    if (!pxtc.target.commonalize)
-                        return;
                     // this is a heuristic - we could allow more instructions
                     // to be shared, but it seems to result in less sharing
                     var canBeShared = function (l) {
@@ -5041,9 +3968,6 @@ var ts;
                                     return true;
                                 case "bl":
                                     switch (l.words[1]) {
-                                        case "_numops_fromInt":
-                                        case "_pxt_incr":
-                                        case "_pxt_decr":
                                         case "pxt::incr":
                                         case "pxt::decr":
                                         case "pxt::fromInt":
@@ -5488,17 +4412,11 @@ var ts;
                 EK[EK["Nop"] = 14] = "Nop";
             })(ir.EK || (ir.EK = {}));
             var EK = ir.EK;
-            var currExprId = 0;
             var Node = (function () {
                 function Node() {
                 }
                 Node.prototype.isExpr = function () { return false; };
                 Node.prototype.isStmt = function () { return false; };
-                Node.prototype.getId = function () {
-                    if (!this._id)
-                        this._id = ++currExprId;
-                    return this._id;
-                };
                 return Node;
             }());
             ir.Node = Node;
@@ -5587,7 +4505,6 @@ var ts;
                 JmpMode[JmpMode["IfZero"] = 2] = "IfZero";
                 JmpMode[JmpMode["IfNotZero"] = 3] = "IfNotZero";
                 JmpMode[JmpMode["IfJmpValEq"] = 4] = "IfJmpValEq";
-                JmpMode[JmpMode["IfLambda"] = 5] = "IfLambda";
             })(ir.JmpMode || (ir.JmpMode = {}));
             var JmpMode = ir.JmpMode;
             var Stmt = (function (_super) {
@@ -5604,9 +4521,15 @@ var ts;
                 return Stmt;
             }(Node));
             ir.Stmt = Stmt;
+            var currExprId = 0;
             function nodeToString(n) {
                 return str(n);
+                function addId(n) {
+                    if (!n._id)
+                        n._id = ++currExprId;
+                }
                 function str(n) {
+                    addId(n);
                     if (n.isExpr()) {
                         var e = n;
                         var a0 = e.args ? e.args[0] : null;
@@ -5622,9 +4545,11 @@ var ts;
                             case EK.Nop:
                                 return "NOP";
                             case EK.SharedRef:
-                                return "SHARED_REF(#" + a0.getId() + ")";
+                                addId(a0);
+                                return "SHARED_REF(#" + a0._id + ")";
                             case EK.SharedDef:
-                                return "SHARED_DEF(#" + a0.getId() + ": " + str(a0) + ")";
+                                addId(a0);
+                                return "SHARED_DEF(#" + a0._id + ": " + str(a0) + ")";
                             case EK.Incr:
                                 return "INCR(" + str(a0) + ")";
                             case EK.Decr:
@@ -5670,8 +4595,6 @@ var ts;
                                         return "    if (" + inner + ") " + fin;
                                     case JmpMode.IfJmpValEq:
                                         return "    if (r0 == " + inner + ") " + fin;
-                                    case JmpMode.IfLambda:
-                                        return "    if (LAMBDA) return " + inner;
                                     default: throw pxtc.oops();
                                 }
                             case ir.SK.StackEmpty:
@@ -5937,14 +4860,12 @@ var ts;
                         this.emitExpr(op(EK.Decr, [p.loadCore()]));
                     }
                 };
-                Procedure.prototype.emitClrs = function (finlbl, retval) {
+                Procedure.prototype.emitClrs = function () {
                     var _this = this;
                     if (this.isRoot)
                         return;
-                    this.locals.forEach(function (p) { return _this.emitClrIfRef(p); });
-                    if (pxtc.isStackMachine() && this.args.some(function (p) { return p.isRef() || p.isByRefLocal(); }))
-                        this.emitJmp(finlbl, retval, ir.JmpMode.IfLambda);
-                    this.args.forEach(function (p) { return _this.emitClrIfRef(p); });
+                    var lst = this.locals.concat(this.args);
+                    lst.forEach(function (p) { return _this.emitClrIfRef(p); });
                 };
                 Procedure.prototype.emitJmpZ = function (trg, expr) {
                     this.emitJmp(trg, expr, JmpMode.IfZero);
@@ -6124,9 +5045,8 @@ var ts;
                 var r = op(EK.PointerLiteral, null, lbl);
                 r.jsInfo = jsInfo;
                 if (full) {
-                    if (pxtc.target.isNative && pxtc.isAVR())
-                        // this works for string and hex literals
-                        return rtcall("pxt::stringLiteral", [r]);
+                    if (pxtc.target.nativeType == "AVR")
+                        return rtcall("pxt::ptrOfLiteral", [r]);
                     else
                         r.args = [];
                 }
@@ -6139,22 +5059,15 @@ var ts;
             ir.rtcall = rtcall;
             function rtcallMask(name, mask, callingConv, args) {
                 var decrs = [];
-                if (U.startsWith(name, "@nomask@")) {
-                    name = name.slice(8);
-                    mask = 0;
-                }
-                if (pxtc.isStackMachine())
-                    name += "^" + mask;
-                else
-                    args = args.map(function (a, i) {
-                        if (mask & (1 << i)) {
-                            a = shared(a);
-                            decrs.push(op(EK.Decr, [a]));
-                            return a;
-                        }
-                        else
-                            return a;
-                    });
+                args = args.map(function (a, i) {
+                    if (mask & (1 << i)) {
+                        a = shared(a);
+                        decrs.push(op(EK.Decr, [a]));
+                        return a;
+                    }
+                    else
+                        return a;
+                });
                 var r = op(EK.RuntimeCall, args, name);
                 r.callingConvention = callingConv;
                 if (decrs.length > 0) {
@@ -6180,8 +5093,6 @@ var ts;
                     complexArgs.push(a);
                 }
                 complexArgs.reverse();
-                if (pxtc.isStackMachine())
-                    complexArgs = [];
                 var precomp = [];
                 var flattened = topExpr.args.map(function (a) {
                     var idx = complexArgs.indexOf(a);
@@ -6274,7 +5185,7 @@ var ts;
         function inspect(n) {
             console.log(stringKind(n));
         }
-        // next free error 9272
+        // next free error 9266
         function userError(code, msg, secondary) {
             if (secondary === void 0) { secondary = false; }
             var e = new Error(msg);
@@ -6289,25 +5200,8 @@ var ts;
             }
             throw e;
         }
-        function noRefCounting() {
-            return pxtc.target.nativeType == pxtc.NATIVE_TYPE_CS || (!pxtc.target.jsRefCounting && !pxtc.target.isNative);
-        }
-        function isStackMachine() {
-            return pxtc.target.isNative && pxtc.target.nativeType == pxtc.NATIVE_TYPE_AVRVM;
-        }
-        pxtc.isStackMachine = isStackMachine;
-        function isAVR() {
-            return pxtc.target.isNative && (pxtc.target.nativeType == pxtc.NATIVE_TYPE_AVRVM || pxtc.target.nativeType == pxtc.NATIVE_TYPE_AVR);
-        }
-        pxtc.isAVR = isAVR;
-        function isThumb() {
-            return pxtc.target.isNative && (pxtc.target.nativeType == pxtc.NATIVE_TYPE_THUMB);
-        }
-        pxtc.isThumb = isThumb;
         function isRefType(t) {
             checkType(t);
-            if (noRefCounting())
-                return false;
             if (t.flags & ts.TypeFlags.ThisType)
                 return true;
             if (t.flags & ts.TypeFlags.Null)
@@ -6387,7 +5281,7 @@ var ts;
         }
         function sizeOfBitSize(b) {
             switch (b) {
-                case 0 /* None */: return pxtc.target.shortPointers ? 2 : 4;
+                case 0 /* None */: return 4;
                 case 1 /* Int8 */: return 1;
                 case 3 /* Int16 */: return 2;
                 case 5 /* Int32 */: return 4;
@@ -6524,6 +5418,23 @@ var ts;
         function isTopLevelFunctionDecl(decl) {
             return (decl.kind == pxtc.SK.FunctionDeclaration && !getEnclosingFunction(decl)) ||
                 isClassFunction(decl);
+        }
+        function isSideEffectfulInitializer(init) {
+            if (!init)
+                return false;
+            if (isStringLiteral(init))
+                return false;
+            switch (init.kind) {
+                case pxtc.SK.NullKeyword:
+                case pxtc.SK.NumericLiteral:
+                case pxtc.SK.TrueKeyword:
+                case pxtc.SK.FalseKeyword:
+                    return false;
+                case pxtc.SK.ArrayLiteralExpression:
+                    return init.elements.some(isSideEffectfulInitializer);
+                default:
+                    return true;
+            }
         }
         var lf = pxtc.assembler.lf;
         var checker;
@@ -6701,8 +5612,8 @@ var ts;
                         case pxtc.SK.ExtendsKeyword:
                             var tp = typeOf(h.types[0]);
                             if (isClassType(tp)) {
-                                var parent_3 = tp.symbol.valueDeclaration;
-                                return inheritsFrom(parent_3, tgt);
+                                var parent_2 = tp.symbol.valueDeclaration;
+                                return inheritsFrom(parent_2, tgt);
                             }
                     }
                 }
@@ -6726,25 +5637,25 @@ var ts;
                     }
                 }
         }
-        function typeCheckSubtoSup(sub, sup) {
+        function typeCheckSrcFlowstoTrg(src, trg) {
             // get the direct types
-            var supTypeLoc = sup.kind ? checker.getTypeAtLocation(sup) : sup;
-            var subTypeLoc = sub.kind ? checker.getTypeAtLocation(sub) : sub;
+            var trgTypeLoc = trg.kind ? checker.getTypeAtLocation(trg) : trg;
+            var srcTypeLoc = src.kind ? checker.getTypeAtLocation(src) : src;
             // get the contextual types, if possible
-            var supType = ts.isExpression(sup) ? checker.getContextualType(sup) : supTypeLoc;
-            if (!supType)
-                supType = supTypeLoc;
-            var subType = ts.isExpression(sub) ? checker.getContextualType(sub) : subTypeLoc;
-            if (!subType)
-                subType = subTypeLoc;
-            if (!supType || !subType)
+            var trgType = ts.isExpression(trg) ? checker.getContextualType(trg) : trgTypeLoc;
+            if (!trgType)
+                trgType = trgTypeLoc;
+            var srcType = ts.isExpression(src) ? checker.getContextualType(src) : srcTypeLoc;
+            if (!srcType)
+                srcType = srcTypeLoc;
+            if (!trgType || !srcType)
                 return;
             // src may get its type from trg via context, in which case
             // we want to use the direct type of src
-            if (supType == subType && subType != subTypeLoc)
-                subType = subTypeLoc;
+            if (trgType == srcType && srcType != srcTypeLoc)
+                srcType = srcTypeLoc;
             occursCheck = [];
-            var _a = checkSubtype(subType, supType), ok = _a[0], message = _a[1];
+            var _a = checkSubtype(srcType, trgType), ok = _a[0], message = _a[1];
             if (!ok) {
                 userError(9263, lf(message));
             }
@@ -6764,32 +5675,6 @@ var ts;
         // an assignment of the form trg <- src is safe, where supType is the
         // type of trg and subType is the type of src
         function checkSubtype(subType, superType) {
-            function checkMembers() {
-                var superProps = checker.getPropertiesOfType(superType);
-                var subProps = checker.getPropertiesOfType(subType);
-                var _a = [true, ""], ret = _a[0], msg = _a[1];
-                superProps.forEach(function (superProp) {
-                    var superPropDecl = superProp.valueDeclaration;
-                    var find = subProps.filter(function (sp) { return sp.name == superProp.name; });
-                    if (find.length == 1) {
-                        var subPropDecl = find[0].valueDeclaration;
-                        // TODO: record the property on which we have a mismatch
-                        var _a = checkSubtype(checker.getTypeAtLocation(subPropDecl), checker.getTypeAtLocation(superPropDecl)), retSub = _a[0], msgSub = _a[1];
-                        if (ret && !retSub)
-                            _b = [retSub, msgSub], ret = _b[0], msg = _b[1];
-                    }
-                    else if (find.length == 0) {
-                        if (!(superProp.flags & ts.SymbolFlags.Optional)) {
-                            // we have a cast to an interface with more properties (unsound)
-                            _c = [false, "Property " + superProp.name + " not present in " + subType.getSymbol().name], ret = _c[0], msg = _c[1];
-                        }
-                        else {
-                        }
-                    }
-                    var _b, _c;
-                });
-                return insertSubtype(key, [ret, msg]);
-            }
             var subId = subType.id;
             var superId = superType.id;
             var key = subId + "," + superId;
@@ -6815,10 +5700,8 @@ var ts;
                         if (inheritsFrom(superDecl, subDecl))
                             return insertSubtype(key, [false, "Downcasts not supported."]);
                         else
-                            return insertSubtype(key, [false, "Classes " + subDecl.name.getText() + " and " + superDecl.name.getText() + " are not related by inheritance."]);
+                            return insertSubtype(key, [false, "Casts between unrelated classes not supported."]);
                     }
-                    // need to also check subtyping on members
-                    return checkMembers();
                 }
                 else {
                     if (!(subType.flags & (ts.TypeFlags.Undefined | ts.TypeFlags.Null))) {
@@ -6852,7 +5735,30 @@ var ts;
             }
             else if (isInterfaceType(superType)) {
                 if (isStructureType(subType)) {
-                    return checkMembers();
+                    var superProps = checker.getPropertiesOfType(superType);
+                    var subProps_1 = checker.getPropertiesOfType(subType);
+                    var _f = [true, ""], ret_1 = _f[0], msg_1 = _f[1];
+                    superProps.forEach(function (superProp) {
+                        var superPropDecl = superProp.valueDeclaration;
+                        var find = subProps_1.filter(function (sp) { return sp.name == superProp.name; });
+                        if (find.length == 1) {
+                            var subPropDecl = find[0].valueDeclaration;
+                            // TODO: record the property on which we have a mismatch
+                            var _a = checkSubtype(checker.getTypeAtLocation(subPropDecl), checker.getTypeAtLocation(superPropDecl)), retSub = _a[0], msgSub = _a[1];
+                            if (ret_1 && !retSub)
+                                _b = [retSub, msgSub], ret_1 = _b[0], msg_1 = _b[1];
+                        }
+                        else if (find.length == 0) {
+                            if (!(superProp.flags & ts.SymbolFlags.Optional)) {
+                                // we have a cast to an interface with more properties (unsound)
+                                _c = [false, "Property " + superProp.name + " not present in " + subType.getSymbol().name], ret_1 = _c[0], msg_1 = _c[1];
+                            }
+                            else {
+                            }
+                        }
+                        var _b, _c;
+                    });
+                    return insertSubtype(key, [ret_1, msg_1]);
                 }
             }
             else if (isArrayType(superType)) {
@@ -6974,8 +5880,6 @@ var ts;
             var ifaceMembers = {};
             var nextIfaceMemberId = 0;
             var autoCreateFunctions = {};
-            var configEntries = {};
-            var currJres = null;
             cachedSubtypeQueries = {};
             lastNodeId = 0;
             currNodeWave++;
@@ -7052,17 +5956,6 @@ var ts;
                 reset();
                 bin.finalPass = true;
                 emit(rootFunction);
-                res.configData = [];
-                for (var _i = 0, _a = Object.keys(configEntries); _i < _a.length; _i++) {
-                    var k = _a[_i];
-                    if (configEntries["!" + k])
-                        continue;
-                    res.configData.push({
-                        name: k.replace(/^\!/, ""),
-                        key: configEntries[k].key,
-                        value: configEntries[k].value
-                    });
-                }
                 catchErrors(rootFunction, finalEmit);
             }
             return {
@@ -7221,12 +6114,7 @@ var ts;
                         bin.writeFile("yotta.json", JSON.stringify(opts.extinfo.yotta, null, 2));
                     if (opts.extinfo.platformio)
                         bin.writeFile("platformio.json", JSON.stringify(opts.extinfo.platformio, null, 2));
-                    if (opts.target.nativeType == pxtc.NATIVE_TYPE_CS)
-                        pxtc.csEmit(bin, opts);
-                    else if (opts.target.nativeType == pxtc.NATIVE_TYPE_AVRVM)
-                        pxtc.vmEmit(bin, opts);
-                    else
-                        pxtc.processorEmit(bin, opts, res);
+                    pxtc.processorEmit(bin, opts, res);
                 }
                 else {
                     pxtc.jsEmit(bin);
@@ -7270,17 +6158,14 @@ var ts;
                             case pxtc.SK.ExtendsKeyword:
                                 if (!h.types || h.types.length != 1)
                                     throw userError(9228, lf("invalid extends clause"));
-                                var superType = typeOf(h.types[0]);
-                                if (superType && isClassType(superType)) {
+                                var tp = typeOf(h.types[0]);
+                                if (tp && isClassType(tp)) {
                                     // check if user defined
                                     // let filename = getSourceFileOfNode(tp.symbol.valueDeclaration).fileName
                                     // if (program.getRootFileNames().indexOf(filename) == -1) {
                                     //    throw userError(9228, lf("cannot inherit from built-in type."))
                                     // }
-                                    // need to redo subtype checking on members
-                                    var subType = checker.getTypeAtLocation(node);
-                                    typeCheckSubtoSup(subType, superType);
-                                    return getClassInfo(superType);
+                                    return getClassInfo(tp);
                                 }
                                 else {
                                     throw userError(9228, lf("cannot inherit from this type"));
@@ -7563,48 +6448,11 @@ var ts;
                     jsLit: jsLit
                 };
             }
-            function isConstLiteral(decl) {
-                if (isGlobalVar(decl)) {
-                    if (decl.parent.flags & ts.NodeFlags.Const) {
-                        var init = decl.initializer;
-                        if (!init)
-                            return false;
-                        if (init.kind == pxtc.SK.ArrayLiteralExpression)
-                            return false;
-                        return !isSideEffectfulInitializer(init);
-                    }
-                }
-                return false;
-            }
-            function isSideEffectfulInitializer(init) {
-                if (!init)
-                    return false;
-                if (isStringLiteral(init))
-                    return false;
-                switch (init.kind) {
-                    case pxtc.SK.NullKeyword:
-                    case pxtc.SK.NumericLiteral:
-                    case pxtc.SK.TrueKeyword:
-                    case pxtc.SK.FalseKeyword:
-                        return false;
-                    case pxtc.SK.Identifier:
-                        return !isConstLiteral(getDecl(init));
-                    case pxtc.SK.PropertyAccessExpression:
-                        var d = getDecl(init);
-                        return !d || d.kind != pxtc.SK.EnumMember;
-                    case pxtc.SK.ArrayLiteralExpression:
-                        return init.elements.some(isSideEffectfulInitializer);
-                    default:
-                        return true;
-                }
-            }
             function emitLocalLoad(decl) {
                 if (isGlobalVar(decl)) {
                     var attrs = parseComments(decl);
                     if (attrs.shim)
                         return emitShim(decl, decl, []);
-                    if (isConstLiteral(decl))
-                        return emitExpr(decl.initializer);
                 }
                 var l = lookupCell(decl);
                 recordUse(decl);
@@ -7665,8 +6513,7 @@ var ts;
                 }
                 else {
                     var lbl = bin.emitString(str);
-                    var res_2 = pxtc.ir.ptrlit(lbl + "meta", JSON.stringify(str), true);
-                    return res_2;
+                    return pxtc.ir.ptrlit(lbl + "meta", JSON.stringify(str), true);
                 }
             }
             function emitLiteral(node) {
@@ -7935,8 +6782,8 @@ var ts;
                 // we also generate a fake numeric literal for image literals
                 if (e.kind == pxtc.SK.NullKeyword || e.kind == pxtc.SK.NumericLiteral)
                     return !!e.isRefOverride;
-                // no point doing the incr/decr for these - they are statically allocated anyways (unless on AVR)
-                if (!isAVR() && isStringLiteral(e))
+                // no point doing the incr/decr for these - they are statically allocated anyways
+                if (isStringLiteral(e))
                     return false;
                 return isRefType(typeOf(e));
             }
@@ -7953,7 +6800,7 @@ var ts;
                 var attrs = parseComments(decl);
                 var hasRet = !(typeOf(node).flags & ts.TypeFlags.Void);
                 var nm = attrs.shim;
-                if (opts.target.needsUnboxing)
+                if (opts.target.taggedInts)
                     switch (nm) {
                         case "Number_::toString":
                         case "Boolean_::toString":
@@ -7961,33 +6808,15 @@ var ts;
                             break;
                     }
                 if (nm.indexOf('(') >= 0) {
-                    var parse = /(.*)\((.*)\)$/.exec(nm);
+                    var parse = /(.*)\((\d+)\)$/.exec(nm);
                     if (parse) {
                         if (args.length)
                             pxtc.U.userError("no arguments expected");
-                        var litargs = [];
-                        var strargs = parse[2].replace(/\s/g, "");
-                        if (strargs) {
-                            for (var _i = 0, _a = parse[2].split(/,/); _i < _a.length; _i++) {
-                                var a = _a[_i];
-                                var v = parseInt(a);
-                                if (isNaN(v)) {
-                                    v = lookupDalConst(node, a);
-                                    if (v == null)
-                                        v = lookupConfigConst(node, a);
-                                    if (v == null)
-                                        pxtc.U.userError("invalid argument: " + a + " in " + nm);
-                                }
-                                litargs.push(pxtc.ir.numlit(v));
-                            }
-                            if (litargs.length > 4)
-                                pxtc.U.userError("too many args");
-                        }
                         nm = parse[1];
                         if (opts.target.isNative) {
-                            pxtc.hex.validateShim(getDeclName(decl), nm, attrs, true, litargs.map(function (v) { return true; }));
+                            pxtc.hex.validateShim(getDeclName(decl), nm, attrs, true, [true]);
                         }
-                        return pxtc.ir.rtcallMask(nm, 0, attrs.callingConvention, litargs);
+                        return pxtc.ir.rtcallMask(nm, 0, attrs.callingConvention, [pxtc.ir.numlit(parseInt(parse[2]))]);
                     }
                 }
                 if (nm == "TD_NOOP") {
@@ -8057,7 +6886,7 @@ var ts;
                     var p = parms[i];
                     // there may be more arguments than parameters
                     if (p && p.valueDeclaration && p.valueDeclaration.kind == pxtc.SK.Parameter)
-                        typeCheckSubtoSup(args[i], p.valueDeclaration);
+                        typeCheckSrcFlowstoTrg(args[i], p.valueDeclaration);
                 }
                 // TODO: this is micro:bit specific and should be lifted out
                 if (attrs.imageLiteral) {
@@ -8226,9 +7055,9 @@ var ts;
                             // in this special base case, we have property access recv.foo
                             // where recv is a map obejct
                             var name_6 = getName(decl);
-                            var res_3 = mkProcCallCore(null, null, args.map(function (x) { return emitExpr(x); }), getIfaceMemberId(name_6));
+                            var res_2 = mkProcCallCore(null, null, args.map(function (x) { return emitExpr(x); }), getIfaceMemberId(name_6));
                             if (decl.kind == pxtc.SK.PropertySignature || decl.kind == pxtc.SK.PropertyAssignment) {
-                                var pid = res_3.data;
+                                var pid = res_2.data;
                                 pid.mapIdx = pid.ifaceIndex;
                                 var refSuff = "";
                                 if (args.length == 2) {
@@ -8243,7 +7072,7 @@ var ts;
                                     pid.mapMethod = "pxtrt::mapGet" + refSuff;
                                 }
                             }
-                            return res_3;
+                            return res_2;
                         }
                         else {
                             // in this case, recv.foo represents a function/lambda
@@ -8267,7 +7096,7 @@ var ts;
                         userError(9220, lf("namespaces cannot be called directly"));
                 }
                 // otherwise we assume a lambda
-                if (args.length > (isStackMachine() ? 2 : 3))
+                if (args.length > 3)
                     userError(9217, lf("lambda functions with more than 3 arguments not supported"));
                 var suff = args.length + "";
                 // here's where we will recurse to generate toe evaluate funcExpr
@@ -8417,17 +7246,6 @@ var ts;
                     return /^[0-9a-f]$/i.test(c);
                 }
                 function parseHexLiteral(s) {
-                    if (s == "" && currJres) {
-                        if (!currJres.dataEncoding || currJres.dataEncoding == "base64") {
-                            s = pxtc.U.toHex(pxtc.U.stringToUint8Array(atob(currJres.data)));
-                        }
-                        else if (currJres.dataEncoding == "hex") {
-                            s = currJres.data;
-                        }
-                        else {
-                            userError(9271, lf("invalid jres encoding '{0}' on '{1}'", currJres.dataEncoding, currJres.id));
-                        }
-                    }
                     var res = "";
                     for (var i = 0; i < s.length; ++i) {
                         var c = s[i];
@@ -8459,11 +7277,11 @@ var ts;
                 }
             }
             function emitTypeAssertion(node) {
-                typeCheckSubtoSup(node.expression, node);
+                typeCheckSrcFlowstoTrg(node.expression, node);
                 return emitExpr(node.expression);
             }
             function emitAsExpression(node) {
-                typeCheckSubtoSup(node.expression, node);
+                typeCheckSrcFlowstoTrg(node.expression, node);
                 return emitExpr(node.expression);
             }
             function emitParenExpression(node) {
@@ -8488,15 +7306,7 @@ var ts;
             function emitFunLitCore(node, raw) {
                 if (raw === void 0) { raw = false; }
                 var lbl = getFunctionLabel(node, getEnclosingTypeBindings(node));
-                var jsInfo = lbl;
-                if (pxtc.target.nativeType == pxtc.NATIVE_TYPE_CS) {
-                    jsInfo = "(FnPtr)" + jsInfo;
-                    if (!raw)
-                        jsInfo = "PXT.pxt.mkAction(0, 0, " + jsInfo + ")";
-                }
-                var r = pxtc.ir.ptrlit(lbl + "_Lit", jsInfo, isAVR() ? false : !raw);
-                if (!raw && isAVR())
-                    r = pxtc.ir.shared(pxtc.ir.rtcall("pxt::mkAction", [pxtc.ir.numlit(0), pxtc.ir.numlit(0), r]));
+                var r = pxtc.ir.ptrlit(lbl + "_Lit", lbl, !raw);
                 return r;
             }
             function emitFuncCore(node, bindings) {
@@ -8543,6 +7353,8 @@ var ts;
                 }
                 else {
                     if (isExpression) {
+                        // lit = ir.shared(ir.rtcall("pxt::mkAction",
+                        //                [ir.numlit(0), ir.numlit(0), emitFunLitCore(node, true)]))
                         lit = emitFunLitCore(node);
                     }
                 }
@@ -8608,19 +7420,17 @@ var ts;
                 }
                 proc.emitLblDirect(getLabels(node).ret);
                 proc.stackEmpty();
-                var lbl = proc.mkLabel("final");
-                var hasRet = funcHasReturn(proc.action);
-                if (hasRet) {
+                if (funcHasReturn(proc.action)) {
                     var v = pxtc.ir.shared(pxtc.ir.op(EK.JmpValue, []));
                     proc.emitExpr(v); // make sure we save it
-                    proc.emitClrs(lbl, v);
+                    proc.emitClrs();
+                    var lbl = proc.mkLabel("final");
                     proc.emitJmp(lbl, v, pxtc.ir.JmpMode.Always);
+                    proc.emitLbl(lbl);
                 }
                 else {
-                    proc.emitClrs(lbl, null);
+                    proc.emitClrs();
                 }
-                if (hasRet || isStackMachine())
-                    proc.emitLbl(lbl);
                 // once we have emitted code for this function,
                 // we should emit code for all decls that are used
                 // as a result
@@ -8709,11 +7519,7 @@ var ts;
                         case pxtc.SK.MinusMinusToken:
                             return emitIncrement(node.operand, "numops::subs", false);
                         case pxtc.SK.MinusToken:
-                            var inner = emitExpr(node.operand);
-                            var v = valueToInt(inner);
-                            if (v != null)
-                                return emitLit(-v);
-                            return emitIntOp("numops::subs", emitLit(0), inner);
+                            return emitIntOp("numops::subs", emitLit(0), emitExpr(node.operand));
                         case pxtc.SK.PlusToken:
                             return emitExpr(node.operand); // no-op
                         default:
@@ -8811,7 +7617,7 @@ var ts;
             function emitStore(trg, src, checkAssign) {
                 if (checkAssign === void 0) { checkAssign = false; }
                 if (checkAssign) {
-                    typeCheckSubtoSup(src, trg);
+                    typeCheckSrcFlowstoTrg(src, trg);
                 }
                 var decl = getDecl(trg);
                 var isGlobal = isGlobalVar(decl);
@@ -8878,81 +7684,11 @@ var ts;
                             return "Number_::neq";
                     }
                 }
-                if (opts.target.taggedInts && isThumb()) {
-                    switch (n) {
-                        case "numops::adds":
-                        case "numops::subs":
-                        case "numops::eors":
-                        case "numops::ands":
-                            return "@nomask@" + n;
-                    }
-                }
                 return n;
             }
             function emitIntOp(op, left, right) {
                 op = mapIntOpName(op);
                 return pxtc.ir.rtcallMask(op, opts.target.taggedInts ? 3 : 0, pxtc.ir.CallingConvention.Plain, [left, right]);
-            }
-            function emitAsInt(e) {
-                var expr = emitExpr(e);
-                var v = valueToInt(expr);
-                if (v === undefined)
-                    throw userError(9267, lf("a constant number-like expression is required here"));
-                return v;
-            }
-            function lookupConfigConst(ctx, name) {
-                var r = lookupConfigConstCore(ctx, name, "userconfig");
-                if (r == null)
-                    r = lookupConfigConstCore(ctx, name, "config");
-                return r;
-            }
-            function lookupConfigConstCore(ctx, name, mod) {
-                var syms = checker.getSymbolsInScope(ctx, ts.SymbolFlags.Module);
-                var configMod = syms.filter(function (s) { return s.name == mod && !!s.valueDeclaration; })[0];
-                if (!configMod)
-                    return null;
-                for (var _i = 0, _a = configMod.valueDeclaration.body.statements; _i < _a.length; _i++) {
-                    var stmt = _a[_i];
-                    if (stmt.kind == pxtc.SK.VariableStatement) {
-                        var v = stmt;
-                        for (var _b = 0, _c = v.declarationList.declarations; _b < _c.length; _b++) {
-                            var d = _c[_b];
-                            if (d.symbol.name == name) {
-                                return emitAsInt(d.initializer);
-                            }
-                        }
-                    }
-                }
-                return null;
-            }
-            function lookupDalConst(ctx, name) {
-                var syms = checker.getSymbolsInScope(ctx, ts.SymbolFlags.Enum);
-                var dalEnm = syms.filter(function (s) { return s.name == "DAL" && !!s.valueDeclaration; })[0];
-                if (!dalEnm)
-                    return null;
-                var decl = dalEnm.valueDeclaration.members
-                    .filter(function (s) { return s.symbol.name == name; })[0];
-                if (decl)
-                    return checker.getConstantValue(decl);
-                return null;
-            }
-            function valueToInt(e) {
-                if (e.exprKind == pxtc.ir.EK.NumberLiteral) {
-                    var v = e.data;
-                    if (opts.target.taggedInts) {
-                        if (v == pxtc.taggedNull || v == pxtc.taggedUndefined || v == pxtc.taggedFalse)
-                            return 0;
-                        if (v == pxtc.taggedTrue)
-                            return 1;
-                        if (typeof v == "number")
-                            return v >> 1;
-                    }
-                    else {
-                        if (typeof v == "number")
-                            return v;
-                    }
-                }
-                return undefined;
             }
             function emitLit(v) {
                 if (opts.target.taggedInts) {
@@ -9129,9 +7865,7 @@ var ts;
                 }
                 proc.emitJmp(lbl, emitExpr(node.right), pxtc.ir.JmpMode.Always);
                 proc.emitLbl(lbl);
-                var r = pxtc.ir.shared(pxtc.ir.op(EK.JmpValue, []));
-                proc.emitExpr(r);
-                return r;
+                return pxtc.ir.op(EK.JmpValue, []);
             }
             function stripEquals(k) {
                 switch (k) {
@@ -9266,7 +8000,7 @@ var ts;
                         case pxtc.SK.EqualsEqualsEqualsToken:
                         case pxtc.SK.ExclamationEqualsEqualsToken:
                         case pxtc.SK.ExclamationEqualsToken:
-                            if (opts.target.needsUnboxing)
+                            if (opts.target.taggedInts)
                                 break; // let the generic case handle this
                         case pxtc.SK.LessThanEqualsToken:
                         case pxtc.SK.LessThanToken:
@@ -9348,33 +8082,6 @@ var ts;
                 throw userError(9260, lf("variable needs to be defined using 'let' instead of 'var'"));
             }
             function emitVariableStatement(node) {
-                function addConfigEntry(ent) {
-                    var entry = pxtc.U.lookup(configEntries, ent.name);
-                    if (!entry) {
-                        entry = ent;
-                        configEntries[ent.name] = entry;
-                    }
-                    if (entry.value != ent.value)
-                        throw userError(9269, lf("conflicting values for config.{0}", ent.name));
-                }
-                if (node.declarationList.flags & ts.NodeFlags.Const)
-                    for (var _i = 0, _a = node.declarationList.declarations; _i < _a.length; _i++) {
-                        var decl = _a[_i];
-                        var nm = getDeclName(decl);
-                        var parname = node.parent && node.parent.kind == pxtc.SK.ModuleBlock ?
-                            getName(node.parent.parent) : "?";
-                        if (parname == "config" || parname == "userconfig") {
-                            if (!decl.initializer)
-                                continue;
-                            var val = emitAsInt(decl.initializer);
-                            var key = lookupDalConst(node, "CFG_" + nm);
-                            if (key == null || key == 0)
-                                throw userError(9268, lf("can't find DAL.CFG_{0}", nm));
-                            if (parname == "userconfig")
-                                nm = "!" + nm;
-                            addConfigEntry({ name: nm, key: key, value: val });
-                        }
-                    }
                 if (node.flags & ts.NodeFlags.Ambient)
                     return;
                 checkForLetOrConst(node.declarationList);
@@ -9385,17 +8092,6 @@ var ts;
             }
             function emitCondition(expr, inner) {
                 if (inner === void 0) { inner = null; }
-                if (!inner && opts.target.taggedInts && isThumb() && expr.kind == pxtc.SK.BinaryExpression) {
-                    var be = expr;
-                    var lt = typeOf(be.left);
-                    var rt = typeOf(be.right);
-                    if ((lt.flags & ts.TypeFlags.NumberLike) && (rt.flags & ts.TypeFlags.NumberLike)) {
-                        var mapped = pxtc.U.lookup(pxtc.thumbCmpMap, simpleInstruction(be.operatorToken.kind));
-                        if (mapped) {
-                            return pxtc.ir.rtcall(mapped, [emitExpr(be.left), emitExpr(be.right)]);
-                        }
-                    }
-                }
                 if (!inner)
                     inner = emitExpr(expr);
                 // in all cases decr is internal, so no mask
@@ -9558,7 +8254,7 @@ var ts;
                 proc.emitJmpZ(l.brk, cmp);
                 // TODO this should be changed to use standard indexer lookup and int handling
                 var toInt = function (e) {
-                    if (opts.target.needsUnboxing)
+                    if (opts.target.taggedInts)
                         return pxtc.ir.rtcall("pxt::toInt", [e]);
                     else
                         return e;
@@ -9638,7 +8334,7 @@ var ts;
                     if (cl.kind == pxtc.SK.CaseClause) {
                         var cc = cl;
                         var cmpExpr = emitExpr(cc.expression);
-                        if (opts.target.needsUnboxing) {
+                        if (opts.target.taggedInts) {
                             // we assume the value we're switching over will stay alive
                             // so, the mask only applies to the case expression if needed
                             var cmpCall = pxtc.ir.rtcallMask(mapIntOpName("pxt::switch_eq"), isRefCountedExpr(cc.expression) ? 1 : 0, pxtc.ir.CallingConvention.Plain, [cmpExpr, expr]);
@@ -9658,7 +8354,7 @@ var ts;
                         }
                         else {
                             // TODO re-enable this opt for small non-zero number literals
-                            if (!isStackMachine() && !opts.target.needsUnboxing && cmpExpr.exprKind == EK.NumberLiteral) {
+                            if (!opts.target.taggedInts && cmpExpr.exprKind == EK.NumberLiteral) {
                                 if (!quickCmpMode) {
                                     emitInJmpValue(expr);
                                     quickCmpMode = true;
@@ -9723,8 +8419,6 @@ var ts;
                 if (!isUsed(node)) {
                     return null;
                 }
-                if (isConstLiteral(node))
-                    return null;
                 var loc = isGlobalVar(node) ?
                     lookupCell(node) : proc.mkLocal(node, getVarInfo(node));
                 if (loc.isByRefLocal()) {
@@ -9734,30 +8428,15 @@ var ts;
                 if (node.kind === pxtc.SK.BindingElement) {
                     emitBrk(node);
                     var rhs = bindingElementAccessExpression(node);
-                    typeCheckSubtoSup(rhs[1], node);
+                    typeCheckSrcFlowstoTrg(rhs[1], node);
                     proc.emitExpr(loc.storeByRef(rhs[0]));
                     proc.stackEmpty();
                 }
                 else if (node.initializer) {
+                    // TODO: make sure we don't emit code for top-level globals being initialized to zero
                     emitBrk(node);
-                    if (isGlobalVar(node)) {
-                        var attrs = parseComments(node);
-                        var jrname = attrs.jres;
-                        if (jrname) {
-                            if (jrname == "true") {
-                                jrname = pxtc.getFullName(checker, node.symbol);
-                            }
-                            var jr = pxtc.U.lookup(opts.jres || {}, jrname);
-                            if (!jr)
-                                userError(9270, lf("resource '{0}' not found in any .jres file", jrname));
-                            else {
-                                currJres = jr;
-                            }
-                        }
-                    }
-                    typeCheckSubtoSup(node.initializer, node);
+                    typeCheckSrcFlowstoTrg(node.initializer, node);
                     proc.emitExpr(loc.storeByRef(emitExpr(node.initializer)));
-                    currJres = null;
                     proc.stackEmpty();
                 }
                 return loc;
@@ -9767,9 +8446,9 @@ var ts;
                 var parentAccess;
                 var parentType;
                 if (target.kind === pxtc.SK.BindingElement) {
-                    var parent_4 = bindingElementAccessExpression(target);
-                    parentAccess = parent_4[0];
-                    parentType = parent_4[1];
+                    var parent_3 = bindingElementAccessExpression(target);
+                    parentAccess = parent_3[0];
+                    parentType = parent_3[1];
                 }
                 else {
                     parentType = typeOf(target);
@@ -9788,6 +8467,7 @@ var ts;
                     throw unhandled(bindingElement, lf("bad field access"), 9247);
                 }
             }
+            function emitClassExpression(node) { }
             function emitClassDeclaration(node) {
                 getClassInfo(null, node);
                 node.members.forEach(emit);
@@ -9803,6 +8483,8 @@ var ts;
             }
             function emitEnumMember(node) { }
             function emitModuleDeclaration(node) {
+                if (node.flags & ts.NodeFlags.Ambient)
+                    return;
                 emit(node.body);
             }
             function emitImportDeclaration(node) { }
@@ -9817,12 +8499,12 @@ var ts;
                 inCatchErrors++;
                 try {
                     lastSecondaryError = null;
-                    var res_4 = f(node);
+                    var res_3 = f(node);
                     if (lastSecondaryError)
                         userError(lastSecondaryErrorCode, lastSecondaryError);
                     lastSecondaryError = prevErr;
                     inCatchErrors--;
-                    return res_4;
+                    return res_3;
                 }
                 catch (e) {
                     inCatchErrors--;
@@ -10085,15 +8767,7 @@ var ts;
             return r;
         }
         pxtc.nodeLocationInfo = nodeLocationInfo;
-        function patchUpDiagnostics(diags, ignoreFileResolutionErorrs) {
-            if (ignoreFileResolutionErorrs === void 0) { ignoreFileResolutionErorrs = false; }
-            if (ignoreFileResolutionErorrs) {
-                // Because we generate the program and the virtual file system, we can safely ignore
-                // file resolution errors. They are generated by triple slash references that likely
-                // have a different path format than the one our dumb file system expects. The files
-                // are included, our compiler host just isn't smart enough to resolve them.
-                diags = diags.filter(function (d) { return d.code !== 5012; });
-            }
+        function patchUpDiagnostics(diags) {
             var highPri = diags.filter(function (d) { return d.code == 1148; });
             if (highPri.length > 0)
                 diags = highPri;
@@ -10157,10 +8831,6 @@ var ts;
                         if (err)
                             err("File not found: " + fn);
                     }
-                    if (text == null) {
-                        err("File not found: " + fn);
-                        text = "";
-                    }
                     return ts.createSourceFile(fn, text, v, setParentNodes);
                 },
                 fileExists: function (fn) {
@@ -10193,7 +8863,7 @@ var ts;
             // TODO: ensure that main.ts is last???
             var program = ts.createProgram(tsFiles, options, host);
             // First get and report any syntactic errors.
-            res.diagnostics = patchUpDiagnostics(program.getSyntacticDiagnostics(), opts.ignoreFileResolutionErrors);
+            res.diagnostics = patchUpDiagnostics(program.getSyntacticDiagnostics());
             if (res.diagnostics.length > 0) {
                 if (opts.forceEmit) {
                     pxt.debug('syntactic errors, forcing emit');
@@ -10203,9 +8873,9 @@ var ts;
             }
             // If we didn't have any syntactic errors, then also try getting the global and
             // semantic errors.
-            res.diagnostics = patchUpDiagnostics(program.getOptionsDiagnostics().concat(program.getGlobalDiagnostics()), opts.ignoreFileResolutionErrors);
+            res.diagnostics = patchUpDiagnostics(program.getOptionsDiagnostics().concat(program.getGlobalDiagnostics()));
             if (res.diagnostics.length == 0) {
-                res.diagnostics = patchUpDiagnostics(program.getSemanticDiagnostics(), opts.ignoreFileResolutionErrors);
+                res.diagnostics = patchUpDiagnostics(program.getSemanticDiagnostics());
             }
             var emitStart = Date.now();
             res.times["typescript"] = emitStart - startTime;
@@ -10215,7 +8885,7 @@ var ts;
             if (opts.ast || opts.forceEmit || res.diagnostics.length == 0) {
                 var binOutput = pxtc.compileBinary(program, host, opts, res);
                 res.times["compilebinary"] = Date.now() - emitStart;
-                res.diagnostics = res.diagnostics.concat(patchUpDiagnostics(binOutput.diagnostics));
+                res.diagnostics = patchUpDiagnostics(binOutput.diagnostics);
             }
             if (res.diagnostics.length == 0)
                 res.success = true;
@@ -10232,7 +8902,7 @@ var ts;
             if (!resp.success)
                 return resp;
             var file = resp.ast.getSourceFile(fileName);
-            var apis = pxtc.getApiInfo(opts, resp.ast);
+            var apis = pxtc.getApiInfo(resp.ast);
             var blocksInfo = pxtc.getBlocksInfo(apis);
             var bresp = pxtc.decompiler.decompileToBlocks(blocksInfo, file, { snippetMode: false, alwaysEmitOnStart: opts.alwaysDecompileOnStart }, pxtc.decompiler.buildRenameMap(resp.ast, file));
             return bresp;
@@ -11367,13 +10037,6 @@ var ts;
                 hex_1.currentHexInfo = hexinfo;
                 hex = hexinfo.hex;
                 patchSegmentHex(hex);
-                if (opts.nativeType == pxtc.NATIVE_TYPE_CS) {
-                    for (var _i = 0, funs_1 = funs; _i < funs_1.length; _i++) {
-                        var inf = funs_1[_i];
-                        funcInfo[inf.name] = inf;
-                    }
-                    return;
-                }
                 if (hex.length <= 2) {
                     elfInfo = pxt.elf.parse(pxtc.U.fromHex(hex[0]));
                     bytecodeStartIdx = -1;
@@ -11481,7 +10144,7 @@ var ts;
                         if (!value) {
                             pxtc.U.oops("No value for " + inf.name + " / " + hexb);
                         }
-                        if (opts.nativeType == pxtc.NATIVE_TYPE_THUMB && !(value & 1)) {
+                        if (!(value & 1)) {
                             pxtc.U.oops("Non-thumb addr for " + inf.name + " / " + hexb);
                         }
                         inf.value = value;
@@ -11501,8 +10164,6 @@ var ts;
                 var nm = funname + "(...) (shim=" + shimName + ")";
                 var inf = lookupFunc(shimName);
                 if (inf) {
-                    if (pxtc.target.nativeType == pxtc.NATIVE_TYPE_CS)
-                        return;
                     if (!hasRet) {
                         if (inf.argsFmt[0] != "V")
                             pxtc.U.userError("expecting procedure for " + nm);
@@ -11526,7 +10187,7 @@ var ts;
                         }
                     }
                     if (argIsNumber.length != inf.argsFmt.length - 1)
-                        pxtc.U.userError("not enough arguments for " + nm + " (got " + argIsNumber.length + "; fmt=" + inf.argsFmt + ")");
+                        pxtc.U.userError("not enough arguments for " + nm);
                 }
                 else {
                     pxtc.U.userError("function not found: " + nm);
@@ -11713,11 +10374,31 @@ var ts;
             return s + "\n";
         }
         pxtc.asmline = asmline;
-        function emitStrings(snippets, bin) {
+        function stringLiteral(s) {
+            var r = "\"";
+            for (var i = 0; i < s.length; ++i) {
+                // TODO generate warning when seeing high character ?
+                var c = s.charCodeAt(i) & 0xff;
+                var cc = String.fromCharCode(c);
+                if (cc == "\\" || cc == "\"")
+                    r += "\\" + cc;
+                else if (cc == "\n")
+                    r += "\\n";
+                else if (c <= 0xf)
+                    r += "\\x0" + c.toString(16);
+                else if (c < 32 || c > 127)
+                    r += "\\x" + c.toString(16);
+                else
+                    r += cc;
+            }
+            return r + "\"";
+        }
+        function emitStrings(bin) {
             for (var _i = 0, _a = Object.keys(bin.strings); _i < _a.length; _i++) {
                 var s = _a[_i];
+                var lbl = bin.strings[s];
                 // string representation of DAL - 0xffff in general for ref-counted objects means it's static and shouldn't be incr/decred
-                bin.otherLiterals.push(snippets.string_literal(bin.strings[s], s));
+                bin.otherLiterals.push("\n.balign 4\n" + lbl + "meta: .short 0xffff, " + (pxtc.target.taggedInts ? pxt.REF_TAG_STRING + "," : "") + " " + s.length + "\n" + lbl + ": .string " + stringLiteral(s) + "\n");
             }
             for (var _b = 0, _c = Object.keys(bin.doubles); _b < _c.length; _b++) {
                 var data = _c[_b];
@@ -11726,24 +10407,18 @@ var ts;
             }
             for (var _d = 0, _e = Object.keys(bin.hexlits); _d < _e.length; _d++) {
                 var data = _e[_d];
-                bin.otherLiterals.push(snippets.hex_literal(bin.hexlits[data], data));
-                bin.otherLiterals.push();
+                var lbl = bin.hexlits[data];
+                bin.otherLiterals.push("\n.balign 4\n" + lbl + ": .short 0xffff, " + pxt.REF_TAG_BUFFER + ", " + (data.length >> 1) + "\n        .hex " + data + (data.length % 4 == 0 ? "" : "00") + "\n");
             }
         }
         function vtableToAsm(info) {
             var s = "\n        .balign " + (1 << pxtc.vtableShift) + "\n" + info.id + "_VT:\n        .short " + (info.refmask.length * 4 + 4) + "  ; size in bytes\n        .byte " + (info.vtable.length + 2) + ", 0  ; num. methods\n";
-            var ptrSz = pxtc.target.shortPointers ? ".short" : ".word";
-            var addPtr = function (n) {
-                if (n != "0" && (!pxtc.isStackMachine() || n.indexOf("::") >= 0))
-                    n += "@fn";
-                s += "        " + ptrSz + " " + n + "\n";
-            };
-            s += "        " + ptrSz + " " + info.id + "_IfaceVT\n";
-            addPtr("pxt::RefRecord_destroy");
-            addPtr("pxt::RefRecord_print");
+            s += "        .word " + info.id + "_IfaceVT\n";
+            s += "        .word pxt::RefRecord_destroy|1\n";
+            s += "        .word pxt::RefRecord_print|1\n";
             for (var _i = 0, _a = info.vtable; _i < _a.length; _i++) {
                 var m = _a[_i];
-                addPtr(m.label());
+                s += "        .word " + m.label() + "|1\n";
             }
             var refmask = info.refmask.map(function (v) { return v ? "1" : "0"; });
             while (refmask.length < 2 || refmask.length % 2 != 0)
@@ -11753,19 +10428,18 @@ var ts;
             // methods and lots of classes this could become a problem. We could use a table
             // of (iface-member-id, function-addr) pairs and binary search.
             // See https://makecode.microbit.org/15593-01779-41046-40599 for Thumb binary search.
-            s += "\n        .balign " + (pxtc.target.shortPointers ? 2 : 4) + "\n" + info.id + "_IfaceVT:\n";
+            s += "\n        .balign 4\n" + info.id + "_IfaceVT:\n";
             for (var _b = 0, _c = info.itable; _b < _c.length; _b++) {
                 var m = _c[_b];
-                addPtr(m ? m.label() : "0");
+                s += "        .word " + (m ? m.label() + "|1" : "0") + "\n";
             }
             s += "\n";
             return s;
         }
-        pxtc.vtableToAsm = vtableToAsm;
         function serialize(bin, opts) {
-            var asmsource = "; start\n" + hex.hexPrelude() + "        \n    .hex 708E3B92C615A841C49866C975EE5197 ; magic number\n    .hex " + hex.hexTemplateHash() + " ; hex template hash\n    .hex 0000000000000000 ; @SRCHASH@\n    .short " + bin.globalsWords + "   ; num. globals\n    .short 0 ; patched with number of words resulting from assembly\n    .word _pxt_config_data\n    .word 0 ; reserved\n    .word 0 ; reserved\n";
+            var asmsource = "; start\n" + hex.hexPrelude() + "        \n    .hex 708E3B92C615A841C49866C975EE5197 ; magic number\n    .hex " + hex.hexTemplateHash() + " ; hex template hash\n    .hex 0000000000000000 ; @SRCHASH@\n    .short " + bin.globalsWords + "   ; num. globals\n    .short 0 ; patched with number of words resulting from assembly\n    .word 0 ; reserved\n    .word 0 ; reserved\n    .word 0 ; reserved\n";
             var snippets = null;
-            if (opts.target.nativeType == pxtc.NATIVE_TYPE_AVR)
+            if (opts.target.nativeType == "AVR")
                 snippets = new pxtc.AVRSnippets();
             else
                 snippets = new pxtc.ThumbSnippets();
@@ -11780,15 +10454,9 @@ var ts;
                 asmsource += "    .section code\n" + lbl + ":\n" + code + "\n";
             });
             asmsource += snippets.arithmetic();
-            asmsource += "\n.balign 4\n_pxt_config_data:\n";
-            for (var _i = 0, _a = bin.res.configData || []; _i < _a.length; _i++) {
-                var d = _a[_i];
-                asmsource += "    .word " + d.key + ", " + d.value + "  ; " + d.name + "=" + d.value + "\n";
-            }
-            asmsource += "    .word 0\n\n";
             asmsource += hex.asmTotalSource;
             asmsource += "_js_end:\n";
-            emitStrings(snippets, bin);
+            emitStrings(bin);
             asmsource += bin.otherLiterals.join("");
             asmsource += "_program_end:\n";
             return asmsource;
@@ -11798,8 +10466,8 @@ var ts;
             bin.sourceHash = sha;
             return src.replace(/\n.*@SRCHASH@\n/, "\n    .hex " + sha.slice(0, 16).toUpperCase() + " ; program hash\n");
         }
-        function processorInlineAssemble(target, src) {
-            var b = mkProcessorFile(target);
+        function processorInlineAssemble(nativeType, src) {
+            var b = mkProcessorFile(nativeType);
             b.disablePeepHole = true;
             b.emit(src);
             throwAssemblerErrors(b);
@@ -11810,15 +10478,14 @@ var ts;
             return res;
         }
         pxtc.processorInlineAssemble = processorInlineAssemble;
-        function mkProcessorFile(target) {
-            var b;
-            if (target.nativeType == pxtc.NATIVE_TYPE_AVR)
-                b = new pxtc.assembler.File(new pxtc.avr.AVRProcessor());
-            else if (target.nativeType == pxtc.NATIVE_TYPE_AVRVM)
-                b = new pxtc.assembler.VMFile(new pxtc.vm.VmProcessor(target));
+        function mkProcessorFile(nativeType) {
+            var processor = null;
+            if (nativeType == "AVR")
+                processor = new pxtc.avr.AVRProcessor();
             else
-                b = new pxtc.assembler.File(new pxtc.thumb.ThumbProcessor());
-            b.ei.testAssembler(); // just in case
+                processor = new pxtc.thumb.ThumbProcessor();
+            processor.testAssembler(); // just in case
+            var b = new pxtc.assembler.File(processor);
             b.lookupExternalLabel = hex.lookupFunctionAddr;
             b.normalizeExternalLabel = function (s) {
                 var inf = hex.lookupFunc(s);
@@ -11854,10 +10521,10 @@ var ts;
             }
         }
         var peepDbg = false;
-        function assemble(target, bin, src) {
-            var b = mkProcessorFile(target);
+        function assemble(nativeType, bin, src) {
+            var b = mkProcessorFile(nativeType);
             b.emit(src);
-            src = b.getSource(!peepDbg, bin.numStmts, target.flashEnd);
+            src = b.getSource(!peepDbg, bin.numStmts);
             throwAssemblerErrors(b);
             return {
                 src: src,
@@ -11865,7 +10532,6 @@ var ts;
                 thumbFile: b
             };
         }
-        pxtc.assemble = assemble;
         function addSource(meta, binstring) {
             var metablob = pxtc.Util.toUTF8(meta);
             var totallen = metablob.length + binstring.length;
@@ -11912,7 +10578,7 @@ var ts;
             }
             bin.writeFile(pxtc.BINARY_ASM, src);
             bin.numStmts = cres.breakpoints.length;
-            var res = assemble(opts.target, bin, src);
+            var res = assemble(opts.target.nativeType, bin, src);
             if (res.src)
                 bin.writeFile(pxtc.BINARY_ASM, res.src);
             if (res.buf) {
@@ -12182,24 +10848,13 @@ var ts;
                         var maxVal = attributes_1.paramMax && attributes_1.paramMax[n];
                         var m = /\beg\.?:\s*(.+)/.exec(desc);
                         var props;
-                        var parameters;
-                        if (p.type && p.type.kind === pxtc.SK.FunctionType) {
+                        if (attributes_1.mutate && p.type.kind === pxtc.SK.FunctionType) {
                             var callBackSignature = typechecker.getSignatureFromDeclaration(p.type);
                             var callbackParameters_1 = callBackSignature.getParameters();
-                            if (attributes_1.mutate === "objectdestructuring") {
-                                pxtc.assert(callbackParameters_1.length > 0);
-                                props = typechecker.getTypeAtLocation(callbackParameters_1[0].valueDeclaration).getProperties().map(function (prop) {
-                                    return { name: prop.getName(), type: typechecker.typeToString(typechecker.getTypeOfSymbolAtLocation(prop, callbackParameters_1[0].valueDeclaration)) };
-                                });
-                            }
-                            else {
-                                parameters = callbackParameters_1.map(function (sym, i) {
-                                    return {
-                                        name: sym.getName(),
-                                        type: typechecker.typeToString(typechecker.getTypeOfSymbolAtLocation(sym, p))
-                                    };
-                                });
-                            }
+                            pxtc.assert(callbackParameters_1.length > 0);
+                            props = typechecker.getTypeAtLocation(callbackParameters_1[0].valueDeclaration).getProperties().map(function (prop) {
+                                return { name: prop.getName(), type: typechecker.typeToString(typechecker.getTypeOfSymbolAtLocation(prop, callbackParameters_1[0].valueDeclaration)) };
+                            });
                         }
                         var options = {};
                         var paramType = typechecker.getTypeAtLocation(p);
@@ -12225,7 +10880,6 @@ var ts;
                             initializer: p.initializer ? p.initializer.getText() : attributes_1.paramDefl[n],
                             default: attributes_1.paramDefl[n],
                             properties: props,
-                            handlerParameters: parameters,
                             options: options,
                             isEnum: isEnum
                         };
@@ -12235,29 +10889,30 @@ var ts;
             }
             return null;
         }
-        function genDocs(pkg, apiInfo, options) {
+        function genMarkdown(pkg, apiInfo, options) {
             if (options === void 0) { options = {}; }
-            pxt.debug("generating docs for " + pkg);
-            pxt.debug(JSON.stringify(Object.keys(apiInfo.byQName), null, 2));
             var files = {};
             var infos = pxtc.Util.values(apiInfo.byQName);
+            var namespaces = infos.filter(function (si) { return si.kind == pxtc.SymbolKind.Module; }).sort(compareSymbol);
             var enumMembers = infos.filter(function (si) { return si.kind == pxtc.SymbolKind.EnumMember; }).sort(compareSymbol);
+            var calls = {};
+            infos.filter(function (si) { return !!si.qName; }).forEach(function (si) { return calls[si.qName] = renderCall(apiInfo, si); });
             var locStrings = {};
             var jsdocStrings = {};
+            var helpPages = {};
+            var reference = "";
             var nameToFilename = function (n) { return n.replace(/([A-Z])/g, function (m) { return '-' + m.toLowerCase(); }); };
+            var writeRef = function (s) { return reference += s + "\n"; };
             var writeLoc = function (si) {
                 if (!options.locs || !si.qName) {
                     return;
                 }
-                if (si.attributes.deprecated || /^__/.test(si.name))
-                    return; // skip deprecated or function starting with __
-                pxt.debug("loc: " + si.qName);
                 // must match blockly loader
-                if (si.kind != pxtc.SymbolKind.EnumMember) {
-                    var ns = ts.pxtc.blocksCategory(si);
-                    if (ns)
-                        locStrings[("{id:category}" + ns)] = ns;
-                }
+                var ns = ts.pxtc.blocksCategory(si);
+                if (ns)
+                    locStrings[("{id:category}" + ns)] = ns;
+                if (si.attributes.subcategory)
+                    locStrings[("{id:category}" + si.attributes.subcategory)] = si.attributes.subcategory;
                 if (si.attributes.jsDoc)
                     jsdocStrings[si.qName] = si.attributes.jsDoc;
                 if (si.attributes.block)
@@ -12269,6 +10924,13 @@ var ts;
                         jsdocStrings[(si.qName + "|param|" + pi.name)] = pi.description;
                     });
             };
+            var sipkg = pkg && pkg != "core" ? "```package\n" + pkg + "\n```\n" : '';
+            var writeApi = function (ns, si, call) {
+                if (!options.docs || !si.qName)
+                    return;
+                var api = "# " + si.name.replace(/[A-Z]/g, function (m) { return ' ' + m; }) + "\n\n" + si.attributes.jsDoc.split(/\n\./)[0] + "\n\n```sig\n" + call + "\n```\n\n## Parameters\n" + (si.parameters || []).map(function (p) { return ("\n* **" + p.name + "**: [" + p.type + "](/reference/blocks/" + p.type + "), " + p.description); }) + "\n\n## Example\n\n```blocks\n" + call + "\n```\n\n## See Also\n\n" + (ns.namespace ? "[" + ns.namespace + "](/reference/" + nameToFilename(ns.namespace) + ")" : "") + "\n" + sipkg + "\n";
+                files[("reference/" + nameToFilename(ns.name) + "/" + nameToFilename(si.name) + ".md")] = api;
+            };
             var mapLocs = function (m, name) {
                 if (!options.locs)
                     return;
@@ -12276,19 +10938,65 @@ var ts;
                 Object.keys(m).sort().forEach(function (l) { return locs[l] = m[l]; });
                 files[pkg + name + "-strings.json"] = JSON.stringify(locs, null, 2);
             };
-            var _loop_7 = function(info) {
-                var isNamespace = info.kind == pxtc.SymbolKind.Module;
-                if (isNamespace) {
-                    if (!infos.filter(function (si) { return si.namespace == info.name && !!si.attributes.jsDoc; })[0])
-                        return "continue"; // nothing in namespace
-                    if (!info.attributes.block)
-                        info.attributes.block = info.name; // reusing this field to store localized namespace name
+            var writePackage = function (w) {
+                if (options.package) {
+                    w("");
+                    w("```package");
+                    w(pkg);
+                    w("```");
                 }
-                writeLoc(info);
             };
-            for (var _i = 0, infos_1 = infos; _i < infos_1.length; _i++) {
-                var info = infos_1[_i];
-                var state_7 = _loop_7(info);
+            var writeHelpPages = function (h, w) {
+                w("");
+                w("### See Also");
+                w("");
+                w(Object.keys(h).map(function (k) { return ("[" + k + "](/reference/" + h[k] + ")"); }).join(', '));
+            };
+            writeRef("# " + pkg + " Reference");
+            writeRef('');
+            writeRef('```namespaces');
+            var _loop_7 = function(ns) {
+                var nsHelpPages = {};
+                var syms = infos
+                    .filter(function (si) { return si.namespace == ns.name && !!si.attributes.jsDoc; })
+                    .sort(compareSymbol);
+                if (!syms.length)
+                    return "continue";
+                if (!ns.attributes.block)
+                    ns.attributes.block = ns.name; // reusing this field to store localized namespace name
+                writeLoc(ns);
+                helpPages[ns.name] = ns.name.replace("s+", "-");
+                var nsmd = "";
+                var writeNs = function (s) {
+                    nsmd += s + "\n";
+                };
+                writeNs("# " + capitalize(ns.name));
+                writeNs('');
+                if (ns.attributes.jsDoc) {
+                    writeNs("" + ns.attributes.jsDoc);
+                    writeNs('');
+                }
+                writeNs('```cards');
+                syms.forEach(function (si, i) {
+                    writeLoc(si);
+                    if (si.attributes.help)
+                        nsHelpPages[si.name] = si.attributes.help;
+                    var call = calls[si.qName];
+                    if (i == 0)
+                        writeRef(call);
+                    writeNs(call);
+                    if (!si.attributes.help)
+                        writeApi(ns, si, call);
+                });
+                writeNs('```');
+                writePackage(writeNs);
+                writeHelpPages(nsHelpPages, writeNs);
+                if (options.docs)
+                    files["reference/" + nameToFilename(ns.name) + '.md'] = nsmd;
+            };
+            for (var _i = 0, namespaces_1 = namespaces; _i < namespaces_1.length; _i++) {
+                var ns = namespaces_1[_i];
+                var state_7 = _loop_7(ns);
                 if (state_7 === "continue") continue;
             }
             if (options.locs)
@@ -12298,6 +11006,11 @@ var ts;
                     if (em.attributes.jsDoc)
                         locStrings[em.qName] = em.attributes.jsDoc;
                 });
+            writeRef('```');
+            writePackage(writeRef);
+            writeHelpPages(helpPages, writeRef);
+            if (options.docs)
+                files[pkg + "-reference.md"] = reference;
             mapLocs(locStrings, "");
             mapLocs(jsdocStrings, "-jsdoc");
             return files;
@@ -12306,6 +11019,9 @@ var ts;
             }
             function capitalize(name) {
                 return name[0].toUpperCase() + name.slice(1);
+            }
+            function urlify(name) {
+                return name.replace(/[A-Z]/g, '-$&').toLowerCase();
             }
             function compareSymbol(l, r) {
                 var c = -(hasBlock(l) ? 1 : -1) + (hasBlock(r) ? 1 : -1);
@@ -12317,12 +11033,11 @@ var ts;
                 return pxtc.U.strcmp(l.name, r.name);
             }
         }
-        pxtc.genDocs = genDocs;
-        function getApiInfo(opts, program, legacyOnly) {
+        pxtc.genMarkdown = genMarkdown;
+        function getApiInfo(program, legacyOnly) {
             if (legacyOnly === void 0) { legacyOnly = false; }
             var res = {
-                byQName: {},
-                jres: opts.jres
+                byQName: {}
             };
             var typechecker = program.getTypeChecker();
             var collectDecls = function (stmt) {
@@ -12388,18 +11103,6 @@ var ts;
                 si.attributes._source = null;
                 if (si.extendsTypes && si.extendsTypes.length)
                     toclose.push(si);
-                var jrname = si.attributes.jres;
-                if (jrname) {
-                    if (jrname == "true")
-                        jrname = qName;
-                    var jr = pxtc.U.lookup(opts.jres || {}, jrname);
-                    if (jr && jr.icon && !si.attributes.iconURL) {
-                        si.attributes.iconURL = jr.icon;
-                    }
-                    if (jr && jr.data && !si.attributes.jresURL) {
-                        si.attributes.jresURL = "data:" + jr.mimeType + ";base64," + jr.data;
-                    }
-                }
             }
             // transitive closure of inheritance
             var closed = {};
@@ -12589,11 +11292,11 @@ var ts;
                 },
                 compileTd: function (v) {
                     var res = pxtc.compile(v.options);
-                    return pxtc.getApiInfo(host.opts, res.ast, true);
+                    return pxtc.getApiInfo(res.ast, true);
                 },
                 assemble: function (v) {
                     return {
-                        words: pxtc.processorInlineAssemble(host.opts.target, v.fileContent)
+                        words: pxtc.processorInlineAssemble(host.opts.target.nativeType, v.fileContent)
                     };
                 },
                 fileDiags: function (v) { return pxtc.patchUpDiagnostics(fileDiags(v.fileName)); },
@@ -12620,7 +11323,7 @@ var ts;
                 apiInfo: function () {
                     lastBlocksInfo = undefined;
                     lastFuse = undefined;
-                    return lastApiInfo = pxtc.getApiInfo(host.opts, service.getProgram());
+                    return lastApiInfo = pxtc.getApiInfo(service.getProgram());
                 },
                 blocksInfo: blocksInfoOp,
                 apiSearch: function (v) {
@@ -12856,173 +11559,5 @@ var ts;
             }
             service_1.getSnippet = getSnippet;
         })(service = pxtc.service || (pxtc.service = {}));
-    })(pxtc = ts.pxtc || (ts.pxtc = {}));
-})(ts || (ts = {}));
-var ts;
-(function (ts) {
-    var pxtc;
-    (function (pxtc) {
-        var vm;
-        (function (vm) {
-            var emitErr = pxtc.assembler.emitErr;
-            var badNameError = emitErr("opcode name doesn't match", "<name>");
-            var VmInstruction = (function (_super) {
-                __extends(VmInstruction, _super);
-                function VmInstruction(ei, format, opcode) {
-                    _super.call(this, ei, format, opcode, opcode, false);
-                }
-                VmInstruction.prototype.emit = function (ln) {
-                    var tokens = ln.words;
-                    if (tokens[0] != this.name)
-                        return badNameError;
-                    var opcode = this.opcode;
-                    var j = 1;
-                    var stack = 0;
-                    var numArgs = [];
-                    var labelName = null;
-                    var opcode2 = null;
-                    var opcode3 = null;
-                    for (var i = 0; i < this.args.length; ++i) {
-                        var formal = this.args[i];
-                        var actual = tokens[j++];
-                        if (formal[0] == "$") {
-                            var enc = this.ei.encoders[formal];
-                            var v = null;
-                            if (enc.isImmediate) {
-                                if (!actual)
-                                    return emitErr("expecting number", actual);
-                                actual = actual.replace(/^#/, "");
-                                v = ln.bin.parseOneInt(actual);
-                                if (v == null)
-                                    return emitErr("expecting number", actual);
-                            }
-                            else {
-                                pxtc.oops();
-                            }
-                            if (v == null)
-                                return emitErr("didn't understand it", actual);
-                            numArgs.push(v);
-                            v = enc.encode(v);
-                            if (v == null)
-                                return emitErr("argument out of range or mis-aligned", actual);
-                            if (formal == "$i1") {
-                                pxtc.assert(0 <= v && v <= 255);
-                                opcode2 = v;
-                            }
-                            else if (formal == "$i2") {
-                                opcode2 = v & 0xff;
-                                opcode3 = (v >> 8) & 0xff;
-                            }
-                            else {
-                                pxtc.oops();
-                            }
-                        }
-                        else if (formal == actual) {
-                        }
-                        else {
-                            return emitErr("expecting " + formal, actual);
-                        }
-                    }
-                    if (tokens[j])
-                        return emitErr("trailing tokens", tokens[j]);
-                    if (this.name == "call") {
-                        opcode += numArgs[0];
-                    }
-                    return {
-                        stack: stack,
-                        opcode: opcode,
-                        opcode2: opcode2,
-                        opcode3: opcode3,
-                        numArgs: numArgs,
-                        labelName: ln.bin.normalizeExternalLabel(labelName)
-                    };
-                };
-                return VmInstruction;
-            }(pxtc.assembler.Instruction));
-            vm.VmInstruction = VmInstruction;
-            var VmProcessor = (function (_super) {
-                __extends(VmProcessor, _super);
-                function VmProcessor(target) {
-                    var _this = this;
-                    _super.call(this);
-                    this.addEnc("$i1", "#0-255", function (v) { return _this.inrange(255, v, v); });
-                    this.addEnc("$i2", "#0-65535", function (v) { return _this.inrange(65535, v, v); });
-                    pxtc.U.iterMap(target.vmOpCodes, function (opnamefull, opcode) {
-                        var m = /(.*)_(\d+)/.exec(opnamefull);
-                        var fmt = "";
-                        if (m[1] == "call")
-                            fmt = "call $i1, $i2";
-                        else if (m[2] == "0")
-                            fmt = m[1];
-                        else if (m[2] == "1")
-                            fmt = m[1] + " $i1";
-                        else if (m[2] == "2")
-                            fmt = m[1] + " $i2";
-                        else
-                            pxtc.oops();
-                        var ins = new VmInstruction(_this, fmt, opcode);
-                        if (!_this.instructions.hasOwnProperty(ins.name))
-                            _this.instructions[ins.name] = [];
-                        _this.instructions[ins.name].push(ins);
-                    });
-                }
-                VmProcessor.prototype.testAssembler = function () {
-                };
-                VmProcessor.prototype.postProcessRelAddress = function (f, v) {
-                    return v + f.baseOffset;
-                };
-                // absolute addresses come in divide by two
-                VmProcessor.prototype.postProcessAbsAddress = function (f, v) {
-                    return v;
-                };
-                VmProcessor.prototype.getAddressFromLabel = function (f, i, s, wordAligned) {
-                    if (wordAligned === void 0) { wordAligned = false; }
-                    // lookup absolute, relative, dependeing
-                    var l = f.lookupLabel(s);
-                    if (l == null)
-                        return null;
-                    if (i.is32bit)
-                        // absolute address
-                        return l;
-                    // relative address
-                    return l - (f.pc() + 2);
-                };
-                VmProcessor.prototype.toFnPtr = function (v, baseOff) {
-                    return v;
-                };
-                VmProcessor.prototype.wordSize = function () {
-                    return 2;
-                };
-                VmProcessor.prototype.peephole = function (ln, lnNext, lnNext2) {
-                    var lnop = ln.getOp();
-                    var lnop2 = "";
-                    if (lnNext) {
-                        lnop2 = lnNext.getOp();
-                        var key = lnop + ";" + lnop2;
-                        var pc = this.file.peepCounts;
-                        pc[key] = (pc[key] || 0) + 1;
-                    }
-                    if (lnop == "jmp" && ln.numArgs[0] == this.file.baseOffset + lnNext.location) {
-                        // RULE: jmp .somewhere; .somewhere: -> .somewhere:
-                        ln.update("");
-                    }
-                    else if (lnop == "push" && (lnop2 == "callproc" || lnop2 == "ldconst" ||
-                        lnop2 == "stringlit" || lnop2 == "ldtmp")) {
-                        ln.update("");
-                        lnNext.update("push_" + lnop2 + " " + lnNext.words[1]);
-                    }
-                    else if (lnop == "push" && (lnop2 == "ldzero" || lnop2 == "ldone")) {
-                        ln.update("");
-                        lnNext.update("push_" + lnop2);
-                    }
-                    else if (lnop == "ldtmp" && (lnop2 == "incr" || lnop2 == "decr")) {
-                        ln.update("ldtmp_" + lnop2 + " " + ln.words[1]);
-                        lnNext.update("");
-                    }
-                };
-                return VmProcessor;
-            }(pxtc.assembler.AbstractProcessor));
-            vm.VmProcessor = VmProcessor;
-        })(vm = pxtc.vm || (pxtc.vm = {}));
     })(pxtc = ts.pxtc || (ts.pxtc = {}));
 })(ts || (ts = {}));

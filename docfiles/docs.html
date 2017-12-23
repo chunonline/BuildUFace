@@ -13,24 +13,22 @@
 
 <body id='root' class='root'>
 
-<div id="accessibleMenu" class="ui accessibleMenu borderless fixed menu" role="menubar">
-    @accMenu@
-</div>
-
 <!-- @include tocheader.html -->
 
-<div id="docs" class="pusher">
+<div class="pusher">
 
 <div class="full height">
 
     <!-- @include toc.html -->
     
-    <div class="article" id="maincontent">
+    <div class="article">
         
         <!-- @include header.html -->
 
-        <div class="main ui container mainbody">
-            @printBtn@
+        <div id="docs" class="main ui container mainbody">
+            <button id="printbtn" class="circular ui icon right floated button hideprint">
+                <i class="icon print"></i>
+            </button>
             @body@
             <div class="hideprint">@github@</div>
         </div>

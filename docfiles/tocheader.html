@@ -1,38 +1,37 @@
 <div class="ui vertical accent inverted sidebar menu left hideprint">
-    <div class="item">
-        <a href="/" class="header focused" tabindex="0" title="Go to editor">
-            @targetlogo@
-        </a>
+    <a href="/" class="header item">
+        @targetlogo@
         &nbsp; &nbsp;
         Documentation
-    </div>
+    </a>
     <div class="item">
-        <form id="tocsearch1" role="form" method="get" action="https://www.bing.com/search">
+        <form id="tocsearch1" method="get" action="https://www.bing.com/search">
             <div class="ui fluid icon input">
                 <input type="hidden" name="q1" value="site:@homeurl@" />
-                @searchBar1@
+                <input type="search" name="q" placeholder="Search...">
+                <i onclick="document.getElementById('tocsearch1').submit();" class="search link icon"></i>
             </div>
         </form>
     </div>
     <!-- TOC Menu -->
-    <div class="menuContainer">
-        @TOC@
-    </div>
-    <a href="/" class="header item bottom">
+    @TOC@
+    <a href="/" class="header item">
         Published by Microsoft
     </a>
 </div>
 
 <div class="ui fixed accent borderless inverted main menu hideprint">
   <div class="ui container">
-    @sidebarToggle@
+    <a id="togglesidebar" class="launch icon item">
+      <i class="content icon"></i>
+    </a>
 
     <div class="item">
         @breadcrumb@
     </div>
     
     <div class="right menu">
-        <a href="/" class="header item" tabindex="0" title="Go to editor">
+        <a href="/" class="header item">
             @targetlogo@
         </a>
     </div>

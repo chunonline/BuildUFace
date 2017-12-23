@@ -195,7 +195,7 @@ var pxt;
             var filter = new RegExp(pxt.appTarget.serial.nameFilter);
             var serialDeviceSelector = Windows.Devices.SerialCommunication.SerialDevice.getDeviceSelector();
             // Create a device watcher to look for instances of the Serial device
-            // The createWatcher() takes a string only when you provide it two arguments, so be sure to include an array as a second
+            // The createWatcher() takes a string only when you provide it two arguments, so be sure to include an array as a second 
             // parameter (JavaScript can only recognize overloaded functions with different numbers of parameters).
             watcher = Windows.Devices.Enumeration.DeviceInformation.createWatcher(serialDeviceSelector, []);
             watcher.addEventListener("added", function (dis) {
@@ -234,10 +234,13 @@ var pxt;
             port.device.baudRate = 115200;
             var stream = port.device.inputStream;
             var reader = new Windows.Storage.Streams.DataReader(stream);
-            var serialBuffers = {};
             var readMore = function () { return reader.loadAsync(32).done(function (bytesRead) {
                 var msg = reader.readString(Math.floor(bytesRead / 4) * 4);
-                pxt.Util.bufferSerial(serialBuffers, msg, id);
+                window.postMessage({
+                    type: 'serial',
+                    data: msg,
+                    id: id
+                }, "*");
                 readMore();
             }, function (e) {
                 setTimeout(function () { return startDevice(id); }, 1000);
