@@ -51,13 +51,21 @@ CACHE:
 /BuildUFace/smoothie/smoothie_compressed.js
 /BuildUFace/images/Bars_black.gif
 
+# charts
+/Microsoft_MakeCode/smoothie/smoothie_compressed.js
+/Microsoft_MakeCode/images/Bars_black.gif
+
 # ai
 https://az416426.vo.msecnd.net/scripts/a/ai.0.js
 
 /BuildUFace/worker.js
 /BuildUFace/monacoworker.js
 
+<<<<<<< HEAD
 # ver Fri Dec 22 2017 23:58:44 GMT-0500 (EST)
+=======
+# ver Fri Dec 22 2017 23:49:54 GMT-0500 (EST)
+>>>>>>> 4d885cbdb1a6270e1ed4f28168a935c54f9df16f
 
 /BuildUFace/target.js
   
