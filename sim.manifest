@@ -1,0 +1,10 @@
+CACHE MANIFEST
+
+CACHE:
+/BuildUFace/bluebird.min.js
+/BuildUFace/pxtsim.js
+/BuildUFace/sim.js
+/BuildUFace/sim.css
+
+NETWORK:
+*

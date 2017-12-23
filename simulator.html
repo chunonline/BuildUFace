@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en" manifest="/BuildUFace/release.manifest" data-framework="typescript">
+
+<head>
+    <meta charset="utf-8">
+    <title>sample simulator</title>
+    <link rel="stylesheet" type="text/css" href="/BuildUFace/sim.css">
+    <style>
+        #webgl2 {
+            visibility: hidden;
+        }
+        #overlay, #webgl, #svgcanvas {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            -o-transform : scaleX(-1);
+            -webkit-transform : scaleX(-1);
+            transform : scaleX(-1);
+            -ms-filter : fliph; /*IE*/
+            filter : fliph; /*IE*/
+        }
+        #videoel {
+            -o-transform : scaleX(-1);
+            -webkit-transform : scaleX(-1);
+            transform : scaleX(-1);
+            -ms-filter : fliph; /*IE*/
+            filter : fliph; /*IE*/
+        }
+        #container {
+            position : relative;
+            width : 370px;
+            /*margin : 0px auto;*/
+        }
+        .masks {
+            display: none;
+        }
+        .ball {
+            visibility: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <video id="videoel" width="400" height="300" preload="auto" loop playsinline autoplay>
+        </video>
+        <canvas id="overlay" width="400" height="300"></canvas>
+        <canvas id="webgl" width="400" height="300"></canvas>
+
+        <svg id='svgcanvas' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+            <image id='svgsprite' class="ball" xlink:href="./media/game/ball.png" x="100" y="0" r="20" height="40px" width="40px"/>
+        </svg>
+    </div>
+    <canvas id="webgl2" width="400" height="300"></canvas>
+
+    <img id="ironman" class="masks" src="./media/masks/ironman.jpg"></img>
+    <img id="average" class="masks" src="./media/masks/average.png"></img>
+    <img id="joconde" class="masks" src="./media/masks/joconde.jpg"></img>
+    <img id="SeanConnery" class="masks" src="./media/masks/SeanConnery.jpg"></img>
+    <img id="skull" class="masks" src="./media/masks/skullmask.jpg"></img>
+    <img id="audrey" class="masks" src="./media/masks/audrey.jpg"></img>
+    <img id="cage2" class="masks" src="./media/masks/cage.jpg"></img>
+
+    <!-- Scripts for Face Tracking -->
+    <script src="./js/dat.gui.min.js"></script>
+    <script src="./js/utils.js"></script>
+    <script src="./js/webgl-utils.js"></script>
+    <script src="./js/clmtrackr.js"></script>
+    <script src="./js/model_pca_20_svm.js"></script>
+    <script src="./js/Stats.js"></script>
+    <script src="./js/face_deformer.js"></script>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/poisson_new.js"></script>
+    <script src="./js/emotionmodel.js"></script>
+    <script src="./js/gendermodel.js"></script>
+    <script src="./js/emotion_classifier.js"></script>
+
+    <!-- Scripts for Simulator -->
+    <script src="/BuildUFace/bluebird.min.js"></script>
+    <script src="/BuildUFace/pxtsim.js"></script>
+    <script src="/BuildUFace/sim.js"></script>
+
+</body>
