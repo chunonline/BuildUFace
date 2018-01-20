@@ -1,4 +1,4 @@
-# Microsoft_MakeCode
+# BuildUFace
 This is the repo to host our project on MakeCode for Microsoft Research.
 
 * Try it live at https://jcspec.github.io/BuildUFace/
